@@ -1,0 +1,27 @@
+dependencies
+/node_modules
+/.pnp
+.pnp.js
+testing
+/coverage
+next.js build outputs
+/.next/
+/out/
+production artifacts
+build
+dist
+debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+local environment configs
+.env*.local
+.env
+os files
+.DS_Store
+*.pem
+Thumbs.db
+typescript
+*.tsbuildinfo
+next-env.d.ts
