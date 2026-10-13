@@ -6,7 +6,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 import { ShieldCheck, Compass, CheckCircle2, Lock } from "lucide-react";
 export const metadata: Metadata = {
-title: "Projects & Case Studies — iron’s irony",
+title: "Projects & Case Studies",
 description:
 "Explore realized commissions by iron’s irony. Structural staircases, perimeter gates, glazed steel door suites, and custom forged metalwork.",
 };

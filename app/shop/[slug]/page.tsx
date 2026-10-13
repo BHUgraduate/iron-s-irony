@@ -29,6 +29,8 @@ interface ProductDetailPageProps {
   };
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return FEATURED_PRODUCTS.map((prod) => ({
     slug: prod.slug,

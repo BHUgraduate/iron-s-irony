@@ -6,7 +6,7 @@ import { Breadcrumbs } from "../../components/ui/Breadcrumbs";
 import { Button } from "../../components/ui/Button";
 import { ShieldCheck, Sliders, Wrench, Sparkles } from "lucide-react";
 export const metadata: Metadata = {
-title: "Shop & Catalog Models — iron’s irony",
+title: "Shop & Catalog Models",
 description:
 "Explore pre-engineered metalwork designs, made-to-order gates, balustrades, window grilles, and architectural hardware by iron’s irony.",
 };

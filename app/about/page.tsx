@@ -25,7 +25,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "About the Atelier & Craftsmanship — iron’s irony",
+  title: "About the Atelier & Craftsmanship",
   description:
     "Learn about iron’s irony: our philosophy of structural permanence, architectural precision, solid metallurgy, and collaborative metal fabrication.",
 };

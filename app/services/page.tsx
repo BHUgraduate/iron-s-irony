@@ -8,7 +8,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Fabrication Services & Capabilities — iron’s irony",
+  title: "Fabrication Services & Capabilities",
   description:
     "Explore our complete range of metal fabrication: Building Ironwork, Architectural Ironwork, Decorative Ironwork, and Custom Fabrication. Built to structural and aesthetic standards.",
 };

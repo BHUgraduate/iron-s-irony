@@ -4,7 +4,7 @@ import { Breadcrumbs } from "../../components/ui/Breadcrumbs";
 import { constructPageMetadata } from "../../lib/seo";
 import { COMPANY_DETAILS } from "../../data/company";
 export const metadata: Metadata = constructPageMetadata({
-title: "Terms of Fabrication & Service — iron’s irony",
+title: "Terms of Fabrication & Service",
 description:
 "Standard terms of quotation, architectural shop drawing sign-offs, fabrication tolerances, warranties, and delivery standards for iron’s irony.",
 path: "/terms",

@@ -24,6 +24,8 @@ interface ProjectDetailPageProps {
   };
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return FEATURED_PROJECTS.map((project) => ({
     slug: project.slug,

@@ -16,7 +16,7 @@ import {
 import { COMPANY_DETAILS } from "@/data/company";
 
 export const metadata: Metadata = {
-  title: "Request a Fabrication Quotation — iron’s irony",
+  title: "Request a Fabrication Quotation",
   description:
     "Submit your architectural drawings, aperture dimensions, and finish requirements for an itemized commercial quotation by iron’s irony.",
 };

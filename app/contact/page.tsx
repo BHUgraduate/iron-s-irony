@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/Button";
 import { ContactForm } from "@/components/forms/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact the Atelier — Workshop Location & Inquiries — iron’s irony",
+  title: "Contact the Atelier — Workshop Location & Inquiries",
   description:
     "Contact iron’s irony for workshop inquiries, blueprint reviews, trade consultations, and appointments. Direct telephone, email, and facility coordinates.",
 };

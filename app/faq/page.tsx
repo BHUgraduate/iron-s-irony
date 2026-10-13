@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { generateFAQSchema, constructPageMetadata } from "@/lib/seo";
 import { ShieldCheck, HelpCircle, ArrowRight } from "lucide-react";
 export const metadata: Metadata = constructPageMetadata({
-title: "Frequently Asked Questions — Fabrication & Delivery — iron’s irony",
+title: "Frequently Asked Questions — Fabrication & Delivery",
 description:
 "Answers regarding custom metal tolerances, duplex hot-dip galvanizing, site installations, blueprints, and architect collaboration.",
 path: "/faq",

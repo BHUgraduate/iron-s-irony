@@ -13,7 +13,7 @@ import { FAQSection } from "@/components/sections/FAQSection";
 import { ContactPreview } from "@/components/sections/ContactPreview";
 import { CTASection } from "@/components/sections/CTASection";
 export const metadata: Metadata = {
-title: "iron’s irony — Building, Architectural & Decorative Ironwork",
+title: { absolute: "iron’s irony — Building, Architectural & Decorative Ironwork" },
 description:
 "Custom ironwork engineered for structural permanence, architectural elegance, and custom design. Serving architects, builders, and discerning property owners.",
 };

@@ -79,9 +79,13 @@ export function QuoteForm() {
 
   const onSubmit = async (data: QuoteFormValues) => {
     setSubmissionStatus("submitting");
-    // Client-side simulation of asynchronous submission to workshop dispatch queue
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1400));
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Request failed");
       const referenceId = `IRN-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
       setInquiryReference(referenceId);
       setSubmissionStatus("success");
@@ -384,7 +388,7 @@ export function QuoteForm() {
         >
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
           <p>
-            An unexpected error occurred while transmitting your project details. Please review your fields, ensure telephone format is valid, or contact our workshop directly at <span className="underline">[Business Email]</span>.
+            An unexpected error occurred while transmitting your project details. Please review your fields, ensure telephone format is valid, or contact our workshop directly at <span className="underline">bhugraduate@gmail.com</span>.
           </p>
         </div>
       )}

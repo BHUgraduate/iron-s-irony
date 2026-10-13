@@ -15,6 +15,8 @@ interface ServiceDetailPageProps {
   };
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return SERVICES_DATA.map((service) => ({
     slug: service.slug,

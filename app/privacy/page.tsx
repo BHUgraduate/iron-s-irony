@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { constructPageMetadata } from "@/lib/seo";
 import { COMPANY_DETAILS } from "@/data/company";
 export const metadata: Metadata = constructPageMetadata({
-title: "Privacy Policy & Data Protection — iron’s irony",
+title: "Privacy Policy & Data Protection",
 description:
 "Privacy and data protection policy of iron’s irony. Outlines how architectural blueprints, contact information, and project specifications are handled.",
 path: "/privacy",

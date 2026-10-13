@@ -19,9 +19,13 @@ resolver: zodResolver(contactFormSchema),
 });
 const onSubmit = async (data: ContactFormValues) => {
 setStatus("submitting");
-// Client-side simulation of message dispatch to atelier inbox
 try {
-await new Promise((resolve) => setTimeout(resolve, 1000));
+const res = await fetch("/api/contact", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify(data),
+});
+if (!res.ok) throw new Error("Request failed");
 setStatus("success");
 } catch (err) {
 setStatus("error");
@@ -118,7 +122,7 @@ role="alert"
 className="border border-status-error bg-status-error/10 p-3 text-xs font-mono text-status-error flex items-start gap-2"
 >
 <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
-<p>Message could not be sent. Please retry or contact us directly by telephone.</p>
+<p>Message could not be sent. Please retry or contact us directly at bhugraduate@gmail.com or by telephone.</p>
 </div>
 )}
 <div className="pt-2">

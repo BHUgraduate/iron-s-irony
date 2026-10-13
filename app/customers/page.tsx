@@ -17,7 +17,7 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Who We Work With — Architects, Builders & Homeowners — iron’s irony",
+  title: "Who We Work With — Architects, Builders & Homeowners",
   description:
     "Tailored ironwork collaboration for architects, general contractors, interior designers, private homeowners, and commercial developments.",
 };

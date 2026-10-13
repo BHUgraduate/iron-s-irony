@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Compass, Home, Layers, ShoppingBag, Mail } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 export const metadata: Metadata = {
-title: "404 — Specification Not Located — iron’s irony",
+title: "404 — Specification Not Located",
 description: "The requested architectural drawing or page could not be located in the atelier archive.",
 };
 export default function NotFound() {
