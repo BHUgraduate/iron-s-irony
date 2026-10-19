@@ -1,91 +1,54 @@
-import * as React from "react";
 import type { Metadata } from "next";
 import { FAQ_DATA } from "@/data/faq";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
+import { constructPageMetadata, generateFAQSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { generateFAQSchema, constructPageMetadata } from "@/lib/seo";
-import { ShieldCheck, HelpCircle, ArrowRight } from "lucide-react";
+import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
+import { Eyebrow } from "@/components/ui/Type";
+import { MagneticButton } from "@/components/motion/MagneticButton";
+import { OpenChatButton } from "@/components/chat/OpenChatButton";
+
 export const metadata: Metadata = constructPageMetadata({
-title: "Frequently Asked Questions — Fabrication & Delivery",
-description:
-"Answers regarding custom metal tolerances, duplex hot-dip galvanizing, site installations, blueprints, and architect collaboration.",
-path: "/faq",
+  title: "FAQ: Questions Before You Start",
+  description: "Straight answers about custom ironwork with iron’s irony: what we make, what to send, pricing, timing and installation.",
+  path: "/faq",
 });
-export default function FAQPage() {
-const faqSchema = generateFAQSchema();
-return (
-<main id="main-content" className="flex-1 flex flex-col bg-canvas-bg">
-<JsonLd data={faqSchema} />
-{/* Top Breadcrumb Navigation */}
-<div className="border-b border-border-subtle bg-canvas-subtle/50">
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<Breadcrumbs items={[{ label: "FAQ", href: "/faq" }]} />
-</div>
-</div>
-{/* Editorial Header */}
-<header className="border-b border-border-structural py-12 sm:py-20 bg-canvas-bg">
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div className="max-w-3xl">
-<div className="inline-flex items-center gap-2.5 px-3 py-1 bg-canvas-subtle border border-border-structural mb-6">
-<span className="w-2 h-2 bg-accent-bronze inline-block" aria-hidden="true" />
-<span className="text-[11px] font-mono uppercase tracking-architectural text-ink-primary font-medium">
-iron’s irony • Knowledge Base & Standards
-</span>
-</div>
-<h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-ink-primary leading-tight">
-Frequently Asked Questions
-</h1>
-<p className="mt-6 text-base sm:text-lg text-ink-secondary leading-relaxed">
-Transparent, factual answers detailing our quotation methods, structural tolerances, corrosion-defense systems, and site installation protocols.
-</p>
-</div>
-</div>
-</header>
-{/* FAQ Accordion Section */}
-<section className="py-16 sm:py-24 bg-canvas-subtle border-b border-border-structural">
-<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-<div className="space-y-6">
-{FAQ_DATA.map((item, idx) => (
-<div
-key={item.id}
-className="border border-border-structural bg-canvas-card p-6 sm:p-8"
->
-<div className="flex items-start gap-4">
-<span className="font-serif text-2xl text-accent-bronze font-medium shrink-0">
-0{idx + 1}
-</span>
-<div>
-<h2 className="font-serif text-xl sm:text-2xl text-ink-primary font-medium mb-3">
-{item.question}
-</h2>
-<p className="text-xs sm:text-sm text-ink-secondary leading-relaxed font-sans">
-{item.answer}
-</p>
-</div>
-</div>
-</div>
-))}
-</div>
-<div className="mt-12 text-center p-8 border border-border-structural bg-canvas-card space-y-4">
-<h3 className="font-serif text-xl text-ink-primary font-medium">
-Have a Structural Question Not Listed Here?
-</h3>
-<p className="text-xs sm:text-sm text-ink-secondary max-w-md mx-auto">
-Our engineering estimating team reviews custom project blueprints, CAD files, and site measurements directly.
-</p>
-<div className="pt-2 flex flex-col sm:flex-row justify-center gap-3">
-<Button href="/quote" variant="primary" size="sm">
-Request a Quote
-</Button>
-<Button href="/contact" variant="outline" size="sm">
-Contact the Workshop
-</Button>
-</div>
-</div>
-</div>
-</section>
-</main>
-);
+
+export default function FaqPage() {
+  return (
+    <main id="main-content" className="flex-1 flex flex-col">
+      <JsonLd data={generateFAQSchema()} />
+      <PageHero size="sm" eyebrow="FAQ" lines={["Questions", "first."]} lead="Short, honest answers. If yours is not here, ask us." />
+      <Section tone="light" pad="md" labelledBy="faq-list">
+        <h2 id="faq-list" className="sr-only">
+          Frequently asked questions
+        </h2>
+        <div className="max-w-3xl border-t border-iron-950/20">
+          {FAQ_DATA.map((f) => (
+            <details key={f.id} className="group border-b border-iron-950/20">
+              <summary className="flex items-center justify-between gap-6 py-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden min-h-[56px]">
+                <span className="font-serif text-2xl sm:text-3xl leading-tight">{f.question}</span>
+                <span aria-hidden="true" className="micro text-accent-ink transition-transform duration-300 group-open:rotate-45 text-xl">
+                  +
+                </span>
+              </summary>
+              <p className="pb-8 pr-10 text-[1.05rem] leading-relaxed text-ink-secondary">{f.answer}</p>
+            </details>
+          ))}
+        </div>
+      </Section>
+      <Section tone="dark" pad="md">
+        <Eyebrow className="mb-6">Still wondering?</Eyebrow>
+        <p className="display display-sm max-w-3xl">Ask us, or start with what you have.</p>
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 items-start">
+          <MagneticButton href="start" variant="light">
+            Start a Project
+          </MagneticButton>
+          <OpenChatButton className="micro min-h-[52px] px-6 border border-canvas-bg/30 hover:border-canvas-bg">
+            Ask the project guide
+          </OpenChatButton>
+        </div>
+      </Section>
+    </main>
+  );
 }

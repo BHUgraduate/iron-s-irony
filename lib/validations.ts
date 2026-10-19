@@ -1,71 +1,57 @@
 import { z } from "zod";
 
-export const customerTypeEnum = z.enum([
-  "homeowner",
-  "architect",
-  "interior_designer",
-  "builder_contractor",
-  "commercial_developer",
-  "other",
-]);
+export const PROJECT_TYPES = ["Gate", "Railing", "Balcony", "Staircase", "Grill", "Something else"] as const;
+export const SPACES = ["Private home", "Apartment or housing", "Commercial or business", "Not sure yet"] as const;
+export const NEEDS = ["New construction", "Replacement", "Renovation", "Custom design"] as const;
+export const ROLES = [
+  { value: "homeowner", label: "Homeowner" },
+  { value: "architect", label: "Architect" },
+  { value: "designer", label: "Designer" },
+  { value: "builder", label: "Builder" },
+  { value: "business", label: "Business" },
+] as const;
+export const REACH = [
+  { value: "phone", label: "Call me" },
+  { value: "whatsapp", label: "WhatsApp" },
+  { value: "email", label: "Email" },
+] as const;
 
-export const serviceCategoryEnum = z.enum([
-  "building_ironwork",
-  "architectural_ironwork",
-  "decorative_ironwork",
-  "custom_fabrication",
-  "restoration_repair",
-  "shop_catalog_inquiry",
-]);
+const text = (max: number) => z.string().trim().max(max, `Please keep this under ${max} characters.`).optional().default("");
 
-export const contactMethodEnum = z.enum(["email", "phone", "whatsapp"]);
+/**
+ * One schema for the browser and the server. The server always re-validates:
+ * nothing from the client is trusted.
+ */
+export const enquirySchema = z
+  .object({
+    projectType: z.enum(PROJECT_TYPES, { errorMap: () => ({ message: "Please choose what you are looking to create." }) }),
+    space: z.enum(SPACES, { errorMap: () => ({ message: "Please choose the kind of space." }) }),
+    need: z.enum(NEEDS, { errorMap: () => ({ message: "Please choose what you need." }) }),
+    description: z
+      .string()
+      .trim()
+      .min(15, "Please write a little more, at least a sentence or two.")
+      .max(2000, "Please keep this under 2000 characters."),
+    dimensions: text(200),
+    location: text(120),
+    style: text(300),
+    materialPreference: text(300),
+    referenceLinks: text(500),
+    fullName: z.string().trim().min(2, "Please tell us your name.").max(100, "That name is too long."),
+    phone: z
+      .string()
+      .trim()
+      .regex(/^\+?[\d\s()-]{7,20}$/, "Please enter a phone number we can reach you on."),
+    email: z.union([z.literal(""), z.string().trim().email("That email address does not look right.").max(160)]).optional().default(""),
+    role: z.enum(["homeowner", "architect", "designer", "builder", "business"]).default("homeowner"),
+    reach: z.enum(["phone", "whatsapp", "email"]).default("phone"),
+    /** Honeypot. Humans never see it, so it must stay empty. */
+    website: z.string().max(0).optional().default(""),
+  })
+  .superRefine((v, ctx) => {
+    if (v.reach === "email" && !v.email) {
+      ctx.addIssue({ code: "custom", path: ["email"], message: "Please add your email so we can write to you." });
+    }
+  });
 
-export const quoteFormSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, "Full name must be at least 2 characters.")
-    .max(100, "Full name exceeds allowable length."),
-  email: z.string().email("Please provide a valid email address."),
-  phone: z
-    .string()
-    .min(6, "Please provide a valid contact telephone number.")
-    .max(30, "Phone number is too long."),
-  customerType: customerTypeEnum,
-  serviceCategory: serviceCategoryEnum,
-  projectType: z.string().optional(),
-  projectLocation: z
-    .string()
-    .min(2, "Please indicate the project city or region."),
-  approxDimensions: z.string().optional(),
-  quantity: z.string().optional(),
-  preferredMaterial: z.string().optional(),
-  preferredFinish: z.string().optional(),
-  budgetRange: z.string().optional(),
-  timelineNotes: z.string().optional(),
-  projectDescription: z
-    .string()
-    .min(15, "Please provide at least 15 characters describing your project requirements.")
-    .max(4000, "Project description cannot exceed 4000 characters."),
-  preferredContactMethod: contactMethodEnum.default("email"),
-});
-
-export type QuoteFormValues = z.infer<typeof quoteFormSchema>;
-
-export const contactFormSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, "Name must be at least 2 characters.")
-    .max(100, "Name is too long."),
-  email: z.string().email("A valid email address is required."),
-  phone: z.string().optional(),
-  subject: z
-    .string()
-    .min(3, "Subject must be at least 3 characters.")
-    .max(150, "Subject is too long."),
-  message: z
-    .string()
-    .min(15, "Message must be at least 15 characters in length.")
-    .max(3000, "Message cannot exceed 3000 characters."),
-});
-
-export type ContactFormValues = z.infer<typeof contactFormSchema>;
+export type EnquiryValues = z.infer<typeof enquirySchema>;

@@ -2,50 +2,55 @@ export interface FAQItem {
   id: string;
   question: string;
   answer: string;
-  category: "general" | "fabrication" | "finishes" | "installation";
 }
 
+/** Answers are limited to what the business has confirmed. Do not add prices, timelines or guarantees until the owner supplies them. */
 export const FAQ_DATA: FAQItem[] = [
   {
-    id: "faq-custom-quotes",
-    question: "How do you calculate quotations for custom ironwork?",
+    id: "what",
+    question: "What do you make?",
     answer:
-      "Every quote is calculated based on exact project variables: linear or square meterage, steel gauge and profile, degree of hand-forging or CNC cutting required, choice of corrosion-resistant finish (e.g., hot-dip galvanizing vs. interior patina), and whether site installation is required. We provide transparent, itemized proposals following an initial blueprint or dimension review.",
-    category: "general",
+      "Ironwork for buildings: gates, railings, balconies, staircases, grills, architectural ironwork and custom fabrication, for homes, commercial premises and architectural projects.",
   },
   {
-    id: "faq-corrosion-defense",
-    question: "How do you protect exterior ironwork against rust and corrosion?",
+    id: "custom",
+    question: "Can you make something to my own design or reference?",
     answer:
-      "For outdoor applications, our gold standard is a duplex protective system: the fabricated piece is hot-dip galvanized by submerging it in molten zinc ($450^\\circ\\text{C}$), followed by chemical etching, an epoxy zinc-rich primer, and an architectural-grade polyurethane or electrostatic powder topcoat. This ensures decades of protection against weather and moisture.",
-    category: "finishes",
+      "Yes. Custom work is central to what we do. Bring a photograph, a sketch, a drawing, or just the measured opening, and we will work out how to make something equivalent for your space.",
   },
   {
-    id: "faq-shop-vs-custom",
-    question: "What is the difference between your Shop catalog items and Custom Fabrication?",
+    id: "photos",
+    question: "Can I send photos?",
     answer:
-      "Our Shop showcases pre-engineered models (such as standardized gate frameworks, modular balustrade panels, and architectural grilles) with proven proportions that can be ordered directly or sized to fit your opening. Custom Fabrication involves starting from zero: drafting custom engineering solutions for unusual architectural dimensions, historic replications, or unique designer blueprints.",
-    category: "fabrication",
+      "Please do. Photos of the space and of anything you like are the most useful thing you can share. The quickest route is WhatsApp, and you can describe the project through the Start a Project form first.",
   },
   {
-    id: "faq-working-with-architects",
-    question: "Do you collaborate with architects and contractors directly?",
+    id: "estimate",
+    question: "What do you need to give me an estimate?",
     answer:
-      "Yes. A significant portion of our work involves direct collaboration with architectural practices, interior designers, and general contractors. We review CAD drawings, offer constructability feedback, recommend optimal metal sections, provide finish samples, and ensure fabricated assemblies comply with relevant building safety codes.",
-    category: "general",
+      "What you want to create, what kind of space it is for, approximate dimensions, where the site is, and a photograph if you have one. Rough information is enough to start the conversation.",
   },
   {
-    id: "faq-lead-times",
-    question: "What are your standard fabrication lead times?",
+    id: "price",
+    question: "How much will it cost?",
     answer:
-      "Fabrication timelines typically range from 3 to 6 weeks following engineering drawing sign-off and material procurement. Complex decorative forging or large-scale architectural commissions with multi-coat finishes may require additional time. Exact timelines are committed to upon quotation acceptance.",
-    category: "fabrication",
+      "Every piece is made for a particular site, so we do not publish prices. Tell us what you have in mind and we will discuss it with you.",
   },
   {
-    id: "faq-delivery-installation",
-    question: "Do you handle site measurement and physical installation?",
+    id: "time",
+    question: "How long will it take?",
+    answer: "It depends on the piece and the site. We will talk about timing once we understand the project.",
+  },
+  {
+    id: "install",
+    question: "Do you install as well as make?",
     answer:
-      "Depending on the project scope and location, our workshop provides direct site survey and professional installation services. For commissions outside our direct installation radius, we package and ship completed ironwork with detailed installation brackets, mounting hardware, and structural guidelines for your local contractor.",
-    category: "installation",
+      "Installation is part of the process from design to fixing. Tell us where the site is and what is involved, and we will confirm the arrangements for your project.",
+  },
+  {
+    id: "architects",
+    question: "Do you work with architects and designers?",
+    answer:
+      "Yes. If you have drawings, send them with your enquiry. If you only have a concept, we can develop the design together.",
   },
 ];

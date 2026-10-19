@@ -1,221 +1,111 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Hammer, Layers, Compass, CheckCircle2 } from "lucide-react";
 import { SERVICES_DATA } from "@/data/services";
-import { ServiceCard } from "@/components/services/ServiceCard";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { Button } from "@/components/ui/Button";
+import { constructPageMetadata } from "@/lib/seo";
+import { PageHero } from "@/components/ui/PageHero";
+import { Section } from "@/components/ui/Section";
+import { Display, Eyebrow, Lead } from "@/components/ui/Type";
+import { IronDrawing } from "@/components/ui/IronDrawing";
+import { Reveal } from "@/components/motion/Reveal";
+import { MagneticButton } from "@/components/motion/MagneticButton";
+import { StartWithType } from "@/components/ui/StartWithType";
+import { Custom } from "@/components/sections/Custom";
+import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Fabrication Services & Capabilities",
+export const metadata: Metadata = constructPageMetadata({
+  title: "Services: Gates, Railings, Balconies, Staircases & Custom Ironwork",
   description:
-    "Explore our complete range of metal fabrication: Building Ironwork, Architectural Ironwork, Decorative Ironwork, and Custom Fabrication. Built to structural and aesthetic standards.",
-};
+    "What iron’s irony makes: gates, railings, balconies, staircases, grills, architectural ironwork and custom fabrication, designed around your space.",
+  path: "/services",
+});
 
 export default function ServicesPage() {
   return (
-    <main id="main-content" className="flex-1 flex flex-col bg-canvas-bg">
-      {/* Top Breadcrumb Navigation */}
-      <div className="border-b border-border-subtle bg-canvas-subtle/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ label: "Services", href: "/services" }]} />
-        </div>
-      </div>
+    <main id="main-content" className="flex-1 flex flex-col">
+      <PageHero
+        eyebrow="Services"
+        lines={["What we", "shape."]}
+        lead="Seven kinds of work, one way of doing it: designed around your space, fabricated to fit, fixed so it belongs."
+        drawing="gate"
+      >
+        <MagneticButton href="start" variant="light">
+          Start a Project
+        </MagneticButton>
+      </PageHero>
 
-      {/* Editorial Services Header */}
-      <header className="border-b border-border-structural py-12 sm:py-20 bg-canvas-bg relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-canvas-subtle border border-border-structural mb-6">
-              <span
-                className="w-2 h-2 bg-accent-bronze inline-block"
-                aria-hidden="true"
-              />
-              <span className="text-[11px] font-mono uppercase tracking-architectural text-ink-primary font-medium">
-                iron’s irony • Scope of Fabrication
-              </span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-ink-primary leading-tight">
-              Metalwork Engineered for Strength, Proportion, and Detail
-            </h1>
-            <p className="mt-6 text-base sm:text-lg text-ink-secondary leading-relaxed">
-              Every commission undertaken in our atelier balances heavy-gauge
-              structural integrity with refined architectural finishes. Explore
-              our four fabrication disciplines below or submit your custom
-              specifications for evaluation.
-            </p>
-          </div>
-
-          {/* Core Discipline Quick Anchors */}
-          <div className="mt-10 pt-8 border-t border-border-structural grid grid-cols-2 md:grid-cols-4 gap-4">
-            {SERVICES_DATA.map((service) => (
-              <a
-                key={service.id}
-                href={`#${service.slug}`}
-                className="p-3 border border-border-structural bg-canvas-card hover:border-ink-primary transition-colors block text-left"
-              >
-                <span className="text-[10px] font-mono uppercase tracking-architectural text-accent-bronze block">
-                  Discipline
-                </span>
-                <span className="text-xs sm:text-sm font-serif text-ink-primary font-medium truncate block mt-0.5">
-                  {service.title}
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      {/* Services Grid Section */}
-      <section className="py-16 sm:py-24 bg-canvas-subtle border-b border-border-structural">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Core Disciplines"
-            title="The Fabrication Portfolio"
-            description="Organized into four specialized domains to meet the exact structural and aesthetic demands of architects, contractors, and private property owners."
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-            {SERVICES_DATA.map((service) => (
-              <div key={service.id} id={service.slug} className="scroll-mt-24">
-                <ServiceCard service={service} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Architectural Tolerances & Standards Banner */}
-      <section className="py-16 sm:py-20 bg-canvas-dark text-canvas-bg border-b border-border-iron">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7">
-              <span className="text-xs font-mono uppercase tracking-architectural text-accent-bronze block mb-2">
-                Metallurgical Rigor
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-serif font-medium text-canvas-bg">
-                Committed to Permanent Materials & Precise Tolerances
-              </h2>
-              <p className="mt-4 text-sm sm:text-base text-ink-muted leading-relaxed">
-                We refuse to cut corners with thin-gauge sheet metal or hollow
-                lightweight tubing where structural permanence is called for.
-                Every gate, balustrade, and structural frame is built using
-                verified solid bar and structural hollow sections.
-              </p>
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="border border-border-iron bg-canvas-dark-subtle p-4">
-                  <span className="text-xs font-mono uppercase tracking-architectural text-accent-bronze block mb-1">
-                    Deflection Standards
-                  </span>
-                  <p className="text-xs text-ink-muted">
-                    Engineered to meet or exceed commercial and residential
-                    lateral load requirements.
-                  </p>
-                </div>
-                <div className="border border-border-iron bg-canvas-dark-subtle p-4">
-                  <span className="text-xs font-mono uppercase tracking-architectural text-accent-bronze block mb-1">
-                    Duplex Anti-Corrosion
-                  </span>
-                  <p className="text-xs text-ink-muted">
-                    Molten zinc hot-dip galvanizing with epoxy sealers for
-                    permanent outdoor life.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="lg:col-span-5 border border-border-iron bg-canvas-dark-subtle p-6 sm:p-8">
-              <h3 className="font-serif text-xl sm:text-2xl text-canvas-bg mb-4">
-                Discuss Your Scope of Work
-              </h3>
-              <p className="text-xs sm:text-sm text-ink-muted leading-relaxed mb-6">
-                Send blueprints, architectural sketches, or physical site
-                measurements. We provide itemized quotations and engineering
-                feedback.
-              </p>
-              <div className="space-y-3">
-                <Button
-                  href="/quote"
-                  variant="accent"
-                  size="md"
-                  className="w-full"
+      <Section tone="light" pad="md" labelledBy="svc-index">
+        <h2 id="svc-index" className="sr-only">
+          All services
+        </h2>
+        {SERVICES_DATA.map((s, i) => {
+          const flip = i % 2 === 1;
+          return (
+            <article
+              key={s.slug}
+              id={s.slug}
+              className={cn(
+                "grid lg:grid-cols-12 gap-x-12 gap-y-8 items-center py-16 sm:py-24",
+                i > 0 && "border-t border-iron-950/15"
+              )}
+            >
+              <Reveal className={cn("lg:col-span-6", flip && "lg:col-start-7 lg:row-start-1")}>
+                <Link
+                  href={`/services/${s.slug}`}
+                  aria-label={`${s.title}: read more`}
+                  className="group relative block bg-iron-950 grain aspect-[4/3] overflow-hidden"
                 >
-                  Request a Formal Quote
-                </Button>
-                <Button
-                  href="/contact"
-                  variant="dark"
-                  size="md"
-                  className="w-full"
-                >
-                  Speak Directly With the Workshop
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                  <div className="absolute inset-0 blueprint-grid" aria-hidden="true" />
+                  <IronDrawing
+                    kind={s.kind}
+                    className="absolute inset-0 m-auto w-[80%] h-[80%] text-canvas-bg/85 transition-colors duration-700 group-hover:text-accent-amber"
+                  />
+                </Link>
+              </Reveal>
+              <Reveal className={cn("lg:col-span-5", flip ? "lg:col-start-1 lg:row-start-1" : "lg:col-start-8")}>
+                <Eyebrow>{s.number}</Eyebrow>
+                <h3 className="display text-[clamp(2rem,4.4vw,3.6rem)] mt-4">
+                  <Link href={`/services/${s.slug}`} className="link-reveal">
+                    {s.title}
+                  </Link>
+                </h3>
+                <p className="font-serif italic text-2xl sm:text-3xl mt-5 text-accent-ink">{s.line}</p>
+                <p className="mt-5 text-[1.02rem] leading-relaxed text-ink-secondary max-w-lg">{s.summary}</p>
+                <ul className="mt-6 space-y-2 text-[0.95rem] text-ink-secondary">
+                  {s.uses.map((u) => (
+                    <li key={u} className="flex gap-3">
+                      <span className="text-accent-ink" aria-hidden="true">
+                        —
+                      </span>
+                      {u}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-6 micro text-ink-muted normal-case tracking-wide">Made to your site. Not a stock range.</p>
+                <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2">
+                  <Link href={`/services/${s.slug}`} className="micro font-medium link-reveal py-2">
+                    Explore {s.title.toLowerCase()}
+                  </Link>
+                  <StartWithType type={s.type} className="micro text-ink-secondary hover:text-iron-950 link-reveal py-2">
+                    Start a project
+                  </StartWithType>
+                </div>
+              </Reveal>
+            </article>
+          );
+        })}
+      </Section>
 
-      {/* How Custom Quotations Are Formulated */}
-      <section className="py-16 sm:py-24 bg-canvas-bg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Commercial Transparency"
-            title="How We Calculate Quotations"
-            description="Our pricing is determined by verifiable engineering factors rather than vague estimates, ensuring accurate commercial budgeting."
-            align="center"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-            <div className="border border-border-structural bg-canvas-card p-6">
-              <span className="text-2xl font-serif text-accent-bronze block mb-2">
-                01
-              </span>
-              <h4 className="font-serif text-lg text-ink-primary font-medium mb-2">
-                Material & Section Gauge
-              </h4>
-              <p className="text-xs text-ink-secondary leading-relaxed">
-                Weight and type of steel, bronze, or alloy required to achieve
-                structural load capacity.
-              </p>
-            </div>
-            <div className="border border-border-structural bg-canvas-card p-6">
-              <span className="text-2xl font-serif text-accent-bronze block mb-2">
-                02
-              </span>
-              <h4 className="font-serif text-lg text-ink-primary font-medium mb-2">
-                Joinery & Forging Hours
-              </h4>
-              <p className="text-xs text-ink-secondary leading-relaxed">
-                Degree of hand-forging, anvil shaping, CNC coordination, and
-                seamless weld dressing involved.
-              </p>
-            </div>
-            <div className="border border-border-structural bg-canvas-card p-6">
-              <span className="text-2xl font-serif text-accent-bronze block mb-2">
-                03
-              </span>
-              <h4 className="font-serif text-lg text-ink-primary font-medium mb-2">
-                Protective Finish Spec
-              </h4>
-              <p className="text-xs text-ink-secondary leading-relaxed">
-                Duplex hot-dip galvanizing, electrostatic architectural powder
-                coating, or hand-rubbed wax patinas.
-              </p>
-            </div>
-            <div className="border border-border-structural bg-canvas-card p-6">
-              <span className="text-2xl font-serif text-accent-bronze block mb-2">
-                04
-              </span>
-              <h4 className="font-serif text-lg text-ink-primary font-medium mb-2">
-                Site & Anchoring Scope
-              </h4>
-              <p className="text-xs text-ink-secondary leading-relaxed">
-                Site access conditions, substrate chemical anchoring, and
-                automation hardware integration.
-              </p>
-            </div>
-          </div>
+      <Custom />
+      <Section tone="dark" pad="md">
+        <Eyebrow className="mb-6">Not sure which fits?</Eyebrow>
+        <Display lines={["Describe it.", "We will place it."]} size="sm" />
+        <Lead className="mt-8">Tell us what you want to create and where it goes. We will work out the rest with you.</Lead>
+        <div className="mt-10">
+          <MagneticButton href="start" variant="light">
+            Discuss Your Requirement
+          </MagneticButton>
         </div>
-      </section>
+      </Section>
     </main>
   );
 }

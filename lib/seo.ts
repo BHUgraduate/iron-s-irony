@@ -1,116 +1,66 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { COMPANY_DETAILS } from "@/data/company";
 import { FAQ_DATA } from "@/data/faq";
+import { SERVICES_DATA } from "@/data/services";
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://ironsirony.com";
+/** Production origin. Override with NEXT_PUBLIC_SITE_URL (set in netlify.toml) if the domain ever changes. */
+export const PRODUCTION_URL = "https://ironsirony.hycyon.com";
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || PRODUCTION_URL).replace(/\/$/, "");
+export const SITE_NAME = "iron’s irony";
+const OG_ALT = "iron’s irony: gates, railings, balconies, staircases and custom ironwork";
 
-export interface PageMetadataProps {
-  title: string;
-  description: string;
-  path?: string;
-  image?: string;
-  type?: "website" | "article";
-}
-
-/**
- * Generates canonical and standardized Next.js page metadata
- */
 export function constructPageMetadata({
   title,
   description,
   path = "",
-  image = "/og-image.jpg",
-  type = "website",
-}: PageMetadataProps): Metadata {
+}: {
+  title: string;
+  description: string;
+  path?: string;
+}): Metadata {
   const url = `${SITE_URL}${path}`;
-
+  // Pages that define their own openGraph replace the parent's, so the share image is repeated here.
+  const image = { url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: OG_ALT };
   return {
     title,
     description,
-    alternates: {
-      canonical: url,
-    },
-    openGraph: {
-      title,
-      description,
-      url,
-      siteName: "iron’s irony",
-      images: [
-        {
-          url: image.startsWith("http") ? image : `${SITE_URL}${image}`,
-          width: 1200,
-          height: 630,
-          alt: `${title} — iron’s irony`,
-        },
-      ],
-      type,
-      locale: "en_US",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [image.startsWith("http") ? image : `${SITE_URL}${image}`],
-    },
+    alternates: { canonical: url },
+    openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "en_IN", images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
   };
 }
 
-/**
- * Builds Schema.org LocalBusiness / ProfessionalService structured data.
- * Adheres strictly to factual policy: omits placeholders to avoid invalid schema warnings.
- */
+/** Structured data uses only facts the owner has confirmed. Address, hours and socials are added when supplied. */
 export function generateLocalBusinessSchema() {
-  const schema: Record<string, any> = {
+  const { contact, socials } = COMPANY_DETAILS;
+  const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": `${SITE_URL}/#organization`,
-    name: "iron’s irony",
+    name: SITE_NAME,
     url: SITE_URL,
     description: COMPANY_DETAILS.mission,
     slogan: COMPANY_DETAILS.tagline,
-    knowsAbout: [
-      "Building Ironwork",
-      "Architectural Ironwork",
-      "Decorative Ironwork",
-      "Custom Metal Fabrication",
-      "Structural Steel Balustrades",
-      "Duplex Anti-Corrosion Systems",
-      "Wrought Iron Entrance Gates",
-    ],
-    creator: {
-      "@type": "Organization",
-      name: COMPANY_DETAILS.developer.name,
-      description: COMPANY_DETAILS.developer.role,
-    },
+    telephone: contact.phone,
+    email: contact.email,
+    makesOffer: SERVICES_DATA.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.title, url: `${SITE_URL}/services/${s.slug}` },
+    })),
   };
-
-  // Only attach contact details if replaced with real values (not default placeholders)
-  if (COMPANY_DETAILS.contact.phone && !COMPANY_DETAILS.contact.phone.includes("[")) {
-    schema.telephone = COMPANY_DETAILS.contact.phone;
-  }
-  if (COMPANY_DETAILS.contact.email && !COMPANY_DETAILS.contact.email.includes("[")) {
-    schema.email = COMPANY_DETAILS.contact.email;
-  }
-  if (
-    COMPANY_DETAILS.contact.address.line1 &&
-    !COMPANY_DETAILS.contact.address.line1.includes("[")
-  ) {
+  if (contact.address) {
     schema.address = {
       "@type": "PostalAddress",
-      streetAddress: COMPANY_DETAILS.contact.address.line1,
-      addressLocality: COMPANY_DETAILS.contact.address.city,
-      addressRegion: COMPANY_DETAILS.contact.address.region,
-      postalCode: COMPANY_DETAILS.contact.address.postalCode,
-      addressCountry: COMPANY_DETAILS.contact.address.country,
+      streetAddress: contact.address.lines.join(", "),
+      ...(contact.address.city ? { addressLocality: contact.address.city } : {}),
     };
   }
-
+  if (contact.serviceArea) schema.areaServed = contact.serviceArea;
+  const sameAs = Object.values(socials).filter(Boolean);
+  if (sameAs.length) schema.sameAs = sameAs;
   return schema;
 }
 
-/**
- * Generates FAQPage Schema for the knowledge base
- */
 export function generateFAQSchema() {
   return {
     "@context": "https://schema.org",
@@ -118,10 +68,20 @@ export function generateFAQSchema() {
     mainEntity: FAQ_DATA.map((item) => ({
       "@type": "Question",
       name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
+export function generateBreadcrumbSchema(items: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((it, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: it.name,
+      item: `${SITE_URL}${it.path}`,
     })),
   };
 }

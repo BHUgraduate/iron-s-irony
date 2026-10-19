@@ -1,101 +1,89 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Archivo, JetBrains_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { generateLocalBusinessSchema } from "@/lib/seo";
+import { generateLocalBusinessSchema, SITE_URL } from "@/lib/seo";
+import { ChatAssistant } from "@/components/chat/ChatAssistant";
+import { MotionProvider } from "@/components/motion/MotionProvider";
+import { StickyCta } from "@/components/layout/StickyCta";
 
 const serifFont = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["500"],
+  style: ["normal"],
   variable: "--font-serif",
   display: "swap",
 });
 
-const sansFont = Plus_Jakarta_Sans({
+// Italic is only used for short accent lines, so it loads as its own single weight.
+const serifItalic = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400"],
+  style: ["italic"],
+  variable: "--font-serif-italic",
+  display: "swap",
+  preload: false,
+});
+
+const sansFont = Archivo({
+  subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
 const monoFont = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
   variable: "--font-mono",
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#151618",
+  themeColor: "#0E0F11",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ironsirony.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "iron’s irony — Building, Architectural & Decorative Ironwork",
-    template: "%s — iron’s irony",
+    default: "iron’s irony | Architectural, Decorative & Custom Ironwork",
+    template: "%s | iron’s irony",
   },
   description:
-    "Building, architectural, and decorative ironwork engineered for residential estates, architectural practices, and custom commissions. Precision ironwork by iron’s irony.",
+    "Gates, railings, balconies, staircases, grills and custom ironwork, designed around your space and made to become part of the building. Start a project with iron’s irony.",
+  applicationName: "iron’s irony",
   keywords: [
     "iron’s irony",
-    "building ironwork",
+    "ironwork",
+    "iron gates",
+    "iron railings",
+    "balcony railings",
+    "staircase balustrade",
+    "window grills",
     "architectural ironwork",
-    "decorative ironwork",
     "custom iron fabrication",
-    "wrought iron gates",
-    "architectural railings",
-    "custom balustrades",
-    "structural ironwork",
   ],
-  authors: [{ name: "hycyon" }],
-  creator: "hycyon",
+  authors: [{ name: "Hycyon" }],
+  creator: "Hycyon",
   publisher: "iron’s irony",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
+  formatDetection: { email: false, address: false, telephone: false },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://ironsirony.com",
+    locale: "en_IN",
+    url: SITE_URL,
     siteName: "iron’s irony",
-    title: "iron’s irony — Building, Architectural & Decorative Ironwork",
-    description:
-      "Precision ironwork and bespoke metal fabrication engineered for permanence, character, and structural integrity.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "iron’s irony — Architectural and Decorative Ironwork",
-      },
-    ],
+    title: "iron’s irony | Architectural, Decorative & Custom Ironwork",
+    description: "Gates, railings, balconies, staircases and custom ironwork, made to become part of the building.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "iron’s irony — Building, Architectural & Decorative Ironwork",
-    description:
-      "Bespoke architectural ironwork and custom metal fabrication engineered for permanence.",
-    images: ["/og-image.jpg"],
+    title: "iron’s irony | Architectural, Decorative & Custom Ironwork",
+    description: "Gates, railings, balconies, staircases and custom ironwork, made to become part of the building.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png" }],
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -108,20 +96,24 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${serifFont.variable} ${sansFont.variable} ${monoFont.variable}`}
+      className={`${serifFont.variable} ${serifItalic.variable} ${sansFont.variable} ${monoFont.variable}`}
     >
-      <body className="min-h-screen bg-canvas-bg text-ink-primary font-sans antialiased flex flex-col selection:bg-accent-bronze/20 selection:text-ink-primary">
+      <body className="min-h-screen bg-iron-950 text-iron-950 font-sans antialiased flex flex-col selection:bg-accent-bronze/30 selection:text-ink-primary">
         <JsonLd data={localBusinessSchema} />
         {/* Accessible Keyboard Navigation Skip Anchor */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-ink-primary focus:text-canvas-bg focus:border focus:border-border-structural focus:text-sm font-mono tracking-wider"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-3 focus:bg-canvas-bg focus:text-iron-950 micro"
         >
           Skip to main content
         </a>
-        <Header />
-        <div className="flex-1 flex flex-col">{children}</div>
-        <Footer />
+        <MotionProvider>
+          <Header />
+          <div className="flex-1 flex flex-col">{children}</div>
+          <Footer />
+          <StickyCta />
+          <ChatAssistant />
+        </MotionProvider>
       </body>
     </html>
   );

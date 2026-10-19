@@ -1,85 +1,133 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Design tokens live in tailwind.config.ts. Only runtime variables are declared here. */
 :root {
-/* Canvas & Structural Backgrounds */
---color-canvas-bg: #F9F8F6;
---color-canvas-subtle: #F2EFEB;
---color-canvas-card: #FFFFFF;
---color-canvas-dark: #121316;
---color-canvas-dark-subtle: #1A1C20;
-/* Typography & Inks */
---color-ink-primary: #151618;
---color-ink-secondary: #484B52;
---color-ink-muted: #747882;
---color-ink-inverted: #F9F8F6;
-/* Hairlines & Boundaries */
---color-border-subtle: #E6E3DC;
---color-border-structural: #D0CCC2;
---color-border-iron: #26282E;
-/* Restrained Metallic Accents */
---color-accent-bronze: #9E7445;
---color-accent-bronze-hover: #865F34;
---color-accent-amber: #C28E53;
---color-accent-steel: #5E6773;
-/* Accessible Status Colors */
---color-status-success: #2E5A44;
---color-status-error: #932D2D;
+  --ease-iron: cubic-bezier(0.16, 1, 0.3, 1);
+  --header-h: 72px;
 }
-/* Base Document Setup */
+
 html {
-scroll-behavior: smooth;
-background-color: var(--color-canvas-bg);
-color: var(--color-ink-primary);
-font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-text-rendering: optimizeLegibility;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
+  position: relative; /* lets scroll-linked animations measure offsets without warnings */
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  background-color: #0e0f11;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
 body {
-margin: 0;
-padding: 0;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-overflow-x: hidden;
-background-color: var(--color-canvas-bg);
-color: var(--color-ink-primary);
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
-/* Editorial Selection */
+
 ::selection {
-background-color: rgba(158, 116, 69, 0.22);
-color: #151618;
+  background-color: rgba(158, 116, 69, 0.3);
 }
-/* Accessibility Focus States */
+
+/* Focus ring that reads on both light and dark sections */
 :focus-visible {
-outline: 2px solid var(--color-ink-primary);
-outline-offset: 2px;
+  outline: 2px solid #c28e53;
+  outline-offset: 3px;
 }
-/* Reduced Motion Safety */
+
 @media (prefers-reduced-motion: reduce) {
-*,
-*::before,
-*::after {
-animation-duration: 0.01ms !important;
-animation-iteration-count: 1 !important;
-transition-duration: 0.01ms !important;
-scroll-behavior: auto !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-}
-/* Architectural Framing & Grid Utilities */
+
+/* ---------- Iron’s Irony: material & display system ---------- */
 @layer utilities {
-.architectural-grid {
-background-image: linear-gradient(to right, rgba(208, 204, 194, 0.25) 1px, transparent 1px),
-linear-gradient(to bottom, rgba(208, 204, 194, 0.25) 1px, transparent 1px);
-background-size: 32px 32px;
+  /* Display type: engineered, expanded grotesk used as architecture */
+  .display {
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-weight: 800;
+    
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+  .display-lg {
+    font-size: clamp(2.7rem, 11vw, 9.25rem);
+  }
+  .display-md {
+    font-size: clamp(2.4rem, 8vw, 7rem);
+  }
+  .display-sm {
+    font-size: clamp(1.9rem, 5vw, 3.75rem);
+  }
+  .micro {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  /* Almost invisible grain, static so it costs nothing at runtime */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, rgba(231, 228, 221, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(231, 228, 221, 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  /* Link underline that draws in from the left */
+  .link-reveal {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s var(--ease-iron);
+  }
+  .link-reveal:hover,
+  .link-reveal:focus-visible {
+    background-size: 100% 1px;
+  }
 }
-.architectural-divider {
-height: 1px;
-background-color: var(--color-border-structural);
-width: 100%;
+
+
+
+/* Above-the-fold entrances are plain CSS so the headline paints with the first stylesheet, not after hydration. */
+@keyframes line-rise {
+  from { transform: translateY(110%); }
+  to { transform: none; }
 }
-.text-balance {
-text-wrap: balance;
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
 }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.line-rise { animation: line-rise 1s var(--ease-iron) both; animation-delay: var(--d, 0s); }
+.fade-up { animation: fade-up 0.9s var(--ease-iron) both; animation-delay: var(--d, 0s); }
+.fade-in { animation: fade-in 0.8s ease both; animation-delay: var(--d, 0s); }
+@media (prefers-reduced-motion: reduce) {
+  .line-rise, .fade-up { animation: fade-in 0.4s ease both; animation-delay: 0s; }
+}
+
+/* Serif accents: italic uses its own single-weight file. */
+.font-serif.italic {
+  font-family: var(--font-serif-italic), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
 }

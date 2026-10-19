@@ -3,107 +3,105 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
 import { MAIN_NAVIGATION } from "@/data/company";
-import { Button } from "@/components/ui/Button";
+import { StartLink } from "@/components/layout/StartLink";
 import { MobileMenu } from "@/components/layout/MobileMenu";
+import { cn } from "@/lib/utils";
 
 export function Header() {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [isScrolled, setIsScrolled] = React.useState(false);
+    const [menuOpen, setMenuOpen] = React.useState(false);
+  const [overHero, setOverHero] = React.useState(true);
+  const [scrolled, setScrolled] = React.useState(false);
+  const menuButton = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 24);
+      const hero = document.querySelector("[data-hero]");
+      setOverHero(!!hero && hero.getBoundingClientRect().bottom > 96);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pathname]);
+
+  const onDark = overHero;
 
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-200 border-b ${
-          isScrolled
-            ? "bg-canvas-bg/95 backdrop-blur-md border-border-structural py-3.5 shadow-sm"
-            : "bg-canvas-bg border-border-subtle py-5"
-        }`}
+        className={cn(
+          "sticky top-0 z-40 w-full h-[var(--header-h)] transition-[background-color,border-color,color] duration-500",
+          onDark
+            ? "bg-transparent text-canvas-bg border-b border-transparent"
+            : scrolled
+            ? "bg-canvas-bg/90 backdrop-blur-md text-iron-950 border-b border-iron-950/20"
+            : "bg-canvas-bg text-iron-950 border-b border-iron-950/10"
+        )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Brand Identity Wordmark */}
-          <Link
-            href="/"
-            className="flex flex-col group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ink-primary"
-            aria-label="iron’s irony — Home"
-          >
-            <span className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-ink-primary group-hover:text-accent-bronze transition-colors">
+        <div className="max-w-[88rem] mx-auto h-full px-5 sm:px-8 flex items-center justify-between">
+          <Link href="/" aria-label="iron’s irony, home" className="flex items-center min-h-[48px] gap-2">
+            <span className="font-serif text-[1.65rem] leading-none font-medium tracking-tight">
               iron’s irony
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-architectural text-ink-muted -mt-1 hidden sm:block">
-              Building &bull; Architectural &bull; Decorative
             </span>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav
-            aria-label="Primary Navigation"
-            className="hidden lg:flex items-center space-x-7"
-          >
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-9">
             {MAIN_NAVIGATION.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : pathname.startsWith(link.href);
-
+              const active =
+                !link.href.includes("#") && pathname.startsWith(link.href) && link.href !== "/";
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-xs font-mono uppercase tracking-architectural transition-colors relative py-1 hover:text-ink-primary ${
-                    isActive ? "text-ink-primary font-medium" : "text-ink-secondary"
-                  }`}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "micro py-2 link-reveal transition-opacity",
+                    active ? "opacity-100" : "opacity-70 hover:opacity-100"
+                  )}
                 >
                   {link.label}
-                  {isActive && (
-                    <span
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-bronze"
-                      aria-hidden="true"
-                    />
-                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Actions & Mobile Trigger */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
-            <Button
-              href="/quote"
-              variant="primary"
-              size="sm"
-              className="hidden sm:inline-flex"
+          <div className="flex items-center gap-3">
+            <StartLink
+              className={cn(
+                "hidden sm:inline-flex items-center micro font-medium tracking-[0.16em] border px-5 py-3 transition-colors duration-300",
+                onDark
+                  ? "border-canvas-bg/40 hover:bg-canvas-bg hover:text-iron-950"
+                  : "border-iron-950 bg-iron-950 text-canvas-bg hover:bg-accent-bronze hover:border-accent-bronze"
+              )}
             >
-              Request a Quote
-            </Button>
-
+              Start a Project
+            </StartLink>
             <button
+              ref={menuButton}
               type="button"
-              onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 border border-border-structural text-ink-primary hover:border-ink-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-primary"
-              aria-expanded={mobileMenuOpen}
-              aria-label="Open navigation menu"
+              onClick={() => setMenuOpen(true)}
+              aria-expanded={menuOpen}
+              aria-haspopup="dialog"
+              className="lg:hidden h-12 px-4 flex items-center gap-3 micro"
             >
-              <Menu className="w-5 h-5" aria-hidden="true" />
+              <span>Menu</span>
+              <span aria-hidden="true" className="flex flex-col gap-[5px]">
+                <span className="block h-px w-6 bg-current" />
+                <span className="block h-px w-4 bg-current self-end" />
+              </span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Accessible Mobile Drawer Navigation */}
       <MobileMenu
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
+        isOpen={menuOpen}
+        onClose={() => {
+          setMenuOpen(false);
+          menuButton.current?.focus();
+        }}
         pathname={pathname}
       />
     </>
