@@ -1,17 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { MessageSquare, Send, X } from "lucide-react";
-import {
-  BRIEF_NEEDS,
-  BRIEF_TYPES,
-  matchIntent,
-  WELCOME,
-  type Reply,
-} from "@/data/assistant";
-import { EASE_IRON, EVENT_CHAT, EVENT_PREFILL, whatsappLink } from "@/lib/motion";
+import Link from "next/link";
+import { BRIEF_SPACES, BRIEF_TYPES, matchIntent, WELCOME, type Reply } from "@/data/assistant";
+import { buildWhatsAppMessage } from "@/lib/enquiry";
+import { EASE_IRON, EVENT_CHAT, EVENT_PREFILL, PREFILL_KEY, whatsappLink } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Msg = { id: number; from: "bot" | "you"; reply?: Reply; text: string };
@@ -20,12 +16,13 @@ type Msg = { id: number; from: "bot" | "you"; reply?: Reply; text: string };
 export function ChatAssistant() {
   const reduce = useReducedMotion();
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [msgs, setMsgs] = React.useState<Msg[]>([]);
   const [input, setInput] = React.useState("");
   const [typing, setTyping] = React.useState(false);
-  const [brief, setBrief] = React.useState<{ type?: string; need?: string }>({});
-  const [step, setStep] = React.useState<"idle" | "type" | "need" | "done">("idle");
+  const [brief, setBrief] = React.useState<{ type?: string; space?: string }>({});
+  const [step, setStep] = React.useState<"idle" | "type" | "space" | "done">("idle");
   const idRef = React.useRef(0);
   const logRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -91,33 +88,37 @@ export function ChatAssistant() {
 
     if (step === "type" && BRIEF_TYPES.includes(text)) {
       setBrief({ type: text });
-      setStep("need");
-      return botSay({ text: "And what do you need?", chips: BRIEF_NEEDS });
+      setStep("space");
+      return botSay({ text: "And what kind of space is it for?", chips: BRIEF_SPACES });
     }
-    if (step === "need" && BRIEF_NEEDS.includes(text)) {
-      setBrief((b) => ({ ...b, need: text }));
+    if (step === "space" && BRIEF_SPACES.includes(text)) {
+      setBrief((b) => ({ ...b, space: text }));
       setStep("done");
       return botSay({
-        text: "That is enough to start. The next thing that helps is a short description of the space, then a few photos. Continue in the project form, or send it straight to the workshop on WhatsApp.",
+        text: "That is enough to start. Next is a short description of what you have in mind, and ideally a few photos. Continue in the project form, or message us on WhatsApp with this brief.",
         handoff: true,
-        chips: ["What do you need for an estimate?"],
       });
     }
     if (/start (my )?brief|start a project|get started|begin/i.test(text)) return startBrief();
-    if (/^contact the workshop$/i.test(text)) return botSay({ ...matchIntent("contact") });
+    if (/^contact us$/i.test(text)) return botSay(matchIntent("contact"));
     botSay(matchIntent(text));
   };
 
   const continueInForm = () => {
-    window.dispatchEvent(new CustomEvent(EVENT_PREFILL, { detail: brief }));
     setOpen(false);
-    document.getElementById("start")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-    if (!document.getElementById("start")) window.location.assign("/#start");
+    const here = document.getElementById("start");
+    if (here) {
+      window.dispatchEvent(new CustomEvent(EVENT_PREFILL, { detail: { type: brief.type, space: brief.space } }));
+      here.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    } else {
+      try {
+        sessionStorage.setItem(PREFILL_KEY, JSON.stringify({ type: brief.type, space: brief.space }));
+      } catch {}
+      router.push("/contact#start");
+    }
   };
 
-  const waText = `Hello, I would like to discuss a project${brief.type ? `: ${brief.type}` : ""}${
-    brief.need ? ` (${brief.need.toLowerCase()})` : ""
-  }. I will send photos of the space.`;
+  const waText = buildWhatsAppMessage({ projectType: brief.type, space: brief.space });
 
   if (pathname === "/quote") return null;
 
@@ -142,10 +143,10 @@ export function ChatAssistant() {
 
       <AnimatePresence>
         {open && (
-          <motion.section
+          <m.section
             id="chat-panel"
             role="dialog"
-            aria-label="Project assistant"
+            aria-label="Project guide"
             className="fixed z-50 inset-x-0 bottom-0 md:inset-x-auto md:right-6 md:bottom-24 md:w-[400px] h-[min(78svh,640px)] bg-iron-950 text-canvas-bg flex flex-col border border-canvas-bg/15 shadow-[0_30px_80px_rgba(0,0,0,0.45)]"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -154,7 +155,7 @@ export function ChatAssistant() {
           >
             <header className="flex items-center justify-between px-5 h-14 border-b border-canvas-bg/10 shrink-0">
               <div>
-                <p className="micro text-accent-amber">Project assistant</p>
+                <p className="micro text-accent-amber">Project guide</p>
               </div>
               <button
                 type="button"
@@ -211,6 +212,16 @@ export function ChatAssistant() {
                             </a>
                           </>
                         )}
+                        {m.reply.links?.map((l) => (
+                          <Link
+                            key={l.href}
+                            href={l.href}
+                            onClick={() => setOpen(false)}
+                            className="micro min-h-[40px] px-4 inline-flex items-center bg-canvas-bg text-iron-950 font-medium"
+                          >
+                            {l.label}
+                          </Link>
+                        ))}
                         {m.reply.chips?.map((c) => (
                           <button
                             key={c}
@@ -256,7 +267,7 @@ export function ChatAssistant() {
                 <Send className="w-4 h-4" aria-hidden="true" />
               </button>
             </form>
-          </motion.section>
+          </m.section>
         )}
       </AnimatePresence>
     </>

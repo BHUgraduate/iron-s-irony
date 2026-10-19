@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { EASE_IRON } from "@/lib/motion";
 
 export type DrawingKind =
@@ -159,7 +159,7 @@ export function IronDrawing({
     >
       {paths.map((d, i) =>
         draw ? (
-          <motion.path
+          <m.path
             key={`${kind}-${i}`}
             d={d}
             initial={{ pathLength: 0, opacity: 0 }}

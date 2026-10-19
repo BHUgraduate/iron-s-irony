@@ -1,100 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root {
-/* Canvas & Structural Backgrounds */
---color-canvas-bg: #F9F8F6;
---color-canvas-subtle: #F2EFEB;
---color-canvas-card: #FFFFFF;
---color-canvas-dark: #121316;
---color-canvas-dark-subtle: #1A1C20;
-/* Typography & Inks */
---color-ink-primary: #151618;
---color-ink-secondary: #484B52;
---color-ink-muted: #747882;
---color-ink-inverted: #F9F8F6;
-/* Hairlines & Boundaries */
---color-border-subtle: #E6E3DC;
---color-border-structural: #D0CCC2;
---color-border-iron: #26282E;
-/* Restrained Metallic Accents */
---color-accent-bronze: #9E7445;
---color-accent-bronze-hover: #865F34;
---color-accent-amber: #C28E53;
---color-accent-steel: #5E6773;
-/* Accessible Status Colors */
---color-status-success: #2E5A44;
---color-status-error: #932D2D;
-}
-/* Base Document Setup */
-html {
-scroll-behavior: smooth;
-background-color: var(--color-canvas-bg);
-color: var(--color-ink-primary);
-font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-text-rendering: optimizeLegibility;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-}
-body {
-margin: 0;
-padding: 0;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-overflow-x: hidden;
-background-color: var(--color-canvas-bg);
-color: var(--color-ink-primary);
-}
-/* Editorial Selection */
-::selection {
-background-color: rgba(158, 116, 69, 0.22);
-color: #151618;
-}
-/* Accessibility Focus States */
-:focus-visible {
-outline: 2px solid var(--color-ink-primary);
-outline-offset: 2px;
-}
-/* Reduced Motion Safety */
-@media (prefers-reduced-motion: reduce) {
-*,
-*::before,
-*::after {
-animation-duration: 0.01ms !important;
-animation-iteration-count: 1 !important;
-transition-duration: 0.01ms !important;
-scroll-behavior: auto !important;
-}
-}
-/* Architectural Framing & Grid Utilities */
-@layer utilities {
-.architectural-grid {
-background-image: linear-gradient(to right, rgba(208, 204, 194, 0.25) 1px, transparent 1px),
-linear-gradient(to bottom, rgba(208, 204, 194, 0.25) 1px, transparent 1px);
-background-size: 32px 32px;
-}
-.architectural-divider {
-height: 1px;
-background-color: var(--color-border-structural);
-width: 100%;
-}
-.text-balance {
-text-wrap: balance;
-}
-}
-/* ---------- Iron’s Irony: material & display system ---------- */
+
+/* Design tokens live in tailwind.config.ts. Only runtime variables are declared here. */
 :root {
   --ease-iron: cubic-bezier(0.16, 1, 0.3, 1);
   --header-h: 72px;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  background-color: #0e0f11;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(158, 116, 69, 0.3);
+}
+
+/* Focus ring that reads on both light and dark sections */
+:focus-visible {
+  outline: 2px solid #c28e53;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Iron’s Irony: material & display system ---------- */
 @layer utilities {
   /* Display type: engineered, expanded grotesk used as architecture */
   .display {
     font-family: var(--font-sans), system-ui, sans-serif;
     font-weight: 800;
-    font-variation-settings: "wdth" 108;
+    
     letter-spacing: -0.035em;
     line-height: 0.92;
     text-transform: uppercase;
@@ -144,12 +102,31 @@ text-wrap: balance;
   }
 }
 
-/* Focus ring that works on both light and dark sections */
-:focus-visible {
-  outline: 2px solid var(--color-accent-amber);
-  outline-offset: 3px;
+
+
+/* Above-the-fold entrances are plain CSS so the headline paints with the first stylesheet, not after hydration. */
+@keyframes line-rise {
+  from { transform: translateY(110%); }
+  to { transform: none; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.line-rise { animation: line-rise 1s var(--ease-iron) both; animation-delay: var(--d, 0s); }
+.fade-up { animation: fade-up 0.9s var(--ease-iron) both; animation-delay: var(--d, 0s); }
+.fade-in { animation: fade-in 0.8s ease both; animation-delay: var(--d, 0s); }
+@media (prefers-reduced-motion: reduce) {
+  .line-rise, .fade-up { animation: fade-in 0.4s ease both; animation-delay: 0s; }
 }
 
-html {
-  scroll-padding-top: var(--header-h);
+/* Serif accents: italic uses its own single-weight file. */
+.font-serif.italic {
+  font-family: var(--font-serif-italic), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
 }

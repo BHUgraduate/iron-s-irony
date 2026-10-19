@@ -1,24 +1,33 @@
 import { COMPANY_DETAILS } from "@/data/company";
-import { WORKSHOP_PROCESS_STEPS } from "@/data/process";
+import { PROCESS_STAGES } from "@/data/home";
+import { SERVICES_DATA } from "@/data/services";
 
 /**
- * Project assistant knowledge. Rule-based: it answers only from the site's own content
- * and never quotes prices, timelines or claims the owner has not published.
+ * Project assistant knowledge. It is a rule-based guide, not an AI: it answers only from the site's own
+ * content, names no prices, timelines, guarantees, availability or project history, and says so
+ * plainly when it does not know.
  */
+
+export interface ReplyLink {
+  label: string;
+  href: string;
+}
 
 export interface Reply {
   text: string;
   chips?: string[];
+  links?: ReplyLink[];
   /** Offer the hand-off actions (project form and WhatsApp). */
   handoff?: boolean;
 }
 
 export const WELCOME: Reply = {
-  text: "Hello. I can tell you what we make, how a project runs, and what we need from you to get started. What are you thinking of building?",
-  chips: ["What do you make?", "Custom work from a photo", "What do you need for an estimate?", "How does it work?", "Start my brief"],
+  text: "I can help you find your way around: what we make, how a project runs, what to bring, and how to get in touch. What are you thinking of building?",
+  chips: ["What do you make?", "Can you work from my reference?", "What should I send you?", "How does a project run?", "Start my brief"],
 };
 
-const STEPS = WORKSHOP_PROCESS_STEPS.map((s) => s.title).join(", then ");
+const steps = PROCESS_STAGES.map((s) => s.title.toLowerCase()).join(", ");
+const serviceList = SERVICES_DATA.map((s) => s.title.toLowerCase()).join(", ");
 
 interface Intent {
   id: string;
@@ -29,66 +38,99 @@ interface Intent {
 export const INTENTS: Intent[] = [
   {
     id: "make",
-    keys: ["make", "services", "offer", "what you do", "products", "gate", "railing", "balcon", "stair", "grill", "grille", "window", "fabricat"],
+    keys: ["make", "services", "offer", "what you do", "products", "gate", "railing", "balcon", "stair", "grill", "window", "fabricat", "iron"],
     reply: {
-      text: "Gates, railings, balconies, staircases, grills, architectural ironwork and custom fabrication, for homes, buildings and commercial spaces. If it is made of iron and fixed to a building, ask us.",
-      chips: ["Custom work from a photo", "What do you need for an estimate?", "Start my brief"],
+      text: `We make ironwork for buildings: ${serviceList}. Tell me which of these is closest to what you need and I will point you to the right place.`,
+      links: [{ label: "See all services", href: "/services" }],
+      chips: ["Can you work from my reference?", "What should I send you?", "Start my brief"],
     },
   },
   {
     id: "custom",
-    keys: ["custom", "reference", "photo of", "picture of", "like this", "design", "bespoke", "sketch", "drawing", "copy", "similar"],
+    keys: ["custom", "reference", "photo of", "like this", "design", "bespoke", "sketch", "drawing", "copy", "similar", "my own"],
     reply: {
-      text: "Yes. Custom work is a core part of what we do. Bring a photograph, a sketch, a CAD drawing or just the measured opening. We work out how to build something equivalent for your space and agree the design before fabrication starts.",
-      chips: ["Can I send photos?", "What do you need for an estimate?", "Start my brief"],
+      text: "Yes, custom work is central to what we do. Bring a photograph, a sketch, a drawing or just the measured opening, and we will work out how to make something equivalent for your space.",
+      links: [{ label: "Custom fabrication", href: "/services/custom-fabrication" }],
+      chips: ["Can I send photos?", "What should I send you?", "Start my brief"],
     },
   },
   {
-    id: "estimate",
-    keys: ["estimate", "quote", "quotation", "price", "cost", "how much", "budget", "rate", "need from me", "information"],
+    id: "send",
+    keys: ["estimate", "send you", "need from me", "information", "details", "bring", "require", "what do you need", "what should i"],
     reply: {
-      text: "We cannot responsibly name a price without seeing the job, because cost follows size, section, finish and installation. To estimate we need: what it is (gate, railing, and so on), the approximate width and height, where the site is, whether it is new or a replacement, and a photo of the space if you have one.",
-      chips: ["Can I send photos?", "Start my brief", "How does it work?"],
+      text: "To start: what you want to create, what kind of space it is for, rough dimensions, where the site is, and a photo if you have one. Rough is fine. You can add the rest as we talk.",
+      chips: ["Can I send photos?", "How much will it cost?", "Start my brief"],
+    },
+  },
+  {
+    id: "price",
+    keys: ["price", "cost", "how much", "budget", "rate", "quote", "quotation", "charge", "afford"],
+    reply: {
+      text: "I do not have prices to share. Each piece is made for a particular site, so the best way to get an answer is to tell us what you have in mind and talk to us directly.",
+      chips: ["Start my brief", "Contact us"],
+      handoff: true,
     },
   },
   {
     id: "photos",
     keys: ["photo", "image", "picture", "whatsapp", "send", "upload", "attach", "file"],
     reply: {
-      text: "Yes, photos help a lot. The quickest way is WhatsApp: send pictures of the space, and any reference you like, to the workshop. You can also describe the job in the project form and follow up with images.",
-      chips: ["Start my brief", "Contact the workshop"],
+      text: "Yes, photos help a lot. The quickest way is WhatsApp: send pictures of the space and anything you like. You can also describe the project in the form first and follow up with images.",
+      chips: ["Start my brief", "Contact us"],
       handoff: true,
     },
   },
   {
     id: "process",
-    keys: ["process", "how does", "how do", "steps", "timeline", "how long", "lead time", "when", "stages"],
+    keys: ["process", "how does", "how do", "steps", "stages", "how it works", "what happens"],
     reply: {
-      text: `The path runs: ${STEPS}. We agree the scope and finish with you before fabrication begins. Timelines depend on the job and are confirmed when you receive your proposal.`,
-      chips: ["What do you need for an estimate?", "Do you install?", "Start my brief"],
+      text: `A project moves through ${steps}. We agree the design with you before anything is fabricated.`,
+      links: [{ label: "The full process", href: "/process" }],
+      chips: ["What should I send you?", "Start my brief"],
+    },
+  },
+  {
+    id: "time",
+    keys: ["how long", "timeline", "lead time", "when will", "deadline", "urgent", "weeks", "days", "available", "availability"],
+    reply: {
+      text: "I do not have timings to quote. They depend on the piece and the site, and we talk about them once we understand the project. Tell us if you have a date in mind.",
+      chips: ["Start my brief", "Contact us"],
+      handoff: true,
     },
   },
   {
     id: "install",
     keys: ["install", "fitting", "fix it", "site visit", "survey", "measure"],
     reply: {
-      text: "Installation and site measurement depend on the project scope and location. Tell us where the site is and we will confirm what is possible.",
-      chips: ["Start my brief", "Contact the workshop"],
+      text: "Installation is part of the process, from measuring to fixing. Arrangements depend on the project, so tell us where the site is and what is involved and we will confirm them.",
+      chips: ["Start my brief", "Contact us"],
     },
   },
   {
     id: "where",
-    keys: ["where", "location", "address", "visit", "workshop", "city", "varanasi", "hours", "open"],
+    keys: ["where", "location", "address", "visit", "workshop", "city", "hours", "open", "area"],
     reply: {
-      text: `We are in ${COMPANY_DETAILS.contact.address.city}, ${COMPANY_DETAILS.contact.address.region}. Workshop hours: ${COMPANY_DETAILS.contact.hours[0].days}, ${COMPANY_DETAILS.contact.hours[0].hours}. Please call before visiting.`,
-      chips: ["Contact the workshop", "Start my brief"],
+      text: COMPANY_DETAILS.contact.address
+        ? `Our address is ${COMPANY_DETAILS.contact.address.lines.join(", ")}.`
+        : "I do not have an address to share here. The quickest way to arrange anything is to call or message us, and we will tell you where to go.",
+      chips: ["Contact us", "Start my brief"],
+      handoff: true,
+    },
+  },
+  {
+    id: "work",
+    keys: ["portfolio", "previous", "past work", "examples", "projects", "show me", "completed"],
+    reply: {
+      text: "The Work page shows representative examples of the kinds of piece we make, drawn to show how they come together. It does not yet show completed projects, and I would rather say so than imply otherwise. Ask us directly if you would like to see photographs of previous work.",
+      links: [{ label: "See the work", href: "/projects" }],
+      chips: ["Contact us", "Start my brief"],
     },
   },
   {
     id: "contact",
     keys: ["contact", "call", "phone", "email", "mail", "talk", "speak", "number", "human", "person"],
     reply: {
-      text: `You can reach the workshop on ${COMPANY_DETAILS.contact.phone}, on WhatsApp, or at ${COMPANY_DETAILS.contact.email}.`,
+      text: `You can reach us on ${COMPANY_DETAILS.contact.phoneDisplay}, on WhatsApp, or at ${COMPANY_DETAILS.contact.email}.`,
       chips: ["Start my brief"],
       handoff: true,
     },
@@ -96,12 +138,13 @@ export const INTENTS: Intent[] = [
 ];
 
 export const FALLBACK: Reply = {
-  text: "I may not have understood that. I can cover what we make, custom work, what we need for an estimate, the process, or how to reach the workshop. Or tell me about your project and I will help you put a brief together.",
-  chips: ["What do you make?", "Start my brief", "Contact the workshop"],
+  text: "I do not have an answer to that. I can cover what we make, working from a reference, what to send us, and how a project runs. For anything else, the best next step is to start a brief or talk to us directly.",
+  chips: ["Start my brief", "Contact us", "What do you make?"],
+  handoff: true,
 };
 
 export const BRIEF_TYPES = ["Gate", "Railing", "Balcony", "Staircase", "Grill", "Something else"];
-export const BRIEF_NEEDS = ["New construction", "Replacement", "Renovation", "Custom design"];
+export const BRIEF_SPACES = ["Private home", "Apartment or housing", "Commercial or business", "Not sure yet"];
 
 export function matchIntent(input: string): Reply {
   const q = input.toLowerCase();

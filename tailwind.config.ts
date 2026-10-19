@@ -1,76 +1,36 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Iron’s Irony design tokens. Material-led: iron, concrete and paper, with one restrained warm accent.
+ * Accent is for emphasis only (calls to action, active state, heat references).
+ * See DESIGN_SYSTEM.md.
+ */
 const config: Config = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./data/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./data/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        iron: {
-          950: "#0E0F11",
-          900: "#151618",
-          800: "#1C1E22",
-          700: "#2A2D33",
-          500: "#6B707A",
-        },
+        iron: { 950: "#0E0F11", 900: "#151618", 800: "#1C1E22" },
         concrete: "#E7E4DD",
-        canvas: {
-          bg: "#F9F8F6",
-          subtle: "#F2EFEB",
-          card: "#FFFFFF",
-          dark: "#121316",
-          "dark-subtle": "#1A1C20",
-        },
-        ink: {
-          primary: "#151618",
-          secondary: "#484B52",
-          muted: "#747882",
-          inverted: "#F9F8F6",
-        },
-        border: {
-          subtle: "#E6E3DC",
-          structural: "#D0CCC2",
-          iron: "#26282E",
-        },
+        canvas: { bg: "#F9F8F6" },
+        ink: { secondary: "#484B52", muted: "#5F636C" },
         accent: {
-          bronze: "#9E7445",
-          "bronze-hover": "#865F34",
-          amber: "#C28E53",
-          steel: "#5E6773",
-        },
-        status: {
-          success: "#2E5A44",
-          error: "#932D2D",
+          bronze: "#9E7445", // fills and hover states
+          amber: "#C28E53", // on dark grounds
+          ink: "#7A5628", // text on light grounds (AA)
         },
       },
       fontFamily: {
         serif: ["var(--font-serif)", "Georgia", "serif"],
-        display: ["var(--font-sans)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
-      letterSpacing: {
-        tightest: "-0.03em",
-        architectural: "0.15em",
-        widest: "0.22em",
-      },
-      borderRadius: {
-        none: "0px",
-        sm: "2px",
-        DEFAULT: "4px",
-      },
-      maxWidth: {
-        "8xl": "88rem",
-      },
+      borderRadius: { none: "0px", sm: "2px", DEFAULT: "0px" },
+      maxWidth: { "8xl": "88rem" },
       keyframes: {
         fadeIn: { from: { opacity: "0", transform: "translateY(10px)" }, to: { opacity: "1", transform: "none" } },
       },
-      transitionTimingFunction: {
-        architectural: "cubic-bezier(0.16, 1, 0.3, 1)",
-      },
+      transitionTimingFunction: { architectural: "cubic-bezier(0.16, 1, 0.3, 1)" },
     },
   },
   plugins: [],

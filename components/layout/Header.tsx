@@ -3,29 +3,30 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MAIN_NAVIGATION, START_PROJECT_HREF } from "@/data/company";
+import { MAIN_NAVIGATION } from "@/data/company";
+import { StartLink } from "@/components/layout/StartLink";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { cn } from "@/lib/utils";
 
 export function Header() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const [menuOpen, setMenuOpen] = React.useState(false);
-  const [overHero, setOverHero] = React.useState(isHome);
+    const [menuOpen, setMenuOpen] = React.useState(false);
+  const [overHero, setOverHero] = React.useState(true);
   const [scrolled, setScrolled] = React.useState(false);
   const menuButton = React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 24);
-      setOverHero(isHome && window.scrollY < window.innerHeight - 96);
+      const hero = document.querySelector("[data-hero]");
+      setOverHero(!!hero && hero.getBoundingClientRect().bottom > 96);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome]);
+  }, [pathname]);
 
-  const onDark = isHome && overHero;
+  const onDark = overHero;
 
   return (
     <>
@@ -35,13 +36,13 @@ export function Header() {
           onDark
             ? "bg-transparent text-canvas-bg border-b border-transparent"
             : scrolled
-            ? "bg-canvas-bg/90 backdrop-blur-md text-iron-950 border-b border-border-structural"
-            : "bg-canvas-bg text-iron-950 border-b border-border-subtle"
+            ? "bg-canvas-bg/90 backdrop-blur-md text-iron-950 border-b border-iron-950/20"
+            : "bg-canvas-bg text-iron-950 border-b border-iron-950/10"
         )}
       >
         <div className="max-w-[88rem] mx-auto h-full px-5 sm:px-8 flex items-center justify-between">
-          <Link href="/" aria-label="iron’s irony, home" className="flex items-baseline gap-2">
-            <span className="font-serif text-[1.65rem] leading-none font-semibold tracking-tight">
+          <Link href="/" aria-label="iron’s irony, home" className="flex items-center min-h-[48px] gap-2">
+            <span className="font-serif text-[1.65rem] leading-none font-medium tracking-tight">
               iron’s irony
             </span>
           </Link>
@@ -67,8 +68,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link
-              href={START_PROJECT_HREF}
+            <StartLink
               className={cn(
                 "hidden sm:inline-flex items-center micro font-medium tracking-[0.16em] border px-5 py-3 transition-colors duration-300",
                 onDark
@@ -77,7 +77,7 @@ export function Header() {
               )}
             >
               Start a Project
-            </Link>
+            </StartLink>
             <button
               ref={menuButton}
               type="button"

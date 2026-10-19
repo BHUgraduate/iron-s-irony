@@ -1,4 +1,5 @@
 import type { Variants } from "framer-motion";
+import { COMPANY_DETAILS } from "@/data/company";
 
 /** One easing for the whole site: fast start, long settle, like heavy stock coming to rest. */
 export const EASE_IRON = [0.16, 1, 0.3, 1] as const;
@@ -25,12 +26,7 @@ export const textLine: Variants = {
   show: { y: "0%", transition: { duration: 1.1, ease: EASE_IRON } },
 };
 
-export const imageReveal: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)" },
-  show: { clipPath: "inset(0 0 0% 0)", transition: { duration: 1.2, ease: EASE_IRON } },
-};
-
-export const WHATSAPP_NUMBER = "918853358005";
+export const WHATSAPP_NUMBER = COMPANY_DETAILS.contact.whatsapp;
 
 export function whatsappLink(message?: string) {
   const base = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -43,5 +39,19 @@ export const EVENT_CHAT = "ironsirony:chat";
 
 export interface PrefillDetail {
   type?: string;
+  space?: string;
   need?: string;
+}
+
+export const PREFILL_KEY = "ironsirony:prefill";
+
+/** Carry a chosen project type to the configurator: live event on the same page, session note across pages. */
+export function announcePrefill(detail: PrefillDetail, href: string) {
+  if (href.startsWith("#")) {
+    window.dispatchEvent(new CustomEvent(EVENT_PREFILL, { detail }));
+  } else {
+    try {
+      sessionStorage.setItem(PREFILL_KEY, JSON.stringify(detail));
+    } catch {}
+  }
 }

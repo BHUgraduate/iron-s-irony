@@ -5,10 +5,10 @@ import { LineReveal, Reveal } from "@/components/motion/Reveal";
 /** Can you make something specifically for me? Mostly type, mostly still. */
 export function Custom() {
   return (
-    <section aria-labelledby="custom-heading" className="bg-canvas-bg text-iron-950 py-32 sm:py-52">
+    <section aria-labelledby="custom-heading" data-tone="light" className="bg-canvas-bg text-iron-950 py-32 sm:py-52">
       <div className="max-w-[88rem] mx-auto px-5 sm:px-8">
         <Reveal>
-          <p className="micro text-accent-bronze mb-8">Custom work</p>
+          <p className="micro text-accent-ink mb-8">Custom work</p>
         </Reveal>
         <LineReveal
           id="custom-heading"

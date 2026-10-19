@@ -1,86 +1,43 @@
-import * as React from "react";
 import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { constructPageMetadata } from "@/lib/seo";
 import { COMPANY_DETAILS } from "@/data/company";
+import { constructPageMetadata } from "@/lib/seo";
+import { LegalPage } from "@/components/ui/LegalPage";
+
 export const metadata: Metadata = constructPageMetadata({
-title: "Privacy Policy & Data Protection",
-description:
-"Privacy and data protection policy of iron’s irony. Outlines how architectural blueprints, contact information, and project specifications are handled.",
-path: "/privacy",
+  title: "Privacy",
+  description: "How iron’s irony handles the details you share when you enquire about a project.",
+  path: "/privacy",
 });
+
 export default function PrivacyPage() {
-return (
-<main id="main-content" className="flex-1 flex flex-col bg-canvas-bg">
-<div className="border-b border-border-subtle bg-canvas-subtle/50">
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<Breadcrumbs items={[{ label: "Privacy Policy", href: "/privacy" }]} />
-</div>
-</div>
-<article className="py-12 sm:py-20">
-<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-<header className="border-b border-border-structural pb-8">
-<span className="text-xs font-mono uppercase tracking-architectural text-accent-bronze block mb-2 font-medium">
-Compliance & Non-Disclosure
-</span>
-<h1 className="text-3xl sm:text-5xl font-serif font-medium text-ink-primary">
-Privacy Policy
-</h1>
-<p className="mt-3 text-xs font-mono text-ink-muted">
-Last updated: September 2026 • iron’s irony Atelier Standards
-</p>
-</header>
-<div className="space-y-8 text-xs sm:text-sm text-ink-secondary leading-relaxed">
-<section className="space-y-3">
-<h2 className="font-serif text-xl sm:text-2xl text-ink-primary font-medium">
-01. Scope of This Policy
-</h2>
-<p>
-This Privacy Policy applies to all interactions with <strong>{COMPANY_DETAILS.name}</strong>, including inquiries submitted through our website (<code className="text-ink-primary font-mono text-xs">ironsirony.com</code>), telephone discussions, architectural drawing reviews, and on-site consultations.
-</p>
-</section>
-<section className="space-y-3">
-<h2 className="font-serif text-xl sm:text-2xl text-ink-primary font-medium">
-02. Information We Collect
-</h2>
-<p>
-We collect only information strictly necessary to estimate, engineer, fabricate, and deliver architectural metalwork. This includes:
-</p>
-<ul className="list-disc pl-5 space-y-1.5 font-mono text-xs text-ink-secondary">
-<li>Contact coordinates (Name, telephone number, business email).</li>
-<li>Project location details required for delivery and site survey logistics.</li>
-<li>Architectural CAD files, blueprints, site photographs, and aperture dimensions.</li>
-<li>Professional trade role (Architect, General Contractor, Homeowner, Designer).</li>
-</ul>
-</section>
-<section className="space-y-3">
-<h2 className="font-serif text-xl sm:text-2xl text-ink-primary font-medium">
-03. Architectural Confidentiality & Trade Non-Disclosure
-</h2>
-<p>
-We treat all architectural blueprints, engineering schematics, and private estate locations as confidential trade information. Blueprints submitted for estimation are shared exclusively with internal metalworking engineers and certified structural engineering consultants for constructability calculations.
-</p>
-</section>
-<section className="space-y-3">
-<h2 className="font-serif text-xl sm:text-2xl text-ink-primary font-medium">
-04. Data Retention & Third Parties
-</h2>
-<p>
-We do not sell, rent, or monetize client contact data. Information is retained solely within workshop dispatch logs to provide ongoing warranty support, finish maintenance records, and shop drawing archives.
-</p>
-</section>
-<section className="space-y-3">
-<h2 className="font-serif text-xl sm:text-2xl text-ink-primary font-medium">
-05. Inquiries & Data Rights
-</h2>
-<p>
-To request drawing deletion or review records held by our workshop, contact our atelier desk at{" "}
-<span className="font-mono text-ink-primary">{COMPANY_DETAILS.contact.email}</span>.
-</p>
-</section>
-</div>
-</div>
-</article>
-</main>
-);
+  const { contact } = COMPANY_DETAILS;
+  return (
+    <LegalPage
+      title="Privacy"
+      updated="October 2026"
+      sections={[
+        { heading: "Who we are", body: <p>This website belongs to iron’s irony. You can reach us at {contact.email} or {contact.phoneDisplay}.</p> },
+        {
+          heading: "What we collect",
+          body: (
+            <p>
+              Only what you choose to give us through the Start a Project form: your name, phone number, project details and,
+              if you add them, your email, location, size, style preferences and reference links. If you contact us by
+              phone, WhatsApp or email, we receive what you send.
+            </p>
+          ),
+        },
+        { heading: "How we use it", body: <p>To respond to your enquiry and to discuss your project. We do not sell your details or use them for advertising.</p> },
+        {
+          heading: "Where it goes",
+          body: <p>Form submissions are sent from our server to the business over a private connection. WhatsApp, phone and email are handled by those services under their own policies.</p>,
+        },
+        {
+          heading: "Cookies and tracking",
+          body: <p>This website does not use advertising or tracking cookies. It may keep a small note in your browser session to carry your project choices from one page to the form. It is deleted when you close the tab.</p>,
+        },
+        { heading: "Your choices", body: <p>You can ask us to correct or delete the details you sent at any time by emailing {contact.email}.</p> },
+      ]}
+    />
+  );
 }

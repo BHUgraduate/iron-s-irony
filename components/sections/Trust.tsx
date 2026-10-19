@@ -5,10 +5,10 @@ import { LineReveal, Reveal } from "@/components/motion/Reveal";
 /** Can I trust you? Specific working practices, no invented numbers. */
 export function Trust() {
   return (
-    <section aria-labelledby="trust-heading" className="bg-concrete text-iron-950 py-28 sm:py-44">
+    <section aria-labelledby="trust-heading" data-tone="concrete" className="bg-concrete text-iron-950 py-28 sm:py-44">
       <div className="max-w-[88rem] mx-auto px-5 sm:px-8">
         <Reveal>
-          <p className="micro text-accent-bronze mb-8">Trust</p>
+          <p className="micro text-accent-ink mb-8">Trust</p>
         </Reveal>
         <LineReveal id="trust-heading" className="display display-md" lines={TRUST.lines} />
         <p className="mt-10 max-w-lg text-lg leading-relaxed text-ink-secondary">{TRUST.lead}</p>

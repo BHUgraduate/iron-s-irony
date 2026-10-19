@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { constructPageMetadata } from "@/lib/seo";
 import { Hero } from "@/components/sections/Hero";
 import { Transformation } from "@/components/sections/Transformation";
 import { Services } from "@/components/sections/Services";
@@ -9,9 +10,13 @@ import { Trust } from "@/components/sections/Trust";
 import { ProjectConfigurator } from "@/components/forms/ProjectConfigurator";
 
 export const metadata: Metadata = {
-  title: { absolute: "iron’s irony | Gates, Railings & Custom Ironwork in Varanasi" },
-  description:
-    "Architectural, decorative and custom ironwork: gates, railings, balconies, staircases and grills, fabricated to your space. Start a project with the workshop in Varanasi.",
+  ...constructPageMetadata({
+    title: "iron’s irony | Gates, Railings & Custom Ironwork",
+    description:
+      "Gates, railings, balconies, staircases, grills and custom ironwork, designed around your space and made to become part of the building. Start a project with iron’s irony.",
+    path: "",
+  }),
+  title: { absolute: "iron’s irony | Gates, Railings & Custom Ironwork" },
 };
 
 export default function HomePage() {

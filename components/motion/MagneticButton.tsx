@@ -2,9 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { m, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { announcePrefill } from "@/lib/motion";
+import { useStartHref } from "@/components/layout/StartLink";
 
 type Variant = "light" | "dark" | "copper" | "outline-light" | "outline-dark";
 
@@ -26,14 +28,16 @@ interface Props {
   type?: "button" | "submit";
   disabled?: boolean;
   external?: boolean;
+  /** With href="start": pre-selects this project type in the configurator. */
+  prefill?: string;
 }
 
 /**
  * Buttons that lean a few pixels toward the pointer, like a heavy latch being drawn.
- * The pull is tiny, and switched off for touch input and reduced motion.
+ * The pull is tiny, and switched off for touch input and reduced m.
  */
 export function MagneticButton({
-  href,
+  href: hrefProp,
   onClick,
   variant = "light",
   arrow = true,
@@ -42,8 +46,14 @@ export function MagneticButton({
   type = "button",
   disabled,
   external,
+  prefill,
 }: Props) {
+  let href = hrefProp;
+  const isStart = hrefProp === "start";
   const reduce = useReducedMotion();
+  const startHref = useStartHref();
+  if (href === "start") href = startHref;
+  const MotionLink = React.useMemo(() => m.create(Link), []);
   const ref = React.useRef<HTMLElement | null>(null);
   const x = useSpring(useMotionValue(0), { stiffness: 220, damping: 18, mass: 0.6 });
   const y = useSpring(useMotionValue(0), { stiffness: 220, damping: 18, mass: 0.6 });
@@ -79,6 +89,10 @@ export function MagneticButton({
 
   const shared = {
     style: { x, y },
+    onClick: (e: React.MouseEvent<HTMLElement>) => {
+      if (isStart && prefill && href) announcePrefill({ type: prefill }, href);
+      onClick?.(e);
+    },
     onPointerMove: onMove,
     onPointerLeave: onLeave,
     className: classes,
@@ -86,7 +100,7 @@ export function MagneticButton({
 
   if (href && external) {
     return (
-      <motion.a
+      <m.a
         ref={ref as React.Ref<HTMLAnchorElement>}
         href={href}
         target="_blank"
@@ -94,11 +108,10 @@ export function MagneticButton({
         {...shared}
       >
         {inner}
-      </motion.a>
+      </m.a>
     );
   }
   if (href) {
-    const MotionLink = motion(Link);
     return (
       <MotionLink ref={ref as React.Ref<HTMLAnchorElement>} href={href} {...shared}>
         {inner}
@@ -106,14 +119,13 @@ export function MagneticButton({
     );
   }
   return (
-    <motion.button
+    <m.button
       ref={ref as React.Ref<HTMLButtonElement>}
       type={type}
-      onClick={onClick}
       disabled={disabled}
       {...shared}
     >
       {inner}
-    </motion.button>
+    </m.button>
   );
 }

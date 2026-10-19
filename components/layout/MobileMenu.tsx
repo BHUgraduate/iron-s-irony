@@ -2,14 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
-import {
-  COMPANY_DETAILS,
-  MAIN_NAVIGATION,
-  SECONDARY_NAVIGATION,
-  START_PROJECT_HREF,
-} from "@/data/company";
+import { COMPANY_DETAILS, MAIN_NAVIGATION, SECONDARY_NAVIGATION } from "@/data/company";
+import { StartLink } from "@/components/layout/StartLink";
 import { EASE_IRON, whatsappLink } from "@/lib/motion";
 
 export interface MobileMenuProps {
@@ -54,7 +50,7 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           ref={panel}
           role="dialog"
           aria-modal="true"
@@ -67,7 +63,7 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
         >
           <div className="relative min-h-full flex flex-col px-5 pb-8">
             <div className="h-[var(--header-h)] flex items-center justify-between">
-              <span className="font-serif text-[1.65rem] font-semibold tracking-tight">iron’s irony</span>
+              <span className="font-serif text-[1.65rem] font-medium tracking-tight">iron’s irony</span>
               <button
                 ref={closeBtn}
                 type="button"
@@ -82,9 +78,9 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
             <nav aria-label="Menu" className="mt-6">
               <ul>
                 {MAIN_NAVIGATION.map((link, i) => {
-                  const active = !link.href.includes("#") && pathname.startsWith(link.href);
+                  const active = pathname.startsWith(link.href);
                   return (
-                    <motion.li
+                    <m.li
                       key={link.href}
                       className="border-t border-canvas-bg/10"
                       initial={reduce ? false : { opacity: 0, y: 28 }}
@@ -100,7 +96,7 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
                         <span className="micro text-accent-amber w-6">0{i + 1}</span>
                         <span className="display text-[2.6rem]">{link.label}</span>
                       </Link>
-                    </motion.li>
+                    </m.li>
                   );
                 })}
               </ul>
@@ -115,16 +111,15 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
             </div>
 
             <div className="mt-auto pt-10 space-y-5">
-              <Link
-                href={START_PROJECT_HREF}
+              <StartLink
                 onClick={onClose}
                 className="flex items-center justify-center bg-canvas-bg text-iron-950 min-h-[56px] micro font-medium tracking-[0.16em]"
               >
                 Start a Project
-              </Link>
+              </StartLink>
               <div className="flex flex-col gap-1 micro text-canvas-bg/70 normal-case tracking-wide">
                 <a href={`tel:${COMPANY_DETAILS.contact.phone}`} className="py-2">
-                  {COMPANY_DETAILS.contact.phone}
+                  {COMPANY_DETAILS.contact.phoneDisplay}
                 </a>
                 <a href={whatsappLink()} className="py-2" target="_blank" rel="noopener noreferrer">
                   WhatsApp the workshop
@@ -132,7 +127,7 @@ export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

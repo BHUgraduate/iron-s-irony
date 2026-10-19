@@ -1,14 +1,14 @@
 "use client";
 
+import { EASE_IRON } from "@/lib/motion";
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { HERO_COPY } from "@/data/home";
-import { START_PROJECT_HREF } from "@/data/company";
 import { LineReveal } from "@/components/motion/Reveal";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { usePointerParallax } from "@/components/motion/usePointerParallax";
 import { drawingPaths } from "@/components/ui/IronDrawing";
-import { EASE_IRON } from "@/lib/motion";
+
 
 const GATE = drawingPaths("gate");
 
@@ -24,6 +24,8 @@ export function Hero() {
   return (
     <section
       ref={stage}
+      data-hero="dark"
+      data-tone="dark"
       aria-labelledby="hero-heading"
       className="relative isolate overflow-hidden bg-iron-950 text-canvas-bg grain -mt-[var(--header-h)] min-h-[100svh] flex"
       style={{ ["--px" as string]: 0, ["--py" as string]: 0 }}
@@ -48,7 +50,7 @@ export function Hero() {
           className="w-full sm:w-[80%] lg:w-full max-w-none text-canvas-bg/80 opacity-45 lg:opacity-100 lg:-translate-y-[10%]"
         >
           {GATE.map((d, i) => (
-            <motion.path
+            <m.path
               key={i}
               d={d}
               initial={reduce ? { opacity: 0 } : { pathLength: 0, opacity: 0 }}
@@ -66,40 +68,30 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 w-full max-w-[88rem] mx-auto px-5 sm:px-8 flex flex-col justify-end pt-[calc(var(--header-h)+3rem)] pb-14 sm:pb-20">
-        <motion.p
-          className="micro text-accent-amber mb-6 sm:mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-        >
+        <p className="micro text-accent-amber mb-6 sm:mb-8 fade-in" style={{ ["--d" as string]: "0.1s" }}>
           {HERO_COPY.eyebrow}
-        </motion.p>
+        </p>
 
         <LineReveal
           as="h1"
           id="hero-heading"
           immediate
-          delay={0.25}
+          delay={0.1}
           className="display display-lg"
           lines={HERO_COPY.lines}
         />
 
-        <motion.div
-          className="mt-8 sm:mt-12 flex flex-col gap-8 max-w-xl"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.9, ease: EASE_IRON }}
-        >
+        <div className="mt-8 sm:mt-12 flex flex-col gap-8 max-w-xl fade-up" style={{ ["--d" as string]: "0.5s" }}>
           <p className="text-lg sm:text-xl leading-snug text-canvas-bg/75 max-w-md">{HERO_COPY.lead}</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <MagneticButton href={START_PROJECT_HREF} variant="light">
+            <MagneticButton href="start" variant="light">
               {HERO_COPY.primary}
             </MagneticButton>
-            <MagneticButton href="/#work" variant="outline-light" arrow={false}>
+            <MagneticButton href="/projects" variant="outline-light" arrow={false}>
               {HERO_COPY.secondary}
             </MagneticButton>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       <span className="absolute left-5 sm:left-8 bottom-4 micro text-canvas-bg/35 hidden sm:block" aria-hidden="true">

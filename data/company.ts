@@ -1,64 +1,52 @@
+/**
+ * Single source of truth for business details.
+ *
+ * Verified = present in the original repository supplied by the owner.
+ * Anything the owner has not supplied is `null` and the UI simply omits it.
+ * Never fill a null with a guess. Hycyon (the web developer) is a separate business and its
+ * address must never appear here.
+ */
+
 export interface NavigationLink {
   label: string;
   href: string;
   description?: string;
 }
 
+export const COMPANY_DETAILS = {
+  name: "iron’s irony",
+  tagline: "Building, Architectural & Decorative Ironwork",
+  mission: "Gates, railings, balconies, staircases, grills and custom ironwork, made to become part of the building.",
+  contact: {
+    phone: "+918853358005",
+    phoneDisplay: "+91 88533 58005",
+    whatsapp: "918853358005",
+    email: "bhugraduate@gmail.com",
+    /** Owner to supply. Rendered only when set: { lines: ["…"], city: "…" } */
+    address: null as null | { lines: string[]; city?: string },
+    /** Owner to supply. Rendered only when set, e.g. ["Mon to Sat, 9am to 6pm"] */
+    hours: null as null | string[],
+    /** Owner to supply, e.g. "Varanasi and nearby cities" */
+    serviceArea: null as null | string,
+  },
+  /** Owner to supply full URLs. Rendered only when set. */
+  socials: {} as Partial<Record<"instagram" | "facebook" | "linkedin" | "pinterest" | "youtube", string>>,
+  developer: { name: "Hycyon" },
+};
+
 export const MAIN_NAVIGATION: NavigationLink[] = [
-  { label: "Work", href: "/projects", description: "Selected commissions" },
-  { label: "Services", href: "/services", description: "Building, architectural & decorative fabrication" },
-  { label: "Process", href: "/#process", description: "From measuring to installation" },
+  { label: "Work", href: "/projects", description: "What we make, and how it comes together" },
+  { label: "Services", href: "/services", description: "Gates, railings, balconies and more" },
+  { label: "Process", href: "/process", description: "From measuring to installation" },
   { label: "About", href: "/about", description: "How we think about iron" },
-  { label: "Contact", href: "/contact", description: "Talk to the workshop" },
+  { label: "Contact", href: "/contact", description: "Talk to us about your project" },
 ];
 
-/** Still live, no longer top-level: surfaced in the menu overlay and footer. */
 export const SECONDARY_NAVIGATION: NavigationLink[] = [
-  { label: "Shop", href: "/shop", description: "Catalog items and made-to-order metalwork" },
   { label: "Who we work with", href: "/customers" },
   { label: "FAQ", href: "/faq" },
 ];
 
-export const START_PROJECT_HREF = "/#start";
-
-export const SERVICE_NAV_LINKS: NavigationLink[] = [
-  { label: "Building Ironwork", href: "/services/building-ironwork" },
-  { label: "Architectural Ironwork", href: "/services/architectural-ironwork" },
-  { label: "Decorative Ironwork", href: "/services/decorative-ironwork" },
-  { label: "Custom Fabrication", href: "/services/custom-fabrication" },
-];
-
-export const COMPANY_DETAILS = {
-  name: "iron’s irony",
-  legalName: "iron’s irony",
-  tagline: "Building, Architectural & Decorative Ironwork",
-  mission:
-    "Engineering structural integrity and sculptural permanence through architectural metalwork and custom-forged iron.",
-  developer: {
-    name: "hycyon",
-    role: "Digital Product Studio & Engineering",
-  },
-  contact: {
-    phone: "+918853358005",
-    email: "bhugraduate@gmail.com",
-    whatsApp: "8853358005",
-    address: {
-      line1: "Hycyon Technologies, Near Rudra fitness",
-      line2: "Paramhansh Ashram road, Chhittupur",
-      city: "Varanasi",
-      region: "Uttar Pradesh",
-      postalCode: "221005",
-      country: "India",
-    },
-    hours: [
-      { days: "Monday – Friday", hours: "08:00 – 17:00" },
-      { days: "Saturday", hours: "[By Appointment Only]" },
-      { days: "Sunday", hours: "Closed" },
-    ],
-  },
-  socials: {
-    instagram: "[Instagram Account]",
-    pinterest: "[Pinterest Account]",
-    linkedin: "[LinkedIn Account]",
-  },
-};
+/** Hash target of the project configurator. Use <StartLink> / MagneticButton href="start". */
+export const START_ANCHOR = "#start";
+export const START_PAGE = "/contact";

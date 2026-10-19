@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import { m, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { CTA_LABELS, PROCESS_STAGES } from "@/data/home";
-import { START_PROJECT_HREF } from "@/data/company";
 import { LineReveal, Reveal } from "@/components/motion/Reveal";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { cn } from "@/lib/utils";
@@ -53,7 +52,7 @@ function AssemblyDrawing({ stage }: { stage: number }) {
   );
 }
 
-export function Process() {
+export function Process({ full = false }: { full?: boolean }) {
   const reduce = useReducedMotion();
   const sectionRef = React.useRef<HTMLElement>(null);
   const [stage, setStage] = React.useState(PROCESS_STAGES.length - 1);
@@ -81,6 +80,7 @@ export function Process() {
   return (
     <section
       id="process"
+      data-tone="light"
       ref={sectionRef}
       aria-labelledby="process-heading"
       className={cn("relative bg-canvas-bg text-iron-950", pinned ? "h-[420vh]" : "")}
@@ -92,9 +92,9 @@ export function Process() {
         )}
       >
         <Reveal>
-          <p className="micro text-accent-bronze mb-6">How it works</p>
+          <p className="micro text-accent-ink mb-6">How it works</p>
         </Reveal>
-        <LineReveal id="process-heading" className="display display-sm" lines={["Measured. Drawn. Made.", "Finished. Fixed."]} />
+        <LineReveal as={full ? "h2" : "h2"} id="process-heading" className="display display-sm" lines={["Measured. Drawn. Made.", "Finished. Fixed."]} />
 
         <div className="mt-12 lg:mt-14 grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           <ol className="border-t border-iron-950/20">
@@ -105,10 +105,10 @@ export function Process() {
                   <div
                     className={cn(
                       "flex gap-5 py-4 lg:py-5 transition-opacity duration-500",
-                      on ? "opacity-100" : "opacity-35"
+                      on ? "opacity-100" : "opacity-60"
                     )}
                   >
-                    <span className={cn("micro w-7 shrink-0 pt-2", i <= stage && pinned ? "text-accent-bronze" : "text-ink-muted")}>
+                    <span className={cn("micro w-7 shrink-0 pt-2", i <= stage && pinned ? "text-accent-ink" : "text-ink-muted")}>
                       {s.number}
                     </span>
                     <div>
@@ -116,11 +116,14 @@ export function Process() {
                       <p
                         className={cn(
                           "text-[1rem] leading-relaxed text-ink-secondary max-w-md overflow-hidden transition-[max-height,margin] duration-700 ease-architectural",
-                          on ? "max-h-40 mt-3" : "max-h-0 mt-0"
+                          on ? "max-h-48 mt-3" : "max-h-0 mt-0"
                         )}
                       >
                         {s.text}
                       </p>
+                      {full && on && (
+                        <p className="mt-2 micro text-accent-ink normal-case tracking-wide">What we ask of you: {s.ask}</p>
+                      )}
                     </div>
                   </div>
                 </li>
@@ -130,9 +133,9 @@ export function Process() {
 
           <div className="relative bg-iron-950 grain aspect-[4/3] w-full">
             <div className="absolute inset-0 blueprint-grid" aria-hidden="true" />
-            <motion.div className="absolute inset-0 p-6 sm:p-10">
+            <m.div className="absolute inset-0 p-6 sm:p-10">
               <AssemblyDrawing stage={stage} />
-            </motion.div>
+            </m.div>
             <p className="absolute left-4 bottom-3 micro text-canvas-bg/50">
               Stage {PROCESS_STAGES[Math.max(0, stage)].number} / 05
             </p>
@@ -140,7 +143,7 @@ export function Process() {
         </div>
 
         <Reveal className="mt-10 lg:mt-12">
-          <MagneticButton href={START_PROJECT_HREF} variant="dark">
+          <MagneticButton href="start" variant="dark">
             {CTA_LABELS.process}
           </MagneticButton>
         </Reveal>

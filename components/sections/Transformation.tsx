@@ -7,21 +7,21 @@ import { IronDrawing } from "@/components/ui/IronDrawing";
 export function Transformation() {
   const t = TRANSFORMATION;
   return (
-    <section aria-labelledby="transformation-heading" className="relative bg-canvas-bg text-iron-950 py-28 sm:py-44">
+    <section aria-labelledby="transformation-heading" data-tone="light" className="relative bg-canvas-bg text-iron-950 py-28 sm:py-44">
       <div className="max-w-[88rem] mx-auto px-5 sm:px-8">
         <Reveal>
-          <p className="micro text-accent-bronze mb-8">{t.label}</p>
+          <p className="micro text-accent-ink mb-8">{t.label}</p>
         </Reveal>
         <LineReveal id="transformation-heading" className="display display-md max-w-5xl" lines={t.lines} />
         <Reveal className="mt-10 max-w-xl">
           <p className="text-lg sm:text-xl leading-relaxed text-ink-secondary">{t.lead}</p>
         </Reveal>
 
-        <ol className="mt-20 sm:mt-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-border-structural">
+        <ol className="mt-20 sm:mt-28 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-iron-950/20">
           {t.stages.map((s, i) => (
             <li
               key={s.label}
-              className="relative py-8 sm:py-10 sm:pr-8 border-b lg:border-b-0 border-border-structural lg:border-r last:border-r-0 lg:pl-8 first:lg:pl-0"
+              className="relative py-8 sm:py-10 sm:pr-8 border-b lg:border-b-0 border-iron-950/20 lg:border-r last:border-r-0 lg:pl-8 first:lg:pl-0"
             >
               <p className="micro text-ink-muted mb-6">
                 0{i + 1} <span aria-hidden="true">/</span> 04

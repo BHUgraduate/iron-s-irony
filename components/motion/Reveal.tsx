@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { fadeOnly, fadeReveal, textLine, staggerReveal } from "@/lib/motion";
 
 type RevealProps = {
@@ -14,7 +14,7 @@ type RevealProps = {
 /** fadeReveal: content rises into place once, the first time it is seen. */
 export function Reveal({ children, className, delay = 0, as = "div" }: RevealProps) {
   const reduce = useReducedMotion();
-  const Tag = motion[as] as typeof motion.div;
+  const Tag = m[as] as typeof m.div;
   return (
     <Tag
       className={className}
@@ -48,10 +48,22 @@ export function LineReveal({
   delay?: number;
 }) {
   const reduce = useReducedMotion();
-  const Tag = motion[as] as typeof motion.h2;
-  const trigger = immediate
-    ? { animate: "show" as const }
-    : { whileInView: "show" as const, viewport: { once: true, margin: "0px 0px -10% 0px" } };
+  if (immediate) {
+    const Static = as;
+    return (
+      <Static id={id} className={className}>
+        {lines.map((line, i) => (
+          <span key={i} className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
+            <span className={`block line-rise ${lineClassName ?? ""}`} style={{ ["--d" as string]: `${delay + i * 0.11}s` }}>
+              {line}
+            </span>
+          </span>
+        ))}
+      </Static>
+    );
+  }
+  const Tag = m[as] as typeof m.h2;
+  const trigger = { whileInView: "show" as const, viewport: { once: true, margin: "0px 0px -10% 0px" } };
   return (
     <Tag
       id={id}
@@ -62,12 +74,12 @@ export function LineReveal({
     >
       {lines.map((line, i) => (
         <span key={i} className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
-          <motion.span
+          <m.span
             className={`block ${lineClassName ?? ""}`}
             variants={reduce ? fadeOnly : textLine}
           >
             {line}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </Tag>

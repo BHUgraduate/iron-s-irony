@@ -3,52 +3,78 @@
 import * as React from "react";
 import { useReducedMotion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
-import { quoteFormSchema } from "@/lib/validations";
+import {
+  enquirySchema,
+  NEEDS,
+  PROJECT_TYPES,
+  REACH,
+  ROLES,
+  SPACES,
+  type EnquiryValues,
+} from "@/lib/validations";
+import { buildWhatsAppMessage } from "@/lib/enquiry";
 import { COMPANY_DETAILS } from "@/data/company";
-import { EVENT_PREFILL, whatsappLink, type PrefillDetail } from "@/lib/motion";
+import { EVENT_PREFILL, PREFILL_KEY, whatsappLink, type PrefillDetail } from "@/lib/motion";
 import { MagneticButton } from "@/components/motion/MagneticButton";
+import { AreaField, TextField } from "@/components/ui/Field";
+import { Eyebrow } from "@/components/ui/Type";
 import { cn } from "@/lib/utils";
 
-const TYPES = ["Gate", "Railing", "Balcony", "Staircase", "Grill", "Something else"] as const;
-const NEEDS = ["New construction", "Replacement", "Renovation", "Custom design"] as const;
-const ROLES = [
-  { v: "homeowner", l: "Homeowner" },
-  { v: "architect", l: "Architect" },
-  { v: "interior_designer", l: "Designer" },
-  { v: "builder_contractor", l: "Builder" },
-  { v: "commercial_developer", l: "Business" },
-] as const;
-const REACH = [
-  { v: "phone", l: "Call me" },
-  { v: "whatsapp", l: "WhatsApp" },
-  { v: "email", l: "Email" },
-] as const;
+const STEPS = ["Create", "Space", "Vision", "You"] as const;
 
-const STEPS = ["What", "Need", "Details", "You"] as const;
+type Status = "idle" | "sending" | "sent" | "unconfigured" | "failed" | "limited";
 
-function serviceFor(type: string, need: string) {
-  if (need === "Custom design") return "custom_fabrication";
-  if (need === "Renovation") return "restoration_repair";
-  if (type === "Railing" || type === "Staircase") return "architectural_ironwork";
-  if (type === "Gate" || type === "Grill" || type === "Balcony") return "building_ironwork";
-  return "custom_fabrication";
+interface Form {
+  projectType: string;
+  space: string;
+  need: string;
+  description: string;
+  dimensions: string;
+  location: string;
+  style: string;
+  materialPreference: string;
+  referenceLinks: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  role: string;
+  reach: string;
+  website: string;
 }
 
-type Status = "idle" | "sending" | "sent" | "error" | "unconfigured";
+const EMPTY: Form = {
+  projectType: "",
+  space: "",
+  need: "",
+  description: "",
+  dimensions: "",
+  location: "",
+  style: "",
+  materialPreference: "",
+  referenceLinks: "",
+  fullName: "",
+  phone: "",
+  email: "",
+  role: "homeowner",
+  reach: "phone",
+  website: "",
+};
 
 function Choice({
   options,
   value,
   onPick,
   labelledBy,
+  cols = "grid-cols-2 sm:grid-cols-3",
 }: {
   options: readonly string[];
   value: string;
   onPick: (v: string) => void;
   labelledBy: string;
+  cols?: string;
 }) {
   return (
-    <div role="radiogroup" aria-labelledby={labelledBy} className="grid grid-cols-2 sm:grid-cols-3 gap-px bg-canvas-bg/15">
+    <div role="radiogroup" aria-labelledby={labelledBy} className={cn("grid gap-px bg-canvas-bg/15", cols)}>
       {options.map((o) => {
         const on = value === o;
         return (
@@ -59,7 +85,7 @@ function Choice({
             aria-checked={on}
             onClick={() => onPick(o)}
             className={cn(
-              "min-h-[72px] sm:min-h-[88px] px-4 text-left font-medium text-[1.05rem] transition-colors duration-300",
+              "min-h-[68px] sm:min-h-[84px] px-4 text-left font-medium text-[1.02rem] transition-colors duration-300",
               on ? "bg-canvas-bg text-iron-950" : "bg-iron-950 text-canvas-bg hover:bg-iron-800"
             )}
           >
@@ -71,34 +97,75 @@ function Choice({
   );
 }
 
-const fieldClass =
-  "w-full bg-transparent border-0 border-b border-canvas-bg/30 px-0 py-3 text-[16px] text-canvas-bg placeholder:text-canvas-bg/35 focus:outline-none focus:border-accent-amber transition-colors";
+function Pills({
+  legend,
+  options,
+  value,
+  onPick,
+}: {
+  legend: string;
+  options: readonly { value: string; label: string }[];
+  value: string;
+  onPick: (v: string) => void;
+}) {
+  return (
+    <fieldset className="mt-6">
+      <legend className="micro text-canvas-bg/70 mb-3">{legend}</legend>
+      <div role="radiogroup" aria-label={legend} className="flex flex-wrap gap-2">
+        {options.map((r) => (
+          <button
+            key={r.value}
+            type="button"
+            role="radio"
+            aria-checked={value === r.value}
+            onClick={() => onPick(r.value)}
+            className={cn(
+              "min-h-[44px] px-4 border text-[0.95rem] transition-colors",
+              value === r.value ? "bg-canvas-bg text-iron-950 border-canvas-bg" : "border-canvas-bg/30 hover:border-canvas-bg"
+            )}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
 
-export function ProjectConfigurator() {
+/** The project consultation. Four short steps, optional detail only when asked for. */
+export function ProjectConfigurator({ heading = "have" }: { heading?: "have" | "start" }) {
   const reduce = useReducedMotion();
   const [step, setStep] = React.useState(0);
-  const [type, setType] = React.useState("");
-  const [need, setNeed] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [phone, setPhone] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [location, setLocation] = React.useState("");
-  const [role, setRole] = React.useState<string>("homeowner");
-  const [reach, setReach] = React.useState<string>("phone");
+  const [f, setF] = React.useState<Form>(EMPTY);
+  const [more, setMore] = React.useState(false);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [status, setStatus] = React.useState<Status>("idle");
   const headingRef = React.useRef<HTMLHeadingElement>(null);
+  const set = (k: keyof Form) => (v: string) => setF((cur) => ({ ...cur, [k]: v }));
+  const onInput = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => set(k)(e.target.value);
 
-  // The assistant and service panels can pre-select what the visitor already told us.
   React.useEffect(() => {
     const onPrefill = (e: Event) => {
       const d = (e as CustomEvent<PrefillDetail>).detail ?? {};
-      if (d.type) setType(d.type);
-      if (d.need) setNeed(d.need);
-      setStep(d.type && d.need ? 2 : d.type ? 1 : 0);
+      apply(d);
+    };
+    const apply = (d: PrefillDetail) => {
+      setF((cur) => ({
+        ...cur,
+        projectType: d.type ?? cur.projectType,
+        space: d.space ?? cur.space,
+        need: d.need ?? cur.need,
+      }));
+      setStep(d.type ? 1 : 0);
       setStatus("idle");
     };
+    try {
+      const saved = sessionStorage.getItem(PREFILL_KEY);
+      if (saved) {
+        sessionStorage.removeItem(PREFILL_KEY);
+        apply(JSON.parse(saved));
+      }
+    } catch {}
     window.addEventListener(EVENT_PREFILL, onPrefill);
     return () => window.removeEventListener(EVENT_PREFILL, onPrefill);
   }, []);
@@ -108,93 +175,107 @@ export function ProjectConfigurator() {
     window.setTimeout(() => headingRef.current?.focus({ preventScroll: true }), 30);
   };
 
-  const summary = `${type || "Project"}${need ? `, ${need.toLowerCase()}` : ""}`;
-  const waMessage = `Hello, I am ${name || "interested in a project"}. ${summary}. ${description} ${
-    location ? `Site: ${location}.` : ""
-  }`.trim();
+  const recap = [f.projectType, f.space && f.space.toLowerCase(), f.need && f.need.toLowerCase()].filter(Boolean).join(" · ");
+  const waLink = whatsappLink(buildWhatsAppMessage(f));
+  const canGoStep2 = !!f.space && !!f.need;
+  const canGoStep3 = f.description.trim().length >= 15;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = {
-      fullName: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      customerType: role,
-      serviceCategory: serviceFor(type, need),
-      projectType: `${type} / ${need}`,
-      projectLocation: location.trim(),
-      projectDescription: description.trim(),
-      preferredContactMethod: reach,
-    };
-    const parsed = quoteFormSchema.safeParse(payload);
+    const parsed = enquirySchema.safeParse(f);
     if (!parsed.success) {
       const next: Record<string, string> = {};
       for (const issue of parsed.error.issues) next[String(issue.path[0])] ??= issue.message;
       setErrors(next);
-      if (next.projectDescription) go(2);
+      if (next.projectType) go(0);
+      else if (next.space || next.need) go(1);
+      else if (next.description) go(2);
       return;
     }
     setErrors({});
     setStatus("sending");
     try {
-      const res = await fetch("/api/quote", {
+      const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify(parsed.data satisfies EnquiryValues),
       });
+      if (res.ok) return setStatus("sent");
       if (res.status === 503) return setStatus("unconfigured");
-      if (!res.ok) return setStatus("error");
-      setStatus("sent");
+      if (res.status === 429) return setStatus("limited");
+      if (res.status === 422) {
+        const body = (await res.json()) as { fields?: Record<string, string> };
+        setErrors(body.fields ?? {});
+        return setStatus("idle");
+      }
+      setStatus("failed");
     } catch {
-      setStatus("error");
+      setStatus("failed");
     }
   };
 
-  const canNext = step === 0 ? !!type : step === 1 ? !!need : description.trim().length >= 15;
+  const contact = COMPANY_DETAILS.contact;
 
   return (
-    <section id="start" aria-labelledby="start-heading" className="relative bg-iron-950 text-canvas-bg grain py-28 sm:py-44 scroll-mt-0">
-      <div className="relative max-w-[88rem] mx-auto px-5 sm:px-8 grid lg:grid-cols-[1fr_minmax(0,40rem)] gap-16 lg:gap-24">
+    <section
+      id="start"
+      aria-labelledby="start-heading"
+      data-tone="dark"
+      className="relative bg-iron-950 text-canvas-bg grain py-24 sm:py-40 scroll-mt-0"
+    >
+      <div className="relative max-w-[88rem] mx-auto px-5 sm:px-8 grid lg:grid-cols-[1fr_minmax(0,40rem)] gap-14 lg:gap-24">
         <div>
-          <p className="micro text-accent-amber mb-8">Start a project</p>
+          <Eyebrow className="mb-8">Start a project</Eyebrow>
           <h2 id="start-heading" className="display display-md">
-            Have
-            <br />
-            something
-            <br />
-            else in mind?
+            {heading === "have" ? (
+              <>
+                Have
+                <br />
+                something
+                <br />
+                else in mind?
+              </>
+            ) : (
+              <>
+                Tell us
+                <br />
+                what you
+                <br />
+                have in mind.
+              </>
+            )}
           </h2>
-          <p className="mt-10 max-w-md text-lg leading-relaxed text-canvas-bg/70">
-            Custom work is what we do. Tell us what you are building in four short steps. It is the start of a
-            conversation, not a contract.
+          <p className="mt-10 max-w-md text-lg leading-relaxed text-canvas-bg/75">
+            Custom work is what we do. Four short steps, and everything beyond the basics is optional. It is the start
+            of a conversation, not a contract.
           </p>
         </div>
 
         <div className="min-w-0">
           {status === "sent" ? (
-            <div role="status" className="border border-canvas-bg/20 p-8 sm:p-10">
-              <p className="micro text-accent-amber">Received</p>
+            <div role="status" className="border border-canvas-bg/25 p-8 sm:p-10">
+              <Eyebrow>Received</Eyebrow>
               <h3 ref={headingRef} tabIndex={-1} className="display text-3xl sm:text-4xl mt-4 focus:outline-none">
-                Thank you, {name.split(" ")[0]}.
+                Thank you, {f.fullName.split(" ")[0]}.
               </h3>
-              <p className="mt-5 text-canvas-bg/75 leading-relaxed">
-                Your brief is with the workshop. They will contact you by {REACH.find((r) => r.v === reach)?.l.toLowerCase()}.
-                If you have photos of the space or a reference, send them on WhatsApp so we can start with the full picture.
+              <p className="mt-5 text-canvas-bg/80 leading-relaxed">
+                We have your project details and will get back to you. If you have photos of the space or a reference
+                you like, send them on WhatsApp so we can start with the full picture.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <MagneticButton href={whatsappLink(waMessage)} external variant="light" arrow={false}>
+              <div className="mt-8">
+                <MagneticButton href={waLink} external variant="light" arrow={false}>
                   Send photos on WhatsApp
                 </MagneticButton>
               </div>
             </div>
           ) : (
-            <form onSubmit={submit} noValidate aria-describedby="start-progress">
-              <ol id="start-progress" className="flex gap-6 micro mb-10" aria-label="Progress">
+            <form onSubmit={submit} noValidate>
+              <ol className="flex gap-5 sm:gap-6 micro mb-10 flex-wrap" aria-label="Progress">
                 {STEPS.map((s, i) => (
                   <li
                     key={s}
                     aria-current={i === step ? "step" : undefined}
-                    className={cn(i === step ? "text-canvas-bg" : i < step ? "text-accent-amber" : "text-canvas-bg/35")}
+                    className={cn(i === step ? "text-canvas-bg" : i < step ? "text-accent-amber" : "text-canvas-bg/55")}
                   >
                     0{i + 1} {s}
                   </li>
@@ -205,141 +286,116 @@ export function ProjectConfigurator() {
                 {step === 0 && (
                   <>
                     <h3 id="q-type" ref={headingRef} tabIndex={-1} className="display text-2xl sm:text-3xl mb-6 focus:outline-none">
-                      What are you building?
+                      What are you looking to create?
                     </h3>
                     <Choice
-                      options={TYPES}
-                      value={type}
+                      options={PROJECT_TYPES}
+                      value={f.projectType}
                       labelledBy="q-type"
                       onPick={(v) => {
-                        setType(v);
+                        set("projectType")(v);
                         go(1);
                       }}
                     />
+                    {errors.projectType && <p className="mt-3 text-sm text-red-300">{errors.projectType}</p>}
                   </>
                 )}
+
                 {step === 1 && (
                   <>
-                    <h3 id="q-need" ref={headingRef} tabIndex={-1} className="display text-2xl sm:text-3xl mb-6 focus:outline-none">
-                      What do you need?
+                    <h3 id="q-space" ref={headingRef} tabIndex={-1} className="display text-2xl sm:text-3xl mb-6 focus:outline-none">
+                      What kind of space is it?
                     </h3>
-                    <Choice
-                      options={NEEDS}
-                      value={need}
-                      labelledBy="q-need"
-                      onPick={(v) => {
-                        setNeed(v);
-                        go(2);
-                      }}
-                    />
+                    <Choice options={SPACES} value={f.space} labelledBy="q-space" cols="grid-cols-2" onPick={set("space")} />
+                    {f.space && (
+                      <div className="mt-10">
+                        <p id="q-need" className="display text-xl sm:text-2xl mb-5">
+                          Is it new, a replacement, or something to rethink?
+                        </p>
+                        <Choice options={NEEDS} value={f.need} labelledBy="q-need" cols="grid-cols-2" onPick={set("need")} />
+                      </div>
+                    )}
+                    {(errors.space || errors.need) && <p className="mt-3 text-sm text-red-300">{errors.space ?? errors.need}</p>}
                   </>
                 )}
+
                 {step === 2 && (
                   <>
                     <h3 ref={headingRef} tabIndex={-1} className="display text-2xl sm:text-3xl mb-2 focus:outline-none">
-                      Tell us about it.
+                      Tell us what you have in mind.
                     </h3>
-                    <p className="text-canvas-bg/60 mb-6">
-                      {summary}. Size, where it goes, what you have seen that you like.
-                    </p>
-                    <label htmlFor="cfg-desc" className="sr-only">
-                      Project description
-                    </label>
-                    <textarea
+                    <p className="text-canvas-bg/70 mb-6">{recap}</p>
+                    <AreaField
                       id="cfg-desc"
+                      label="Your project"
                       rows={5}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      aria-invalid={!!errors.projectDescription}
-                      aria-describedby={errors.projectDescription ? "cfg-desc-err" : undefined}
-                      placeholder="A two-leaf gate for a 3 metre opening, something simple with vertical bars…"
-                      className={cn(fieldClass, "resize-none")}
+                      value={f.description}
+                      onChange={onInput("description")}
+                      error={errors.description}
+                      placeholder="A gate for a wide front entrance, something simple with vertical bars. I have a photo of one I like…"
                     />
-                    {errors.projectDescription && (
-                      <p id="cfg-desc-err" className="mt-2 text-sm text-red-300">
-                        {errors.projectDescription}
-                      </p>
+                    <button
+                      type="button"
+                      aria-expanded={more}
+                      aria-controls="cfg-more"
+                      onClick={() => setMore((m) => !m)}
+                      className="mt-6 micro min-h-[44px] flex items-center gap-3 text-canvas-bg/85 hover:text-canvas-bg"
+                    >
+                      <span aria-hidden="true" className="w-4 text-center">{more ? "−" : "+"}</span>
+                      Add more detail (optional)
+                    </button>
+                    {more && (
+                      <div id="cfg-more" className="mt-4 grid sm:grid-cols-2 gap-x-8 gap-y-6">
+                        <TextField id="cfg-dim" label="Approximate size" optional value={f.dimensions} onChange={onInput("dimensions")} placeholder="e.g. 3 m wide, 2 m high" error={errors.dimensions} />
+                        <TextField id="cfg-loc" label="Project location" optional autoComplete="address-level2" value={f.location} onChange={onInput("location")} placeholder="City or area" error={errors.location} />
+                        <TextField id="cfg-style" label="Style" optional value={f.style} onChange={onInput("style")} placeholder="Modern, traditional, ornamental…" error={errors.style} />
+                        <TextField id="cfg-mat" label="Material or finish" optional value={f.materialPreference} onChange={onInput("materialPreference")} placeholder="If you have a preference" error={errors.materialPreference} />
+                        <TextField
+                          id="cfg-ref"
+                          label="Reference links"
+                          optional
+                          className="sm:col-span-2"
+                          value={f.referenceLinks}
+                          onChange={onInput("referenceLinks")}
+                          placeholder="Links to photos or pages you like"
+                          hint="You can also send photos on WhatsApp after you submit."
+                          error={errors.referenceLinks}
+                        />
+                      </div>
                     )}
-                    <p className="mt-5 text-sm text-canvas-bg/55">
-                      Photos and references are easiest to send on WhatsApp once you have submitted this.
-                    </p>
                   </>
                 )}
+
                 {step === 3 && (
                   <>
-                    <h3 ref={headingRef} tabIndex={-1} className="display text-2xl sm:text-3xl mb-8 focus:outline-none">
-                      How do we reach you?
+                    <h3 ref={headingRef} tabIndex={-1} className="display text-2xl sm:text-3xl mb-2 focus:outline-none">
+                      How can we reach you?
                     </h3>
+                    <p className="text-canvas-bg/70 mb-8">{recap}</p>
                     <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-                      {[
-                        { id: "cfg-name", label: "Name", value: name, set: setName, key: "fullName", type: "text", ac: "name" },
-                        { id: "cfg-phone", label: "Phone", value: phone, set: setPhone, key: "phone", type: "tel", ac: "tel" },
-                        { id: "cfg-email", label: "Email", value: email, set: setEmail, key: "email", type: "email", ac: "email" },
-                        { id: "cfg-loc", label: "City or site location", value: location, set: setLocation, key: "projectLocation", type: "text", ac: "address-level2" },
-                      ].map((f) => (
-                        <div key={f.id}>
-                          <label htmlFor={f.id} className="micro text-canvas-bg/60">
-                            {f.label}
-                          </label>
-                          <input
-                            id={f.id}
-                            type={f.type}
-                            autoComplete={f.ac}
-                            value={f.value}
-                            onChange={(e) => f.set(e.target.value)}
-                            aria-invalid={!!errors[f.key]}
-                            aria-describedby={errors[f.key] ? `${f.id}-err` : undefined}
-                            className={fieldClass}
-                          />
-                          {errors[f.key] && (
-                            <p id={`${f.id}-err`} className="mt-1 text-sm text-red-300">
-                              {errors[f.key]}
-                            </p>
-                          )}
-                        </div>
-                      ))}
+                      <TextField id="cfg-name" label="Name" autoComplete="name" value={f.fullName} onChange={onInput("fullName")} error={errors.fullName} />
+                      <TextField id="cfg-phone" label="Phone" type="tel" autoComplete="tel" inputMode="tel" value={f.phone} onChange={onInput("phone")} error={errors.phone} />
+                      <TextField
+                        id="cfg-email"
+                        label="Email"
+                        type="email"
+                        autoComplete="email"
+                        optional={f.reach !== "email"}
+                        value={f.email}
+                        onChange={onInput("email")}
+                        error={errors.email}
+                        className="sm:col-span-2"
+                      />
                     </div>
-
-                    <fieldset className="mt-8">
-                      <legend className="micro text-canvas-bg/60 mb-3">I am a</legend>
-                      <div className="flex flex-wrap gap-2">
-                        {ROLES.map((r) => (
-                          <button
-                            key={r.v}
-                            type="button"
-                            role="radio"
-                            aria-checked={role === r.v}
-                            onClick={() => setRole(r.v)}
-                            className={cn(
-                              "min-h-[44px] px-4 border text-[0.95rem] transition-colors",
-                              role === r.v ? "bg-canvas-bg text-iron-950 border-canvas-bg" : "border-canvas-bg/25 hover:border-canvas-bg"
-                            )}
-                          >
-                            {r.l}
-                          </button>
-                        ))}
-                      </div>
-                    </fieldset>
-                    <fieldset className="mt-6">
-                      <legend className="micro text-canvas-bg/60 mb-3">Reach me by</legend>
-                      <div className="flex flex-wrap gap-2">
-                        {REACH.map((r) => (
-                          <button
-                            key={r.v}
-                            type="button"
-                            role="radio"
-                            aria-checked={reach === r.v}
-                            onClick={() => setReach(r.v)}
-                            className={cn(
-                              "min-h-[44px] px-4 border text-[0.95rem] transition-colors",
-                              reach === r.v ? "bg-canvas-bg text-iron-950 border-canvas-bg" : "border-canvas-bg/25 hover:border-canvas-bg"
-                            )}
-                          >
-                            {r.l}
-                          </button>
-                        ))}
-                      </div>
-                    </fieldset>
+                    {/* Honeypot: hidden from people and assistive tech, bots fill it in */}
+                    <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+                      <label>
+                        Website
+                        <input tabIndex={-1} autoComplete="off" value={f.website} onChange={onInput("website")} />
+                      </label>
+                    </div>
+                    <Pills legend="I am a" options={ROLES} value={f.role} onPick={set("role")} />
+                    <Pills legend="Reach me by" options={REACH} value={f.reach} onPick={set("reach")} />
                   </>
                 )}
               </div>
@@ -349,13 +405,18 @@ export function ProjectConfigurator() {
                   <button
                     type="button"
                     onClick={() => go(step - 1)}
-                    className="micro min-h-[52px] px-2 flex items-center gap-2 text-canvas-bg/70 hover:text-canvas-bg"
+                    className="micro min-h-[52px] pr-2 flex items-center gap-2 text-canvas-bg/75 hover:text-canvas-bg"
                   >
                     <ArrowLeft className="w-4 h-4" aria-hidden="true" /> Back
                   </button>
                 )}
+                {step === 1 && (
+                  <MagneticButton onClick={() => canGoStep2 && go(2)} disabled={!canGoStep2} variant="light">
+                    Continue
+                  </MagneticButton>
+                )}
                 {step === 2 && (
-                  <MagneticButton onClick={() => canNext && go(3)} disabled={!canNext} variant="light">
+                  <MagneticButton onClick={() => canGoStep3 && go(3)} disabled={!canGoStep3} variant="light">
                     Continue
                   </MagneticButton>
                 )}
@@ -367,20 +428,23 @@ export function ProjectConfigurator() {
               </div>
 
               <div aria-live="polite" className="mt-6">
-                {(status === "unconfigured" || status === "error") && (
-                  <div className="border border-accent-amber/50 p-5 text-[0.95rem] leading-relaxed">
+                {status !== "idle" && status !== "sending" && (
+                  <div role="alert" className="border border-accent-amber/60 p-5 text-[0.95rem] leading-relaxed">
                     <p>
-                      {status === "unconfigured"
-                        ? "Online enquiries are not switched on for this site yet. Your details were not sent."
-                        : "Something went wrong and your enquiry was not sent."}{" "}
-                      Please reach the workshop directly:
+                      {status === "unconfigured" && "Online enquiries are not switched on for this site yet, so nothing was sent."}
+                      {status === "failed" && "Something went wrong and your enquiry was not sent."}
+                      {status === "limited" && "Too many enquiries from this connection just now. Please try again in a few minutes."}{" "}
+                      You can send exactly this brief to us directly:
                     </p>
                     <p className="mt-3 flex flex-wrap gap-x-6 gap-y-1">
-                      <a className="link-reveal py-1" href={`tel:${COMPANY_DETAILS.contact.phone}`}>
-                        {COMPANY_DETAILS.contact.phone}
+                      <a className="link-reveal py-1" href={waLink} target="_blank" rel="noopener noreferrer">
+                        Send on WhatsApp
                       </a>
-                      <a className="link-reveal py-1" href={whatsappLink(waMessage)} target="_blank" rel="noopener noreferrer">
-                        WhatsApp with your brief
+                      <a className="link-reveal py-1" href={`tel:${contact.phone}`}>
+                        Call {contact.phoneDisplay}
+                      </a>
+                      <a className="link-reveal py-1" href={`mailto:${contact.email}`}>
+                        Email us
                       </a>
                     </p>
                   </div>
