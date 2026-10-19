@@ -58,8 +58,15 @@ export default function ContactPage() {
             Not sure where to start?{" "}
             <OpenChatButton className="underline underline-offset-4 hover:text-iron-950">Ask the project guide.</OpenChatButton>
           </p>
-          {(contact.address || contact.hours || contact.serviceArea) && (
+          {(contact.mapsUrl || contact.address || contact.hours || contact.serviceArea) && (
             <div className="space-y-2">
+              {contact.mapsUrl && (
+                <p>
+                  <a href={contact.mapsUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-iron-950">
+                    Find us on Google Maps
+                  </a>
+                </p>
+              )}
               {contact.address && (
                 <address className="not-italic">
                   {contact.address.lines.join(", ")}

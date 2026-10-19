@@ -33,7 +33,7 @@ The Start a Project flow posts to `/api/enquiry`, which validates on the server 
 Set in the host’s environment (never commit it):
 ```
 ENQUIRY_WEBHOOK_URL=https://…      # Zapier, Make, Slack incoming webhook, Apps Script, your own endpoint
-NEXT_PUBLIC_SITE_URL=https://your-domain
+NEXT_PUBLIC_SITE_URL=https://your-domain   # optional; defaults to the Vercel production URL
 ```
 Payload: `{ kind: "enquiry", submittedAt, text, data }`. `text` is a readable summary for Slack-style hooks.
 Without a webhook the form says nothing was sent and offers WhatsApp, phone and email, with the visitor’s brief pre-written.

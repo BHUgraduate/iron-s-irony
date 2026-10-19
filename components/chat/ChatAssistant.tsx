@@ -212,16 +212,28 @@ export function ChatAssistant() {
                             </a>
                           </>
                         )}
-                        {m.reply.links?.map((l) => (
-                          <Link
-                            key={l.href}
-                            href={l.href}
-                            onClick={() => setOpen(false)}
-                            className="micro min-h-[40px] px-4 inline-flex items-center bg-canvas-bg text-iron-950 font-medium"
-                          >
-                            {l.label}
-                          </Link>
-                        ))}
+                        {m.reply.links?.map((l) =>
+                          l.href.startsWith("http") ? (
+                            <a
+                              key={l.href}
+                              href={l.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="micro min-h-[40px] px-4 inline-flex items-center bg-canvas-bg text-iron-950 font-medium"
+                            >
+                              {l.label}
+                            </a>
+                          ) : (
+                            <Link
+                              key={l.href}
+                              href={l.href}
+                              onClick={() => setOpen(false)}
+                              className="micro min-h-[40px] px-4 inline-flex items-center bg-canvas-bg text-iron-950 font-medium"
+                            >
+                              {l.label}
+                            </Link>
+                          )
+                        )}
                         {m.reply.chips?.map((c) => (
                           <button
                             key={c}

@@ -112,9 +112,11 @@ export const INTENTS: Intent[] = [
     reply: {
       text: COMPANY_DETAILS.contact.address
         ? `Our address is ${COMPANY_DETAILS.contact.address.lines.join(", ")}.`
+        : COMPANY_DETAILS.contact.mapsUrl
+        ? "You can find our location on Google Maps from the Contact page or the footer. Please call or message us before visiting, so we can arrange a time."
         : "I do not have an address to share here. The quickest way to arrange anything is to call or message us, and we will tell you where to go.",
+      links: COMPANY_DETAILS.contact.mapsUrl ? [{ label: "Open Google Maps", href: COMPANY_DETAILS.contact.mapsUrl }] : undefined,
       chips: ["Contact us", "Start my brief"],
-      handoff: true,
     },
   },
   {

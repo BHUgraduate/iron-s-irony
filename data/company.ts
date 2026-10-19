@@ -22,7 +22,9 @@ export const COMPANY_DETAILS = {
     phoneDisplay: "+91 88533 58005",
     whatsapp: "918853358005",
     email: "bhugraduate@gmail.com",
-    /** Owner to supply. Rendered only when set: { lines: ["…"], city: "…" } */
+    /** Verified by the owner: Google Maps location. The street address text has not been supplied, so none is shown. */
+    mapsUrl: "https://maps.app.goo.gl/jxbGMECAcXPtNkHG6?g_st=ic" as string | null,
+    /** Owner to supply as text. Rendered only when set: { lines: ["…"], city: "…" } */
     address: null as null | { lines: string[]; city?: string },
     /** Owner to supply. Rendered only when set, e.g. ["Mon to Sat, 9am to 6pm"] */
     hours: null as null | string[],

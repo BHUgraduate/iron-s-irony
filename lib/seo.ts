@@ -3,7 +3,14 @@ import { COMPANY_DETAILS } from "@/data/company";
 import { FAQ_DATA } from "@/data/faq";
 import { SERVICES_DATA } from "@/data/services";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://ironsirony.com").replace(/\/$/, "");
+/**
+ * Canonical origin: NEXT_PUBLIC_SITE_URL when set, otherwise the Vercel production URL, otherwise localhost.
+ * No domain is assumed.
+ */
+const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || (vercelHost ? `https://${vercelHost}` : "http://localhost:3000")
+).replace(/\/$/, "");
 export const SITE_NAME = "iron’s irony";
 
 export function constructPageMetadata({

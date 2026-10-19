@@ -47,6 +47,13 @@ export function Footer() {
                 <OpenChatButton className={`${link} text-left`}>Ask the project guide</OpenChatButton>
               </li>
             </ul>
+            {contact.mapsUrl && (
+              <p className="mt-2">
+                <a className={link} href={contact.mapsUrl} target="_blank" rel="noopener noreferrer">
+                  Find us on Google Maps
+                </a>
+              </p>
+            )}
             {contact.address && (
               <address className="not-italic mt-4 text-[0.95rem] leading-relaxed text-canvas-bg/80">
                 {contact.address.lines.map((l) => (
