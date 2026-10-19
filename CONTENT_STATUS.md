@@ -30,7 +30,7 @@ To publish a real project: set `status: "completed"`, add a photo in `public/wor
 | Social media URLs | `socials` | Omitted |
 | Real project photos and facts | `data/projects.ts` | Representative drawings shown |
 | Enquiry destination (webhook) | env `ENQUIRY_WEBHOOK_URL` | Form tells visitors nothing was sent and offers WhatsApp, phone and email |
-| Final domain (optional) | env `NEXT_PUBLIC_SITE_URL` | Falls back to the Vercel production URL; no domain is assumed |
+| Production domain | `netlify.toml` / env `NEXT_PUBLIC_SITE_URL` | https://ironsirony.hycyon.com |
 | Prices, timelines, guarantees (optional) | FAQ and copy | Site says these are discussed per project |
 
 ## Not used, deliberately

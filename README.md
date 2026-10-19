@@ -33,7 +33,7 @@ The Start a Project flow posts to `/api/enquiry`, which validates on the server 
 Set in the host’s environment (never commit it):
 ```
 ENQUIRY_WEBHOOK_URL=https://…      # Zapier, Make, Slack incoming webhook, Apps Script, your own endpoint
-NEXT_PUBLIC_SITE_URL=https://your-domain   # optional; defaults to the Vercel production URL
+NEXT_PUBLIC_SITE_URL=https://ironsirony.hycyon.com   # already set in netlify.toml
 ```
 Payload: `{ kind: "enquiry", submittedAt, text, data }`. `text` is a readable summary for Slack-style hooks.
 Without a webhook the form says nothing was sent and offers WhatsApp, phone and email, with the visitor’s brief pre-written.
@@ -44,4 +44,4 @@ The rate limiter is in-memory and best effort; on serverless hosts add a platfor
 `ChatAssistant` is rule-based, not AI. It answers only from `data/assistant.ts` and the site’s own data, never quotes prices, timelines or guarantees, and says so when it does not know.
 
 ## Hosting
-Needs a Node host (for example Vercel) because of the API route. It cannot run as a static GitHub Pages export.
+Deployed on Netlify from GitHub at https://ironsirony.hycyon.com. It is a full Next.js app (API route, dynamic routes), not a static export. See `DEPLOY_NETLIFY.md`.

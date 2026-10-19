@@ -9,6 +9,9 @@ const nextConfig = {
       { source: "/shop", destination: "/services", permanent: false },
       { source: "/shop/:slug", destination: "/services", permanent: false },
       { source: "/quote", destination: "/contact#start", permanent: true },
+      { source: "/start", destination: "/contact#start", permanent: true },
+      { source: "/work", destination: "/projects", permanent: true },
+      { source: "/work/:slug", destination: "/projects/:slug", permanent: true },
       { source: "/services/building-ironwork", destination: "/services/gates", permanent: true },
       { source: "/services/decorative-ironwork", destination: "/services/balconies", permanent: true },
     ];

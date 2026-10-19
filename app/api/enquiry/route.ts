@@ -30,7 +30,7 @@ function limited(ip: string) {
 const json = (body: Record<string, unknown>, status = 200) => NextResponse.json(body, { status });
 
 export async function POST(request: Request) {
-  const webhook = process.env.ENQUIRY_WEBHOOK_URL || process.env.QUOTE_FORM_WEBHOOK_URL;
+  const webhook = process.env.ENQUIRY_WEBHOOK_URL;
 
   // Same-origin only: blocks other sites posting to this endpoint from a browser.
   const origin = request.headers.get("origin");
@@ -57,7 +57,8 @@ export async function POST(request: Request) {
     return json({ ok: false, code: "bad_request" }, 400);
   }
 
-  const ip = (request.headers.get("x-forwarded-for") ?? "unknown").split(",")[0].trim();
+  // Netlify sets x-nf-client-connection-ip; x-forwarded-for covers other hosts.
+  const ip = (request.headers.get("x-nf-client-connection-ip") ?? request.headers.get("x-forwarded-for") ?? "unknown").split(",")[0].trim();
   if (limited(ip)) return json({ ok: false, code: "rate_limited" }, 429);
 
   // Honeypot: pretend success so bots learn nothing.

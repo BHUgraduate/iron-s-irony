@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Smoke test for a deployed site: node scripts/verify-live.mjs https://your-project.vercel.app
+// Smoke test for a deployed site: node scripts/verify-live.mjs https://ironsirony.hycyon.com
 const base = (process.argv[2] || "").replace(/\/$/, "");
 if (!base) {
   console.error("Usage: node scripts/verify-live.mjs <url>");
@@ -19,7 +19,7 @@ for (const r of routes) {
     check(/<link rel="canonical" href="https?:\/\/[^"]+"/.test(html), "canonical present");
     check(html.includes('property="og:title"') && html.includes('property="og:image"'), "Open Graph title and image");
     check(html.includes('name="twitter:card"'), "Twitter card");
-    check(!html.includes("ironsirony.com") || base.includes("ironsirony.com"), "no placeholder domain in HTML");
+    check(!/vercel|ironsirony\.com(?!\w)/.test(html.replace(/ironsirony\.hycyon\.com/g, "")), "no Vercel or placeholder domain in HTML");
     check(!/http:\/\/(?!localhost)/.test(html.replace(/http:\/\/www\.w3\.org[^"']*/g, "")), "no mixed-content http:// references");
   }
 }

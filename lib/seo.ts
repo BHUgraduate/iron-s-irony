@@ -3,15 +3,11 @@ import { COMPANY_DETAILS } from "@/data/company";
 import { FAQ_DATA } from "@/data/faq";
 import { SERVICES_DATA } from "@/data/services";
 
-/**
- * Canonical origin: NEXT_PUBLIC_SITE_URL when set, otherwise the Vercel production URL, otherwise localhost.
- * No domain is assumed.
- */
-const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || (vercelHost ? `https://${vercelHost}` : "http://localhost:3000")
-).replace(/\/$/, "");
+/** Production origin. Override with NEXT_PUBLIC_SITE_URL (set in netlify.toml) if the domain ever changes. */
+export const PRODUCTION_URL = "https://ironsirony.hycyon.com";
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || PRODUCTION_URL).replace(/\/$/, "");
 export const SITE_NAME = "iron’s irony";
+const OG_ALT = "iron’s irony: gates, railings, balconies, staircases and custom ironwork";
 
 export function constructPageMetadata({
   title,
@@ -23,12 +19,14 @@ export function constructPageMetadata({
   path?: string;
 }): Metadata {
   const url = `${SITE_URL}${path}`;
+  // Pages that define their own openGraph replace the parent's, so the share image is repeated here.
+  const image = { url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: OG_ALT };
   return {
     title,
     description,
     alternates: { canonical: url },
-    openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "en_IN" },
-    twitter: { card: "summary_large_image", title, description },
+    openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "en_IN", images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
   };
 }
 

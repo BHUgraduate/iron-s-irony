@@ -9,6 +9,7 @@
 }
 
 html {
+  position: relative; /* lets scroll-linked animations measure offsets without warnings */
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
   background-color: #0e0f11;
