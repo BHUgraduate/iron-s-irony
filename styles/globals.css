@@ -83,3 +83,73 @@ width: 100%;
 text-wrap: balance;
 }
 }
+/* ---------- Iron’s Irony: material & display system ---------- */
+:root {
+  --ease-iron: cubic-bezier(0.16, 1, 0.3, 1);
+  --header-h: 72px;
+}
+
+@layer utilities {
+  /* Display type: engineered, expanded grotesk used as architecture */
+  .display {
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-weight: 800;
+    font-variation-settings: "wdth" 108;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+  .display-lg {
+    font-size: clamp(2.7rem, 11vw, 9.25rem);
+  }
+  .display-md {
+    font-size: clamp(2.4rem, 8vw, 7rem);
+  }
+  .display-sm {
+    font-size: clamp(1.9rem, 5vw, 3.75rem);
+  }
+  .micro {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  /* Almost invisible grain, static so it costs nothing at runtime */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .blueprint-grid {
+    background-image:
+      linear-gradient(to right, rgba(231, 228, 221, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(231, 228, 221, 0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  /* Link underline that draws in from the left */
+  .link-reveal {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s var(--ease-iron);
+  }
+  .link-reveal:hover,
+  .link-reveal:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* Focus ring that works on both light and dark sections */
+:focus-visible {
+  outline: 2px solid var(--color-accent-amber);
+  outline-offset: 3px;
+}
+
+html {
+  scroll-padding-top: var(--header-h);
+}

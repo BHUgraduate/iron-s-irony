@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Archivo, JetBrains_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { generateLocalBusinessSchema } from "@/lib/seo";
+import { generateLocalBusinessSchema, SITE_URL } from "@/lib/seo";
+import { ChatAssistant } from "@/components/chat/ChatAssistant";
+import { StickyCta } from "@/components/layout/StickyCta";
 
 const serifFont = Cormorant_Garamond({
   subsets: ["latin"],
@@ -13,9 +15,9 @@ const serifFont = Cormorant_Garamond({
   display: "swap",
 });
 
-const sansFont = Plus_Jakarta_Sans({
+const sansFont = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  axes: ["wdth"],
   variable: "--font-sans",
   display: "swap",
 });
@@ -28,16 +30,17 @@ const monoFont = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#151618",
+  themeColor: "#0E0F11",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ironsirony.com"),
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: {
-    default: "iron’s irony — Building, Architectural & Decorative Ironwork",
+    default: "iron’s irony | Architectural, Decorative & Custom Ironwork in Varanasi",
     template: "%s — iron’s irony",
   },
   description:
@@ -64,37 +67,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ironsirony.com",
+    url: SITE_URL,
     siteName: "iron’s irony",
     title: "iron’s irony — Building, Architectural & Decorative Ironwork",
     description:
       "Precision ironwork and bespoke metal fabrication engineered for permanence, character, and structural integrity.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "iron’s irony — Architectural and Decorative Ironwork",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "iron’s irony — Building, Architectural & Decorative Ironwork",
     description:
       "Bespoke architectural ironwork and custom metal fabrication engineered for permanence.",
-    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png" }],
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
 };
 
@@ -122,6 +112,8 @@ export default function RootLayout({
         <Header />
         <div className="flex-1 flex flex-col">{children}</div>
         <Footer />
+        <StickyCta />
+        <ChatAssistant />
       </body>
     </html>
   );

@@ -19,7 +19,7 @@ export function constructPageMetadata({
   title,
   description,
   path = "",
-  image = "/og-image.jpg",
+  image = "/opengraph-image",
   type = "website",
 }: PageMetadataProps): Metadata {
   const url = `${SITE_URL}${path}`;

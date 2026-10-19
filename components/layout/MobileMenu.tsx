@@ -2,9 +2,15 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { X, ArrowRight, Phone, Mail } from "lucide-react";
-import { MAIN_NAVIGATION, COMPANY_DETAILS } from "@/data/company";
-import { Button } from "@/components/ui/Button";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { X } from "lucide-react";
+import {
+  COMPANY_DETAILS,
+  MAIN_NAVIGATION,
+  SECONDARY_NAVIGATION,
+  START_PROJECT_HREF,
+} from "@/data/company";
+import { EASE_IRON, whatsappLink } from "@/lib/motion";
 
 export interface MobileMenuProps {
   isOpen: boolean;
@@ -13,116 +19,121 @@ export interface MobileMenuProps {
 }
 
 export function MobileMenu({ isOpen, onClose, pathname }: MobileMenuProps) {
-  // Lock body scroll when mobile menu is active
-  React.useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
+  const reduce = useReducedMotion();
+  const panel = React.useRef<HTMLDivElement>(null);
+  const closeBtn = React.useRef<HTMLButtonElement>(null);
 
-  // Handle escape key listener
   React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
+    if (!isOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeBtn.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") return onClose();
+      if (e.key !== "Tab" || !panel.current) return;
+      const f = panel.current.querySelectorAll<HTMLElement>("a[href], button");
+      if (!f.length) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Navigation menu"
-      className="fixed inset-0 z-50 lg:hidden flex flex-col bg-canvas-bg"
-    >
-      {/* Top Bar with Brand & Close Button */}
-      <div className="flex items-center justify-between px-5 h-20 border-b border-border-structural bg-canvas-bg">
-        <Link
-          href="/"
-          onClick={onClose}
-          className="font-serif text-2xl tracking-tight text-ink-primary font-medium"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          ref={panel}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+          className="fixed inset-0 z-50 lg:hidden bg-iron-950 text-canvas-bg grain overflow-y-auto"
+          initial={reduce ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
+          animate={reduce ? { opacity: 1 } : { clipPath: "inset(0 0 0% 0)" }}
+          exit={reduce ? { opacity: 0 } : { clipPath: "inset(0 0 100% 0)" }}
+          transition={{ duration: reduce ? 0.2 : 0.7, ease: EASE_IRON }}
         >
-          iron’s irony
-        </Link>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close navigation menu"
-          className="w-10 h-10 border border-border-structural flex items-center justify-center text-ink-primary hover:border-ink-primary transition-colors"
-        >
-          <X className="w-5 h-5" aria-hidden="true" />
-        </button>
-      </div>
-
-      {/* Scrollable Navigation Body */}
-      <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col justify-between">
-        <nav aria-label="Mobile Navigation" className="flex flex-col space-y-1">
-          <div className="text-[11px] font-mono uppercase tracking-architectural text-accent-bronze mb-4">
-            Navigation
-          </div>
-          {MAIN_NAVIGATION.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
-
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
+          <div className="relative min-h-full flex flex-col px-5 pb-8">
+            <div className="h-[var(--header-h)] flex items-center justify-between">
+              <span className="font-serif text-[1.65rem] font-semibold tracking-tight">iron’s irony</span>
+              <button
+                ref={closeBtn}
+                type="button"
                 onClick={onClose}
-                className={`py-3 flex items-center justify-between border-b border-border-subtle group transition-colors ${
-                  isActive ? "text-ink-primary font-medium" : "text-ink-secondary"
-                }`}
+                className="h-12 px-3 flex items-center gap-2 micro"
               >
-                <span className="font-serif text-2xl group-hover:text-ink-primary group-hover:translate-x-1 transition-transform">
-                  {link.label}
-                </span>
-                <ArrowRight
-                  className={`w-4 h-4 transition-transform group-hover:translate-x-1 ${
-                    isActive ? "text-accent-bronze opacity-100" : "opacity-30"
-                  }`}
-                  aria-hidden="true"
-                />
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Inquiries & Bottom Actions */}
-        <div className="pt-8 mt-6 border-t border-border-structural">
-          <Button
-            href="/quote"
-            variant="primary"
-            size="lg"
-            className="w-full mb-6"
-            onClick={onClose}
-          >
-            Request a Quote
-          </Button>
-
-          <div className="space-y-3 text-xs font-mono text-ink-muted">
-            <div className="flex items-center gap-2">
-              <Phone className="w-4 h-4 text-accent-bronze" aria-hidden="true" />
-              <span>{COMPANY_DETAILS.contact.phone}</span>
+                <span>Close</span>
+                <X className="w-4 h-4" aria-hidden="true" />
+              </button>
             </div>
-            <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-accent-bronze" aria-hidden="true" />
-              <span>{COMPANY_DETAILS.contact.email}</span>
+
+            <nav aria-label="Menu" className="mt-6">
+              <ul>
+                {MAIN_NAVIGATION.map((link, i) => {
+                  const active = !link.href.includes("#") && pathname.startsWith(link.href);
+                  return (
+                    <motion.li
+                      key={link.href}
+                      className="border-t border-canvas-bg/10"
+                      initial={reduce ? false : { opacity: 0, y: 28 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25 + i * 0.06, duration: 0.7, ease: EASE_IRON }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={onClose}
+                        aria-current={active ? "page" : undefined}
+                        className="flex items-baseline gap-4 py-4"
+                      >
+                        <span className="micro text-accent-amber w-6">0{i + 1}</span>
+                        <span className="display text-[2.6rem]">{link.label}</span>
+                      </Link>
+                    </motion.li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <div className="mt-6 flex gap-x-6 gap-y-1 flex-wrap micro text-canvas-bg/60">
+              {SECONDARY_NAVIGATION.map((l) => (
+                <Link key={l.href} href={l.href} onClick={onClose} className="py-3">
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-auto pt-10 space-y-5">
+              <Link
+                href={START_PROJECT_HREF}
+                onClick={onClose}
+                className="flex items-center justify-center bg-canvas-bg text-iron-950 min-h-[56px] micro font-medium tracking-[0.16em]"
+              >
+                Start a Project
+              </Link>
+              <div className="flex flex-col gap-1 micro text-canvas-bg/70 normal-case tracking-wide">
+                <a href={`tel:${COMPANY_DETAILS.contact.phone}`} className="py-2">
+                  {COMPANY_DETAILS.contact.phone}
+                </a>
+                <a href={whatsappLink()} className="py-2" target="_blank" rel="noopener noreferrer">
+                  WhatsApp the workshop
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

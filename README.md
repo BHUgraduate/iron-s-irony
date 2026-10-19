@@ -294,3 +294,11 @@ The forms (`components/forms/QuoteForm.tsx` and `components/forms/ContactForm.ts
   - `[Business Phone]`
   - `[Business Email]`
   - `[Workshop Location / Address Pending]`
+## Homepage rebuild notes
+
+- Sections live in `components/sections/` (Hero, Transformation, Services, Work, Process, Custom, Trust) and the project flow in `components/forms/ProjectConfigurator.tsx`. Homepage copy is in `data/home.ts`.
+- Motion primitives: `lib/motion.ts` and `components/motion/` (Reveal, LineReveal, MagneticButton, usePointerParallax). All respect `prefers-reduced-motion`.
+- Project assistant: `components/chat/ChatAssistant.tsx`, rule-based, answers only from `data/assistant.ts`. It makes no price or timeline promises.
+- Every "Start a Project" link goes to `/#start`. The configurator posts to `/api/quote`, which needs `QUOTE_FORM_WEBHOOK_URL`. Without it the form tells the visitor nothing was sent and shows phone and WhatsApp.
+- Hero and service visuals are line drawings (`components/ui/IronDrawing.tsx`). Replace the sample images in `data/assets.ts` / `data/projects.ts` with real workshop photographs and set `isSampleData: false`.
+- This is a Next.js app with API routes, so it needs a Node host (for example Vercel). It cannot be served by GitHub Pages as-is.

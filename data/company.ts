@@ -5,14 +5,21 @@ export interface NavigationLink {
 }
 
 export const MAIN_NAVIGATION: NavigationLink[] = [
-  { label: "Home", href: "/" },
+  { label: "Work", href: "/projects", description: "Selected commissions" },
   { label: "Services", href: "/services", description: "Building, architectural & decorative fabrication" },
-  { label: "Shop", href: "/shop", description: "Catalog items and made-to-order metalwork" },
-  { label: "Projects", href: "/projects", description: "Portfolio of completed commissions" },
-  { label: "About", href: "/about", description: "Atelier philosophy and fabrication standards" },
-  { label: "Customers", href: "/customers", description: "Solutions for architects, builders & homeowners" },
-  { label: "Contact", href: "/contact", description: "Workshop location & direct inquiries" },
+  { label: "Process", href: "/#process", description: "From measuring to installation" },
+  { label: "About", href: "/about", description: "How we think about iron" },
+  { label: "Contact", href: "/contact", description: "Talk to the workshop" },
 ];
+
+/** Still live, no longer top-level: surfaced in the menu overlay and footer. */
+export const SECONDARY_NAVIGATION: NavigationLink[] = [
+  { label: "Shop", href: "/shop", description: "Catalog items and made-to-order metalwork" },
+  { label: "Who we work with", href: "/customers" },
+  { label: "FAQ", href: "/faq" },
+];
+
+export const START_PROJECT_HREF = "/#start";
 
 export const SERVICE_NAV_LINKS: NavigationLink[] = [
   { label: "Building Ironwork", href: "/services/building-ironwork" },

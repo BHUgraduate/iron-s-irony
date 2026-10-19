@@ -9,6 +9,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        iron: {
+          950: "#0E0F11",
+          900: "#151618",
+          800: "#1C1E22",
+          700: "#2A2D33",
+          500: "#6B707A",
+        },
+        concrete: "#E7E4DD",
         canvas: {
           bg: "#F9F8F6",
           subtle: "#F2EFEB",
@@ -40,6 +48,7 @@ const config: Config = {
       },
       fontFamily: {
         serif: ["var(--font-serif)", "Georgia", "serif"],
+        display: ["var(--font-sans)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "-apple-system", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
@@ -55,6 +64,9 @@ const config: Config = {
       },
       maxWidth: {
         "8xl": "88rem",
+      },
+      keyframes: {
+        fadeIn: { from: { opacity: "0", transform: "translateY(10px)" }, to: { opacity: "1", transform: "none" } },
       },
       transitionTimingFunction: {
         architectural: "cubic-bezier(0.16, 1, 0.3, 1)",
