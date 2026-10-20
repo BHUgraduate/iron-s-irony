@@ -58,17 +58,53 @@ export async function readJson(request: Request, maxBytes: number): Promise<{ bo
 export const isHoneypotFilled = (body: unknown) =>
   typeof body === "object" && body !== null && typeof (body as Record<string, unknown>).website === "string" && ((body as { website: string }).website.length > 0);
 
-/** POSTs a payload to the owner's webhook. Never throws. */
+const DISCORD_LIMIT = 2000;
+
+/** Discord webhooks live at discord.com/api/webhooks/... and use a different message format from generic JSON hooks. */
+export function isDiscordWebhook(url: string) {
+  try {
+    const u = new URL(url);
+    return /(^|\.)discord(app)?\.com$/i.test(u.hostname) || u.pathname.startsWith("/api/webhooks/");
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * What to send. Generic hooks (Zapier, Make, Slack, Apps Script, your own endpoint) get the full payload.
+ * Discord refuses anything without `content`, caps it at 2000 characters, and would otherwise act on @everyone or
+ * @here typed into a public form, so mentions are switched off and the message is trimmed to fit.
+ */
+export function webhookBody(url: string, payload: Record<string, unknown>) {
+  if (!isDiscordWebhook(url)) return payload;
+  const text = String(payload.text ?? "");
+  // Put a ready-to-copy entry in a code block so it can be copied cleanly on a phone.
+  const marker = "\nTo publish";
+  const entry = payload.publishEntry ? JSON.stringify(payload.publishEntry, null, 2) : null;
+  const head = entry && text.includes(marker) ? text.slice(0, text.indexOf(marker)) : text;
+  const tail = entry ? `\n\nAfter you have confirmed it is genuine, add this to the list in data/feedback.json:\n\`\`\`json\n${entry}\n\`\`\`` : "";
+  const header = `**${payload.kind === "feedback" ? "New feedback" : "New enquiry"}**\n`;
+  const note = "\n…(shortened to fit Discord)";
+  // If it is too long, shorten the descriptive part and keep the copy-ready entry whole.
+  const room = DISCORD_LIMIT - header.length - tail.length;
+  const body = head.length > room ? head.slice(0, Math.max(0, room - note.length)) + note : head;
+  const content = (header + body + tail).slice(0, DISCORD_LIMIT);
+  return { username: "iron’s irony website", content, allowed_mentions: { parse: [] } };
+}
+
+/** POSTs a payload to the owner's webhook. Never throws, and never logs the URL. */
 export async function forwardToWebhook(url: string, payload: Record<string, unknown>, label: string) {
   try {
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(webhookBody(url, payload)),
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) {
-      console.error(`[${label}] webhook responded ${res.status}`);
+      // The status and the service's short error message are enough to diagnose; neither contains a secret.
+      const detail = (await res.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 160);
+      console.error(`[${label}] webhook responded ${res.status}${detail ? `: ${detail}` : ""}`);
       return false;
     }
     return true;

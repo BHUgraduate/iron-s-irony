@@ -35,7 +35,7 @@ Set in the host’s environment (never commit it):
 ENQUIRY_WEBHOOK_URL=https://…      # Zapier, Make, Slack incoming webhook, Apps Script, your own endpoint
 NEXT_PUBLIC_SITE_URL=https://ironsirony.hycyon.com   # already set in netlify.toml
 ```
-Payload: `{ kind: "enquiry", submittedAt, text, data }`. `text` is a readable summary for Slack-style hooks.
+Payload: `{ kind: "enquiry", submittedAt, text, data }`. `text` is a readable summary for Slack-style hooks. For a Discord webhook URL the payload is sent as a Discord message instead (`lib/server/guards.ts`, `webhookBody`): mentions off, trimmed to 2000 characters, and a feedback entry arrives in a code block ready to copy.
 Without a webhook the form says nothing was sent and offers WhatsApp, phone and email, with the visitor’s brief pre-written.
 
 The rate limiter is in-memory and best effort; on serverless hosts add a platform firewall rule for stronger protection.
