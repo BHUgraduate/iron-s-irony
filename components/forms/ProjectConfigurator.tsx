@@ -130,7 +130,11 @@ export function ProjectConfigurator({ heading = "have" }: { heading?: "have" | "
         body: JSON.stringify(parsed.data satisfies EnquiryValues),
       });
       if (res.ok) return setStatus("sent");
-      if (res.status === 503) return setStatus("unconfigured");
+      if (res.status === 503) {
+        // Only a missing webhook means "not switched on". Any other 503 is a server error and must not be mislabelled.
+        const body = (await res.json().catch(() => null)) as { code?: string } | null;
+        return setStatus(body?.code === "not_configured" ? "unconfigured" : "failed");
+      }
       if (res.status === 429) return setStatus("limited");
       if (res.status === 422) {
         const body = (await res.json()) as { fields?: Record<string, string> };
