@@ -9,7 +9,8 @@ import { Section } from "@/components/ui/Section";
 import { WorkVisual } from "@/components/ui/WorkVisual";
 import { cn } from "@/lib/utils";
 
-export function WorkList({ items, className }: { items: WorkEntry[]; className?: string }) {
+/** `as` is the heading level for each entry: "h3" under a section heading, "h2" when the list follows the page h1. */
+export function WorkList({ items, className, as: Heading = "h3" }: { items: WorkEntry[]; className?: string; as?: "h2" | "h3" }) {
   return (
     <div className={className}>
       {items.map((w, i) => {
@@ -28,11 +29,11 @@ export function WorkList({ items, className }: { items: WorkEntry[]; className?:
                 <p className="micro text-accent-amber">
                   {String(i + 1).padStart(2, "0")} · {w.typeLabel}
                 </p>
-                <h3 className="display text-[clamp(1.6rem,3vw,2.4rem)] mt-4 leading-[0.98]">
+                <Heading className="display text-[clamp(1.6rem,3vw,2.4rem)] mt-4 leading-[0.98]">
                   <Link href={`/projects/${w.slug}`} className="link-reveal">
                     {w.title}
                   </Link>
-                </h3>
+                </Heading>
                 <p className="mt-5 text-[1rem] leading-relaxed text-canvas-bg/75">{w.summary}</p>
                 <Link href={`/projects/${w.slug}`} className="mt-6 inline-block micro text-canvas-bg link-reveal py-2">
                   Read the brief

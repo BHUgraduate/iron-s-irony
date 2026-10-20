@@ -100,6 +100,16 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-iron-950 text-iron-950 font-sans antialiased flex flex-col selection:bg-accent-bronze/30 selection:text-ink-primary">
         <JsonLd data={localBusinessSchema} />
+        {/* Reveal animations start hidden in the server HTML; without JavaScript nothing would ever show them. */}
+        <noscript>
+          <style
+            dangerouslySetInnerHTML={{
+              __html:
+                'svg[data-iron-drawing] path{stroke-dasharray:none!important;stroke-dashoffset:0!important;opacity:1!important}' +
+                '[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important;transform:none!important}',
+            }}
+          />
+        </noscript>
         {/* Accessible Keyboard Navigation Skip Anchor */}
         <a
           href="#main-content"

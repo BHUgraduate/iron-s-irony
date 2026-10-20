@@ -30,10 +30,14 @@ body {
   background-color: rgba(158, 116, 69, 0.3);
 }
 
-/* Focus ring that reads on both light and dark sections */
+/* Focus ring: bronze reads on the dark grounds (6.7:1); light and concrete grounds use a deeper bronze (5.5:1 / 4.6:1) to stay above 3:1. */
 :focus-visible {
   outline: 2px solid #c28e53;
   outline-offset: 3px;
+}
+[data-tone="light"] :focus-visible,
+[data-tone="concrete"] :focus-visible {
+  outline-color: #8a5a2b;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -130,4 +134,17 @@ body {
   font-family: var(--font-serif-italic), Georgia, serif;
   font-style: italic;
   font-weight: 400;
+}
+
+/*
+ * Drawings animate in from a hidden state that the server writes into the HTML (the server cannot know the visitor's
+ * motion preference). For reduced-motion visitors, and for anyone without JavaScript, show the finished drawing.
+ * CSS overrides the SVG presentation attributes the animation library sets. app/layout.tsx repeats this in <noscript>.
+ */
+@media (prefers-reduced-motion: reduce) {
+  svg[data-iron-drawing] path {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+  }
 }
