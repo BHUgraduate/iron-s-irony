@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Short commit id of this build (Netlify sets COMMIT_REF while building). Shown by /api/health.
+  env: { NEXT_PUBLIC_BUILD: (process.env.COMMIT_REF || "").slice(0, 7) },
   images: { formats: ["image/avif", "image/webp"] },
   async redirects() {
     return [
