@@ -55,3 +55,42 @@ export const enquirySchema = z
   });
 
 export type EnquiryValues = z.infer<typeof enquirySchema>;
+
+/** How a person lets us use their words. "private" feedback is read by us and never published. */
+export const FEEDBACK_CONSENT = [
+  { value: "full-name", label: "Yes, with my name" },
+  { value: "first-name", label: "Yes, first name only" },
+  { value: "private", label: "No, keep it private" },
+] as const;
+
+const emailOrPhone = z
+  .string()
+  .trim()
+  .min(5, "Please add an email or phone number so we can confirm it is you. We never publish it.")
+  .max(160)
+  .refine(
+    (v) => z.string().email().safeParse(v).success || /^\+?[\d\s()-]{7,20}$/.test(v),
+    "That does not look like an email address or a phone number."
+  );
+
+/** Feedback from people who have worked with us. Validated in the browser and again on the server. */
+export const feedbackSchema = z.object({
+  fullName: z.string().trim().min(2, "Please tell us your name.").max(100, "That name is too long."),
+  role: z.enum(["homeowner", "architect", "designer", "builder", "business"], {
+    errorMap: () => ({ message: "Please choose how you worked with us." }),
+  }),
+  projectType: z.enum(PROJECT_TYPES).optional(),
+  place: text(120),
+  message: z
+    .string()
+    .trim()
+    .min(20, "Please write a little more, a couple of sentences is plenty.")
+    .max(800, "Please keep this under 800 characters."),
+  consent: z.enum(["full-name", "first-name", "private"], { errorMap: () => ({ message: "Please tell us if we may share your words." }) }),
+  /** Used only to confirm the person is real. Never published. */
+  contact: emailOrPhone,
+  /** Honeypot. Humans never see it, so it must stay empty. */
+  website: z.string().max(0).optional().default(""),
+});
+
+export type FeedbackValues = z.infer<typeof feedbackSchema>;

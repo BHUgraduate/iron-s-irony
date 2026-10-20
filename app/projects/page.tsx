@@ -32,7 +32,7 @@ export default function ProjectsPage() {
             completed projects. If you would like to see previous work, ask us directly and we will share what we can.
           </p>
         </div>
-        <WorkList items={WORK} className="mt-20 sm:mt-28" />
+        <WorkList items={WORK} as="h2" className="mt-20 sm:mt-28" />
       </Section>
 
       <Section tone="light" pad="md">

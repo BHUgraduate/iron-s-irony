@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { COMPANY_DETAILS } from "@/data/company";
 import { constructPageMetadata } from "@/lib/seo";
 import { whatsappLink } from "@/lib/motion";
@@ -54,10 +55,18 @@ export default function ContactPage() {
           ))}
         </ul>
         <div className="mt-10 grid sm:grid-cols-2 gap-8 text-[1rem] text-ink-secondary">
-          <p>
-            Not sure where to start?{" "}
-            <OpenChatButton className="underline underline-offset-4 hover:text-iron-950">Ask the project guide.</OpenChatButton>
-          </p>
+          <div className="space-y-3">
+            <p>
+              Not sure where to start?{" "}
+              <OpenChatButton className="underline underline-offset-4 hover:text-iron-950">Ask the project guide.</OpenChatButton>
+            </p>
+            <p>
+              Already worked with us?{" "}
+              <Link href="/feedback" className="underline underline-offset-4 hover:text-iron-950">
+                Share your feedback.
+              </Link>
+            </p>
+          </div>
           {(contact.mapsUrl || contact.address || contact.hours || contact.serviceArea) && (
             <div className="space-y-2">
               {contact.mapsUrl && (

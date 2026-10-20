@@ -145,6 +145,7 @@ export function IronDrawing({
 
   return (
     <svg
+      data-iron-drawing
       viewBox="0 0 400 300"
       fill="none"
       stroke="currentColor"

@@ -43,6 +43,7 @@ export function Hero() {
         aria-hidden="true"
       >
         <svg
+          data-iron-drawing
           viewBox="0 0 400 300"
           fill="none"
           stroke="currentColor"
