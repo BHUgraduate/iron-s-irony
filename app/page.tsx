@@ -7,6 +7,7 @@ import { Work } from "@/components/sections/Work";
 import { Process } from "@/components/sections/Process";
 import { Custom } from "@/components/sections/Custom";
 import { Trust } from "@/components/sections/Trust";
+import { VoicesTeaser } from "@/components/sections/Voices";
 import { ProjectConfigurator } from "@/components/forms/ProjectConfigurator";
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function HomePage() {
       <Process />
       <Custom />
       <Trust />
+      <VoicesTeaser />
       <ProjectConfigurator />
     </main>
   );

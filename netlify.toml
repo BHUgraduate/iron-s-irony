@@ -1,6 +1,6 @@
 # Netlify detects Next.js and installs its official runtime automatically; no plugin entry is needed.
 [build]
-  command = "npm run build"
+  command = "npm run check:content && npm run build"
   publish = ".next"
 
 [build.environment]

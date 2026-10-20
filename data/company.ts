@@ -47,6 +47,7 @@ export const MAIN_NAVIGATION: NavigationLink[] = [
 export const SECONDARY_NAVIGATION: NavigationLink[] = [
   { label: "Who we work with", href: "/customers" },
   { label: "FAQ", href: "/faq" },
+  { label: "Feedback", href: "/feedback" },
 ];
 
 /** Hash target of the project configurator. Use <StartLink> / MagneticButton href="start". */

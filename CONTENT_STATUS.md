@@ -31,7 +31,11 @@ To publish a real project: set `status: "completed"`, add a photo in `public/wor
 | Real project photos and facts | `data/projects.ts` | Representative drawings shown |
 | Enquiry destination (webhook) | env `ENQUIRY_WEBHOOK_URL` | Form tells visitors nothing was sent and offers WhatsApp, phone and email |
 | Production domain | `netlify.toml` / env `NEXT_PUBLIC_SITE_URL` | https://ironsirony.hycyon.com |
+| Feedback destination (webhook) | env `FEEDBACK_WEBHOOK_URL`, or `ENQUIRY_WEBHOOK_URL` | Form tells people nothing was sent and offers WhatsApp and email |
 | Prices, timelines, guarantees (optional) | FAQ and copy | Site says these are discussed per project |
+
+## Customer feedback
+`data/feedback.json` is empty on purpose. No testimonials, counts or ratings have been supplied, so none are shown, and none will be written by us. The `/feedback` page collects real feedback; it is published only after the owner has read it, confirmed it is genuine, and the person has agreed (full name, first name only, or private). See README, "Customer feedback".
 
 ## Not used, deliberately
 Hycyon (the web developer) is a separate business. Its address and details are not used as the iron’s irony address.
