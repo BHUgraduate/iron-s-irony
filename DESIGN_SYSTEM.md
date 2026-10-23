@@ -52,3 +52,8 @@ One easing everywhere: `cubic-bezier(0.16, 1, 0.3, 1)`, fast start and long sett
 3. Never present a representative example as a completed project (`Tag`).
 4. Contrast: small text on dark is at least 55% off-white; on light use `ink-secondary`, `ink-muted`, `accent-ink`.
 5. Touch targets at least 44px on mobile.
+
+## Catalogue (`components/catalogue`)
+Reuses `PageHero`, `Section`, `Type`, `MagneticButton`, `Tag` and `IronDrawing`. Product names use the serif; the image leads each card.
+`DesignVisual` (photo or drawing), `ProductCard`, `ProductGrid` (repeating editorial rhythm), `CategoryNavigation` (sticky, swipeable), `CatalogueBrowser`, `ProductGallery`, `ProductSpecifications`, `FinishSelector`, `RelatedProducts`, `CustomEnquiry`, `CataloguePdfLink`.
+Every optional field renders only when real data exists. Drawing geometry lives in `components/ui/drawings.ts` (server-safe, also used by the share images).

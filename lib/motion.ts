@@ -41,6 +41,8 @@ export interface PrefillDetail {
   type?: string;
   space?: string;
   need?: string;
+  /** Seeds the optional "style" line, e.g. the catalogue design the visitor is asking about. */
+  style?: string;
 }
 
 export const PREFILL_KEY = "ironsirony:prefill";

@@ -39,6 +39,7 @@ export const COMPANY_DETAILS = {
 export const MAIN_NAVIGATION: NavigationLink[] = [
   { label: "Work", href: "/projects", description: "What we make, and how it comes together" },
   { label: "Services", href: "/services", description: "Gates, railings, balconies and more" },
+  { label: "Catalogue", href: "/catalogue", description: "Browse designs and make one your own" },
   { label: "Process", href: "/process", description: "From measuring to installation" },
   { label: "About", href: "/about", description: "How we think about iron" },
   { label: "Contact", href: "/contact", description: "Talk to us about your project" },

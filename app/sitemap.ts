@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SERVICES_DATA } from "@/data/services";
+import { DESIGNS } from "@/data/catalogue";
 import { WORK } from "@/data/projects";
 import { SITE_URL } from "@/lib/seo";
 
@@ -15,6 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("", 1, "weekly"),
     page("/services", 0.9),
     ...SERVICES_DATA.map((s) => page(`/services/${s.slug}`, 0.8)),
+    page("/catalogue", 0.9, "weekly"),
+    ...DESIGNS.map((d) => page(`/catalogue/${d.slug}`, 0.7)),
     page("/projects", 0.8),
     ...WORK.map((w) => page(`/projects/${w.slug}`, 0.6)),
     page("/process", 0.7),

@@ -40,3 +40,18 @@ To publish a real project: set `status: "completed"`, add a photo in `public/wor
 ## Not used, deliberately
 Hycyon (the web developer) is a separate business. Its address and details are not used as the iron’s irony address.
 The previous shop catalogue, testimonials, stock photography and invented specifications were removed.
+
+## Catalogue (`/catalogue`)
+Built only from real data: categories are the services in `data/services.ts`; each design is a catalogue entry (`data/catalogue.ts`) for a work entry in `data/projects.ts`. All six designs are still **representative drawings** and are labelled as such.
+
+| Item | Where it goes | Behaviour until supplied |
+| --- | --- | --- |
+| Photographs of each design | `gallery` in `data/catalogue.ts`, files in `public/catalogue/<slug>/` | Line drawing shown; gallery paging, thumbnails and fullscreen switch on with 2+ photos |
+| Verified specifications (material, dimensions, finish, infill, hardware) | `specs` | Not listed; the sheet says these are settled per project |
+| Finishes and materials, with swatch photos | `finishes` | Finish selector is hidden |
+| Official catalogue PDF | `CATALOGUE_PDF` | No download button is shown anywhere |
+| Railings design (no drawing exists yet) | add to `data/projects.ts` then `CATALOGUE` | Listed under "Also made to order", linking to the service page |
+| Named collections (Contemporary, Classic…) | not built | Needs enough real designs to group |
+| Search, style/material filters, compare | not built | Not justified by six designs |
+
+The enquiry reuses the project configurator; the chosen design is carried into its optional "Style" line as "Catalogue design: …". Photo upload is not supported by the Discord webhook, so photos are sent on WhatsApp.

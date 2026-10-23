@@ -84,6 +84,7 @@ export function ProjectConfigurator({ heading = "have" }: { heading?: "have" | "
         projectType: d.type ?? cur.projectType,
         space: d.space ?? cur.space,
         need: d.need ?? cur.need,
+        style: d.style ?? cur.style,
       }));
       setStep(d.type ? 1 : 0);
       setStatus("idle");
