@@ -54,6 +54,10 @@ One easing everywhere: `cubic-bezier(0.16, 1, 0.3, 1)`, fast start and long sett
 5. Touch targets at least 44px on mobile.
 
 ## Catalogue (`components/catalogue`)
-Reuses `PageHero`, `Section`, `Type`, `MagneticButton`, `Tag` and `IronDrawing`. Product names use the serif; the image leads each card.
-`DesignVisual` (photo or drawing), `ProductCard`, `ProductGrid` (repeating editorial rhythm), `CategoryNavigation` (sticky, swipeable), `CatalogueBrowser`, `ProductGallery`, `ProductSpecifications`, `FinishSelector`, `RelatedProducts`, `CustomEnquiry`, `CataloguePdfLink`.
-Every optional field renders only when real data exists. Drawing geometry lives in `components/ui/drawings.ts` (server-safe, also used by the share images).
+Photographs are the visual hero; the interface stays quiet around them. Reuses `Section`, `Type`, `MagneticButton` and the dark/light/concrete tones.
+- `ProductGrid`: a masonry wall (CSS columns), every photograph at its own proportions, never cropped.
+- `ProductCard`, `DesignVisual`, `CategoryNavigation` (sticky, swipeable), `CatalogueBrowser`.
+- `ProductGallery`: full-height viewer with `object-contain`, thumbnails, fullscreen, swipe, arrow keys.
+- `ProductSpecifications`: "About this design" (known facts) and "Made to your project" ("Custom / as per project" until a value is added).
+- `HowItWorks`, `CustomEnquiry`, `RelatedProducts`, `CataloguePdfLink`.
+Drawing geometry for line drawings lives in `components/ui/drawings.ts` (server-safe).

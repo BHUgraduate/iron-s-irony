@@ -42,16 +42,22 @@ Hycyon (the web developer) is a separate business. Its address and details are n
 The previous shop catalogue, testimonials, stock photography and invented specifications were removed.
 
 ## Catalogue (`/catalogue`)
-Built only from real data: categories are the services in `data/services.ts`; each design is a catalogue entry (`data/catalogue.ts`) for a work entry in `data/projects.ts`. All six designs are still **representative drawings** and are labelled as such.
+38 real, photographed designs (37 gates, 1 staircase railing) supplied by the owner, in `data/catalogue.ts`. Photographs live in `public/catalogue/<slug>/`, prepared by `scripts/prepare-catalogue-photos.py` from `scripts/catalogue-photos.json`.
+
+iron’s irony is a made-to-order workshop, so a design is a starting point, not a fixed product. Nothing in the specification is invented:
+
+- Populated from what the photographs show: name, category, type, a one-line summary, pattern, and (only where a house frontage is visible) application.
+- **Not populated, shown as "Custom / as per project":** material, dimensions, finish, colour, hardware, installation.
+- To state a real value, set the field on that design (`material: "Mild steel"`, `finish: ["Powder coated"]`, …). Only fields with a value are shown as facts.
 
 | Item | Where it goes | Behaviour until supplied |
 | --- | --- | --- |
-| Photographs of each design | `gallery` in `data/catalogue.ts`, files in `public/catalogue/<slug>/` | Line drawing shown; gallery paging, thumbnails and fullscreen switch on with 2+ photos |
-| Verified specifications (material, dimensions, finish, infill, hardware) | `specs` | Not listed; the sheet says these are settled per project |
-| Finishes and materials, with swatch photos | `finishes` | Finish selector is hidden |
-| Official catalogue PDF | `CATALOGUE_PDF` | No download button is shown anywhere |
-| Railings design (no drawing exists yet) | add to `data/projects.ts` then `CATALOGUE` | Listed under "Also made to order", linking to the service page |
-| Named collections (Contemporary, Classic…) | not built | Needs enough real designs to group |
-| Search, style/material filters, compare | not built | Not justified by six designs |
+| Material, finish, colour, hardware, dimensions per design | the design’s entry in `data/catalogue.ts` | "Custom / as per project" |
+| Photographs of balconies, railings, grills, staircases, architectural pieces | `scripts/catalogue-photos.json` + a new entry | Those services appear under "Also made to order" |
+| Names for the designs | `name` | Descriptive working names, edit freely |
+| Official catalogue PDF | `CATALOGUE_PDF` | No download button is shown |
+| Search, filters, compare, named collections | not built | Add once there are enough designs to need them |
 
-The enquiry reuses the project configurator; the chosen design is carried into its optional "Style" line as "Catalogue design: …". Photo upload is not supported by the Discord webhook, so photos are sent on WhatsApp.
+The enquiry reuses the project configurator. The design name, category and link travel in a `catalogueDesign` field to the form, the webhook message and WhatsApp.
+
+Photos not used: 38261 (shows a third-party shop sign and phone number), 68325 and 88190 (graphics or renders, not photographs), 2341-duplicate 77513 and 21208-duplicate 40887, 51151 and 756 (close-up details that could not be tied to one design), and 46512, 57165, 87712 (files are corrupt WebP data and could not be opened).

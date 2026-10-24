@@ -3,12 +3,8 @@
 import * as React from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Maximize2, X } from "lucide-react";
-import { IronDrawing } from "@/components/ui/IronDrawing";
-import { Tag } from "@/components/ui/Tag";
-import type { CatalogueDesign } from "@/data/catalogue";
+import type { CatalogueEntry } from "@/data/catalogue";
 import { cn } from "@/lib/utils";
-
-type Slide = { kind: "photo"; src: string; alt: string; width: number; height: number; blurDataURL?: string } | { kind: "drawing" };
 
 const SWIPE = 48;
 
@@ -17,10 +13,8 @@ const SWIPE = 48;
  * With no photographs yet it shows the design's line drawing as a single slide and hides the paging controls.
  * It never invents extra images.
  */
-export function ProductGallery({ design }: { design: CatalogueDesign }) {
-  const slides: Slide[] = design.photos.length
-    ? design.photos.map((p) => ({ kind: "photo", ...p }))
-    : [{ kind: "drawing" }];
+export function ProductGallery({ design }: { design: CatalogueEntry }) {
+  const slides = design.images;
   const many = slides.length > 1;
   const [i, setI] = React.useState(0);
   const [open, setOpen] = React.useState(false);
@@ -73,34 +67,24 @@ export function ProductGallery({ design }: { design: CatalogueDesign }) {
     },
   };
 
-  const label = `${design.work.title}: ${many ? `image ${i + 1} of ${slides.length}` : "line drawing"}`;
-  const render = (s: Slide, fit: "cover" | "contain", sizes: string, priority?: boolean) =>
-    s.kind === "photo" ? (
-      <Image
-        src={s.src}
-        alt={s.alt}
-        fill
-        sizes={sizes}
-        priority={priority}
-        placeholder={s.blurDataURL ? "blur" : "empty"}
-        blurDataURL={s.blurDataURL}
-        className={fit === "cover" ? "object-cover" : "object-contain"}
-        draggable={false}
-      />
-    ) : (
-      <>
-        <div className="absolute inset-0 blueprint-grid" aria-hidden="true" />
-        <IronDrawing
-          kind={design.work.kind}
-          title={`Line drawing of ${design.work.typeLabel.toLowerCase()}`}
-          className="absolute inset-0 m-auto w-[80%] h-[80%] text-canvas-bg/90"
-          strokeWidth={1.3}
-        />
-      </>
-    );
+  const label = `${design.name}: ${many ? `photograph ${i + 1} of ${slides.length}` : "photograph"}`;
+  const render = (s: CatalogueEntry["images"][number], fit: "cover" | "contain", sizes: string, priority?: boolean) => (
+    <Image
+      src={s.src}
+      alt={s.alt}
+      fill
+      sizes={sizes}
+      quality={85}
+      priority={priority}
+      placeholder={s.blurDataURL ? "blur" : "empty"}
+      blurDataURL={s.blurDataURL}
+      className={fit === "cover" ? "object-cover" : "object-contain"}
+      draggable={false}
+    />
+  );
 
   return (
-    <div>
+    <div className="min-w-0">
       <div
         role="group"
         aria-roledescription={many ? "carousel" : undefined}
@@ -112,12 +96,11 @@ export function ProductGallery({ design }: { design: CatalogueDesign }) {
           if (e.key === "ArrowLeft") go(-1);
         }}
         {...swipe}
-        className="relative aspect-[4/3] sm:aspect-[16/9] overflow-hidden bg-iron-900 text-canvas-bg touch-pan-y select-none"
+        className="relative h-[68svh] sm:h-[78svh] max-h-[880px] min-h-[420px] overflow-hidden bg-iron-900 text-canvas-bg touch-pan-y select-none"
       >
         <div key={i} className="absolute inset-0 fade-in">
-          {render(slides[i], "cover", "(max-width: 1280px) 100vw, 1280px", true)}
+          {render(slides[i], "contain", "(max-width: 1024px) 100vw, 66vw", i === 0)}
         </div>
-        {design.representative && <Tag className="absolute left-4 top-4" />}
         <button
           ref={opener}
           type="button"
@@ -136,22 +119,20 @@ export function ProductGallery({ design }: { design: CatalogueDesign }) {
       </div>
 
       {many && (
-        <ul className="mt-3 flex gap-3 overflow-x-auto [scrollbar-width:none]" aria-label="Choose image">
-          {slides.map((s, k) =>
-            s.kind === "photo" ? (
-              <li key={s.src} className="shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setI(k)}
-                  aria-label={`Show image ${k + 1}`}
-                  aria-current={k === i}
-                  className={cn("relative block w-24 aspect-[4/3] bg-iron-900 overflow-hidden transition-opacity", k === i ? "opacity-100 ring-2 ring-accent-amber" : "opacity-60 hover:opacity-100")}
-                >
-                  <Image src={s.src} alt="" fill sizes="96px" className="object-cover" />
-                </button>
-              </li>
-            ) : null
-          )}
+        <ul className="mt-3 flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none]" aria-label="Choose photograph">
+          {slides.map((s, k) => (
+            <li key={s.src} className="shrink-0">
+              <button
+                type="button"
+                onClick={() => setI(k)}
+                aria-label={`Show photograph ${k + 1}`}
+                aria-current={k === i}
+                className={cn("relative block h-20 w-16 sm:h-24 sm:w-[4.75rem] bg-iron-900 overflow-hidden transition-opacity", k === i ? "opacity-100 ring-2 ring-accent-bronze" : "opacity-60 hover:opacity-100")}
+              >
+                <Image src={s.src} alt="" fill sizes="80px" className="object-cover" />
+              </button>
+            </li>
+          ))}
         </ul>
       )}
 
@@ -160,7 +141,7 @@ export function ProductGallery({ design }: { design: CatalogueDesign }) {
           data-lightbox
           role="dialog"
           aria-modal="true"
-          aria-label={`${design.work.title}, fullscreen`}
+          aria-label={`${design.name}, fullscreen`}
           className="fixed inset-0 z-[60] bg-iron-950 text-canvas-bg"
           {...swipe}
         >
@@ -196,7 +177,7 @@ function PageButton({ dir, onClick, className }: { dir: -1 | 1; onClick: () => v
     <button
       type="button"
       onClick={onClick}
-      aria-label={dir === -1 ? "Previous image" : "Next image"}
+      aria-label={dir === -1 ? "Previous photograph" : "Next photograph"}
       className={cn("absolute top-1/2 -translate-y-1/2 h-12 w-12 grid place-items-center bg-iron-950/70 hover:bg-iron-950 text-canvas-bg transition-colors", className)}
     >
       <Icon className="w-4 h-4" aria-hidden="true" />

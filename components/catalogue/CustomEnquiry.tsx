@@ -2,7 +2,8 @@ import * as React from "react";
 import { MagneticButton } from "@/components/motion/MagneticButton";
 import { Display, Eyebrow, Lead } from "@/components/ui/Type";
 import { Reveal } from "@/components/motion/Reveal";
-import { designReference, type CatalogueDesign } from "@/data/catalogue";
+import { designReference, designWhatsApp, type CatalogueEntry } from "@/data/catalogue";
+import { SITE_URL } from "@/lib/seo";
 import { SERVICES_DATA } from "@/data/services";
 import { whatsappLink } from "@/lib/motion";
 
@@ -10,13 +11,11 @@ import { whatsappLink } from "@/lib/motion";
  * "Make it yours." The pathway from any design, or from the catalogue itself, into the existing project
  * consultation (four short steps, only what is asked for). The chosen design and category travel with the visitor.
  */
-export function CustomEnquiry({ design, headingId = "make-it-yours" }: { design?: CatalogueDesign; headingId?: string }) {
+export function CustomEnquiry({ design, headingId = "make-it-yours" }: { design?: CatalogueEntry; headingId?: string }) {
   const bring = design?.service.bring ?? SERVICES_DATA.find((s) => s.slug === "custom-fabrication")!.bring;
   const type = design?.service.type ?? "Something else";
   const wa = whatsappLink(
-    design
-      ? `Hello, I would like a custom version of the “${design.work.title}” design.`
-      : "Hello, I have something in mind that is not in the catalogue and would like to discuss it."
+    design ? designWhatsApp(design, SITE_URL) : "Hello, I have something in mind that is not in the catalogue and would like to discuss it."
   );
   return (
     <div className="grid lg:grid-cols-12 gap-x-16 gap-y-12 items-end">
@@ -33,7 +32,7 @@ export function CustomEnquiry({ design, headingId = "make-it-yours" }: { design?
           </Lead>
         </Reveal>
         <Reveal className="mt-10 flex flex-col sm:flex-row gap-3">
-          <MagneticButton href="start" variant="copper" prefill={type} prefillStyle={design ? designReference(design) : undefined}>
+          <MagneticButton href="start" variant="copper" prefill={type} prefillDesign={design ? designReference(design, SITE_URL) : undefined}>
             Start a custom enquiry
           </MagneticButton>
           <MagneticButton href={wa} external variant="outline-light" arrow={false}>

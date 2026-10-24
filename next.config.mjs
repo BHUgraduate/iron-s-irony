@@ -10,6 +10,12 @@ const nextConfig = {
       // The invented shop catalogue was retired; its routes land on the real service pages.
       { source: "/shop", destination: "/services", permanent: false },
       { source: "/shop/:slug", destination: "/services", permanent: false },
+      // Catalogue entries from the first, drawing-based version now live under their photographed designs.
+      ...["courtyard-gate", "staircase-balustrade", "entrance-portal", "balcony-railing", "window-grills", "piece-from-a-reference"].map((slug) => ({
+        source: `/catalogue/${slug}`,
+        destination: "/catalogue",
+        permanent: false,
+      })),
       { source: "/quote", destination: "/contact#start", permanent: true },
       { source: "/start", destination: "/contact#start", permanent: true },
       { source: "/work", destination: "/projects", permanent: true },

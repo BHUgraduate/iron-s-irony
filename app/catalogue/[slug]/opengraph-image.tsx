@@ -1,6 +1,7 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 import { DESIGNS, getDesign } from "@/data/catalogue";
-import { drawingPaths } from "@/components/ui/drawings";
 
 export const alt = "iron’s irony catalogue design";
 export const size = { width: 1200, height: 630 };
@@ -10,35 +11,40 @@ export function generateStaticParams() {
   return DESIGNS.map((d) => ({ slug: d.slug }));
 }
 
-/** Share preview for a design: its drawing (or first photograph once one exists), name and brand. */
-export default function Image({ params }: { params: { slug: string } }) {
+/** Share preview: the real photograph at full height beside the design name and brand. The photograph is not cropped to a banner. */
+export default async function Image({ params }: { params: { slug: string } }) {
   const d = getDesign(params.slug);
-  const title = d?.work.title ?? "Catalogue";
-  const category = d ? `${d.service.title} · ${d.work.typeLabel}` : "Catalogue";
-  const paths = d ? drawingPaths(d.work.kind) : [];
+  let photo: string | null = null;
+  if (d) {
+    try {
+      const file = await readFile(path.join(process.cwd(), "public", "catalogue", d.slug, "share.jpg"));
+      photo = `data:image/jpeg;base64,${file.toString("base64")}`;
+    } catch {
+      photo = null;
+    }
+  }
+  const title = d?.name ?? "Catalogue";
+  const category = d ? `${d.service.title}${d.type ? ` · ${d.type}` : ""}` : "";
 
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", background: "#0E0F11", color: "#F9F8F6", padding: 72, position: "relative" }}>
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: 600 }}>
-          <div style={{ display: "flex", fontSize: 26, letterSpacing: 5, color: "#C28E53", textTransform: "uppercase" }}>
-            Catalogue · {category}
+      <div style={{ width: "100%", height: "100%", display: "flex", background: "#0E0F11", color: "#F9F8F6" }}>
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1, padding: 64 }}>
+          <div style={{ display: "flex", fontSize: 24, letterSpacing: 5, color: "#C28E53", textTransform: "uppercase" }}>
+            Catalogue{category ? ` · ${category}` : ""}
           </div>
-          <div style={{ display: "flex", fontSize: title.length > 34 ? 60 : 72, fontWeight: 800, lineHeight: 1, letterSpacing: -2, textTransform: "uppercase" }}>
+          <div style={{ display: "flex", fontSize: title.length > 26 ? 62 : 76, fontWeight: 800, lineHeight: 1, letterSpacing: -2, textTransform: "uppercase" }}>
             {title}
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", fontSize: 44, fontFamily: "Georgia, serif" }}>iron’s irony</div>
-            {d?.representative && (
-              <div style={{ display: "flex", marginTop: 8, fontSize: 22, color: "#F9F8F699" }}>Representative drawing</div>
-            )}
+            <div style={{ display: "flex", marginTop: 6, fontSize: 22, color: "#F9F8F699" }}>Made to order. Adapted to your project.</div>
           </div>
         </div>
-        <svg width="460" height="345" viewBox="0 0 400 300" style={{ position: "absolute", right: 56, top: 110 }} fill="none" stroke="#F9F8F6" strokeOpacity="0.85" strokeWidth="2">
-          {paths.map((p, i) => (
-            <path key={i} d={p} />
-          ))}
-        </svg>
+        {photo && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={photo} alt="" width={473} height={630} style={{ width: 473, height: 630, objectFit: "cover" }} />
+        )}
       </div>
     ),
     { ...size }

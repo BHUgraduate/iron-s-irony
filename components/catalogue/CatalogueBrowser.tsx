@@ -4,19 +4,19 @@ import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CategoryNavigation } from "@/components/catalogue/CategoryNavigation";
 import { ProductGrid } from "@/components/catalogue/ProductGrid";
-import type { CatalogueCategory, CatalogueDesign } from "@/data/catalogue";
+import type { CatalogueCategory, CatalogueEntry } from "@/data/catalogue";
 
 /**
  * Category filtering. With only a handful of designs, search and extra filters would add friction,
  * so discovery is one row of categories. The choice lives in ?category= so it can be shared.
  */
-export function CatalogueBrowser({ designs, categories }: { designs: CatalogueDesign[]; categories: CatalogueCategory[] }) {
+export function CatalogueBrowser({ designs, categories }: { designs: CatalogueEntry[]; categories: CatalogueCategory[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
   const requested = params.get("category") ?? "all";
   const active = categories.some((c) => c.slug === requested) ? requested : "all";
-  const shown = active === "all" ? designs : designs.filter((d) => d.service.slug === active);
+  const shown = active === "all" ? designs : designs.filter((d) => d.category === active);
   const label = categories.find((c) => c.slug === active)?.label;
 
   const choose = (slug: string) => {
