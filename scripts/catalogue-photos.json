@@ -45,7 +45,8 @@
   "Image-44557.jpg"
  ],
  "studded-louvre-gate": [
-  "Image-33586.jpg"
+  "Image-33586.jpg",
+  "IMG_0367.jpg"
  ],
  "ornamental-gate": [
   "Image-46204.jpg"
@@ -252,17 +253,13 @@
   "Image-9743.jpg",
   "IMG_0349.jpg",
   "IMG_0350.jpg",
-  "IMG_0361.jpg",
   "IMG_0362.jpg",
   "IMG_0363.jpg",
   "IMG_0364.jpg",
   "IMG_0365.jpg",
   "IMG_0366.jpg",
-  "IMG_0367.jpg",
-  "IMG_0368.jpg",
   "IMG_0369.jpg",
   "IMG_0370.jpg",
-  "IMG_0371.jpg",
   "IMG_0372.jpg"
  ],
  "lily-curve-grill": [
@@ -297,5 +294,14 @@
   "IMG_0331.jpg",
   "IMG_0332.jpg",
   "IMG_0333.jpg"
+ ],
+ "wood-tone-floral-panel-gate": [
+  "IMG_0371.jpg"
+ ],
+ "sunburst-medallion-gate": [
+  "IMG_0368.jpg"
+ ],
+ "floral-side-panel-door-gate": [
+  "IMG_0361.jpg"
  ]
 }

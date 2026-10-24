@@ -256,7 +256,10 @@ const ENTRIES: Entry[] = [
     summary: "A dark louvred gate with rows of round studs, floral cut-out side panels and ventilation louvres at the base.",
     infill: "Slats with studs, floral cut-out side panels and louvre vents",
     application: "Home entrance gate",
-    alts: ["Dark navy double-leaf gate in a covered entrance with rows of round studs, floral cut-out panels at each side and louvre vents at the base."],
+    alts: [
+      "Dark navy double-leaf gate in a covered entrance with rows of round studs, floral cut-out panels at each side and louvre vents at the base.",
+      "Navy double-leaf gate with rows of round studs, floral cut-out panels at each side and louvre vents, photographed in a lit entrance.",
+    ],
   },
   {
     slug: "ornamental-gate",
@@ -863,6 +866,41 @@ const ENTRIES: Entry[] = [
       "Overhead view of the unpainted frame and hooked-pin drum, with a worker beside it.",
     ],
   },
+  {
+    slug: "wood-tone-floral-panel-gate",
+    name: "Wood-Tone Floral Panel Gate",
+    category: "gates",
+    type: "Double-leaf gate",
+    summary: "A wood-toned louvre gate with white floral cut-out panels, small grille panels and a bar grille above.",
+    infill: "Louvre slats with white floral cut-out panels and small grilles",
+    application: "Home entrance gate",
+    alts: [
+      "Wood-toned double-leaf gate with louvres, tall white floral cut-out panels, white panels with scroll borders at the top, small grille panels at the base and a bar grille above.",
+    ],
+  },
+  {
+    slug: "sunburst-medallion-gate",
+    name: "Sunburst Medallion Gate",
+    category: "gates",
+    type: "Gate leaf",
+    summary: "An ornate gate leaf with a large sunburst medallion, scroll and rosette borders and an arched top panel with lettering.",
+    infill: "Sunburst medallion with scroll and rosette borders",
+    alts: [
+      "Ornate dark gate leaf lying flat on sand with a large sunburst medallion, scroll and rosette borders and an arched top panel with lettering, with tools nearby.",
+    ],
+  },
+  {
+    slug: "floral-side-panel-door-gate",
+    name: "Floral Side Panel Door Gate",
+    category: "gates",
+    type: "Double-leaf door gate",
+    summary: "A black double-leaf door gate of horizontal bars with tall white floral panels at each side and a bar grille above.",
+    infill: "Horizontal bars with tall white floral side panels",
+    application: "Home entrance gate",
+    alts: [
+      "Black double-leaf door gate with horizontal bars, tall white floral cut-out panels at each side, long handles and a bar grille above.",
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -1021,17 +1059,13 @@ const REFERENCE_TEXT: [string, string, ReferenceGroup][] = [
   ["Diamond detail balusters", "Black balusters with diamond-shaped details under a timber handrail.", "Stairs and railings"],
   ["Printed photo of a lattice gate", "Photograph of a worn print showing a gate with lattice top and side panels and four diamond-shaped panels at the centre, on a red background.", "Gates and doors"],
   ["Printed photo of a medallion gate", "Photograph of a worn print of a dark gate with round medallion details and lattice at the sides, on a red background.", "Gates and doors"],
-  ["Door gate with floral side panels", "Black double-leaf door gate with horizontal bars, tall white floral panels at each side and a bar grille above.", "Gates and doors"],
   ["Folding lattice gate", "Black folding lattice gate drawn across a wide entrance.", "Gates and doors"],
   ["Arched estate gates", "Pair of black arched driveway gates with scrolled details and vertical bars, one leaf open, in front of a house.", "Gates and doors"],
   ["Slatted swing gates", "Black vertical-slat gates in front of a house, one leaf swung open.", "Gates and doors"],
   ["Lotus pattern gates", "Pair of dark gates with a large lotus-like pattern at the centre, golden handles and vertical bars, between stone piers.", "Gates and doors"],
   ["Arched sunburst entrance gate", "Arched black entrance gate with sunburst bars set in a carved sandstone doorway surrounded by flowers.", "Gates and doors"],
-  ["Studded navy gate", "Navy blue double-leaf gate with rows of round studs, floral cut-out panels either side and louvre vents, in a lit entrance.", "Gates and doors"],
-  ["Ornate gate leaf in progress", "Ornate gate leaf lying flat with a large sunburst medallion, scroll borders and an arched top panel with lettering, with tools beside it.", "Gates and doors"],
   ["Low estate gates", "Low black gates with spear tops and scrolled panels across a paved drive.", "Gates and doors"],
   ["Curved top rail driveway gate", "Black driveway gate with a curved top rail and a diamond lattice lower section beside a brick pier.", "Gates and doors"],
-  ["Wood-tone gate with white floral panels", "Wood-toned double-leaf gate with louvres, white floral cut-out panels and small grille panels, with a bar grille above.", "Gates and doors"],
   ["Mesh and bar gate", "Dark double-leaf gate of horizontal and vertical bars with mesh panels at top and bottom, set in a sandstone-clad entrance.", "Gates and doors"],
 ];
 

@@ -42,7 +42,7 @@ Hycyon (the web developer) is a separate business. Its address and details are n
 The previous shop catalogue, testimonials, stock photography and invented specifications were removed.
 
 ## Catalogue (`/catalogue`)
-69 real, photographed designs (38 gates, 21 grills, 4 staircases, 3 railings, 1 balcony, 2 custom fabrication) supplied by the owner, in `data/catalogue.ts`. Photographs live in `public/catalogue/<slug>/`, prepared by `scripts/prepare-catalogue-photos.py` from `scripts/catalogue-photos.json`.
+72 real, photographed designs (41 gates, 21 grills, 4 staircases, 3 railings, 1 balcony, 2 custom fabrication) supplied by the owner, in `data/catalogue.ts`. Photographs live in `public/catalogue/<slug>/`, prepared by `scripts/prepare-catalogue-photos.py` from `scripts/catalogue-photos.json`.
 
 iron’s irony is a made-to-order workshop, so a design is a starting point, not a fixed product. Nothing in the specification is invented:
 
@@ -60,7 +60,7 @@ iron’s irony is a made-to-order workshop, so a design is a starting point, not
 
 The enquiry reuses the project configurator. The design name, category and link travel in a `catalogueDesign` field to the form, the webhook message and WhatsApp.
 
-Reference ideas: 72 publicly available images (14 gates and doors, 23 grill and screen patterns, 35 stairs and railings; photographs, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
+Reference ideas: 68 publicly available images (10 gates and doors, 23 grill and screen patterns, 35 stairs and railings; photographs, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
 
 Brightness: 16 of the designs' own photographs that were clearly dark received a gentle gamma lift (never stronger than 0.78). Reference images are untouched. `data/catalogue-images.json` records which photos were adjusted (`gamma`).
 
@@ -71,3 +71,5 @@ Photos not used (second batch): 64728 and 78617 (carry a worker's phone-brand st
 Third batch: 6 designs added (railings, balcony, staircases); 35 staircase and railing images added as references. 93330 had black letterbox bars cropped off (the picture itself is unchanged). The 3 truncated-file warnings are harmless.
 
 Fourth batch: IMG_0331-0337 (iPhone HEIC, converted; GPS location removed) became the Fabricated Drum Frame design under Custom fabrication. IMG_0334 left out (close-up of a person's face). IMG_0349-0350 (photographs of worn prints) and IMG_0361-0372 (small web images, 400-650px) are references.
+
+Owner confirmed IMG_0361, 0367, 0368 and 0371 are their work: 3 new gate designs, and 0367 added to Studded Louvre Gate. 0349 and 0350 remain references.
