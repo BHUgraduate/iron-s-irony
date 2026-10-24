@@ -495,6 +495,265 @@ const ENTRIES: Entry[] = [
     application: "Interior stair under construction",
     alts: ["Dark balustrade and handrail with horizontal rails following a concrete staircase and turning at the landing, in a building under construction."],
   },
+  {
+    slug: "scroll-grill-panel",
+    name: "Scroll Grill Panel",
+    category: "grills",
+    type: "Window grill panel",
+    summary: "A welded grill panel of paired scroll motifs between vertical bars, photographed during fabrication.",
+    infill: "Paired scroll motifs between vertical bars",
+    alts: [
+      "Welded grill panel lying on the ground with paired scroll motifs between vertical bars, and a bright welding spark at the lower left.",
+    ],
+  },
+  {
+    slug: "flowing-stem-window-grill",
+    name: "Flowing Stem Window Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "Horizontal bars with curved plant stems rising through them, fitted in a window opening.",
+    infill: "Horizontal bars with curved plant stems",
+    application: "Window grill",
+    alts: [
+      "View through a window opening fitted with a grill of horizontal bars and curved plant stems, looking out to trees.",
+    ],
+  },
+  {
+    slug: "sprig-bar-window-grill",
+    name: "Sprig Bar Window Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A bar grill with curved stems topped with small buds and spiral curls, shown fitted and before fitting.",
+    infill: "Bars with curved stems, buds and spiral curls",
+    application: "Window grill",
+    alts: [
+      "Long window openings along a plain wall, each fitted with a grill of bars and curved stems topped with small buds.",
+      "Grill panel lying flat on sand, with horizontal bars, a curved stem ending in a spiral curl and small ball-topped rods.",
+    ],
+  },
+  {
+    slug: "sprig-and-diamond-grill",
+    name: "Sprig and Diamond Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A grill frame with three curved sprig panels above and two diamond-pattern panels below, being finished in the workshop yard.",
+    infill: "Curved sprig panels above diamond-pattern panels",
+    alts: [
+      "Grill frame lying on the ground with three panels of curved sprigs above and two diamond-pattern panels below, with a worker's legs and a hand grinder visible.",
+    ],
+  },
+  {
+    slug: "curved-rod-flower-grill",
+    name: "Curved Rod Flower Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A bar grill in plain metal, with a group of curved rods and flower-shaped details along both edges.",
+    infill: "Bars with curved rods and flower details",
+    alts: [
+      "Plain metal grill lying on soil with horizontal bars, a sweep of curved rods and flower-shaped details along both vertical edges.",
+    ],
+  },
+  {
+    slug: "wave-rod-grill",
+    name: "Wave Rod Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A red grill of horizontal bars with wavy vertical rods ending in small balls.",
+    infill: "Horizontal bars with wavy rods",
+    alts: [
+      "Red grill lying flat on the ground with horizontal bars and four wavy vertical rods with ball ends.",
+    ],
+  },
+  {
+    slug: "golden-curved-rod-grill",
+    name: "Golden Curved Rod Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A navy-framed grill with golden horizontal bars, golden curved rods with small flowers, and a group of silver vertical rods.",
+    infill: "Horizontal bars with curved rods and small flowers",
+    alts: [
+      "Grill with a dark navy frame, golden horizontal bars, curved golden rods with small flowers and a group of silver vertical rods, stood against a wooden fence.",
+    ],
+  },
+  {
+    slug: "circle-arc-grill",
+    name: "Circle Arc Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A red grill of overlapping circular arcs inside a rectangular frame, shown standing in the yard and stacked.",
+    infill: "Overlapping circular arcs in a rectangular frame",
+    alts: [
+      "Red grill leaning in an open yard, with overlapping circular arcs and a small knot detail on each.",
+      "Several red grills stacked on edge, showing the overlapping circular arc pattern.",
+    ],
+  },
+  {
+    slug: "bar-window-grill",
+    name: "Bar Window Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A plain yellow-orange grill of vertical bars with two horizontal bars, fitted in a brick window opening.",
+    infill: "Vertical bars with two horizontal bars",
+    application: "Window grill",
+    alts: [
+      "Yellow-orange grill of vertical bars and two horizontal bars fitted in a brick window opening, with broken bricks stacked below.",
+    ],
+  },
+  {
+    slug: "arched-window-grill",
+    name: "Arched Window Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A fine dark bar grill with diamond details and a sunburst at the top, fitted in an arched window in a brick wall.",
+    infill: "Fine bars with diamond details and a sunburst top",
+    application: "Window grill",
+    alts: [
+      "Arched window in an unplastered brick wall fitted with a fine dark bar grill, diamond details and a sunburst pattern at the top.",
+    ],
+  },
+  {
+    slug: "orange-rod-window-grill",
+    name: "Orange Rod Window Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "An orange grid of horizontal and vertical bars with a few ball-topped rods, fitted in a brick window opening.",
+    infill: "Bar grid with ball-topped rods",
+    application: "Window grill",
+    alts: [
+      "Orange grill of horizontal and vertical bars with a few ball-topped rods, fitted in a brick window opening with a container inside.",
+    ],
+  },
+  {
+    slug: "stem-top-grill",
+    name: "Stem Top Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "A black grill of horizontal and vertical bars, with ball-topped stems rising from curved bases.",
+    infill: "Bar grid with ball-topped stems",
+    application: "Window grill",
+    alts: [
+      "Black grill in a large window opening, with horizontal and vertical bars and two groups of ball-topped stems rising from curved bases, and fields beyond.",
+    ],
+  },
+  {
+    slug: "sunburst-window-grill",
+    name: "Sunburst Window Grill",
+    category: "grills",
+    type: "Window grill",
+    summary: "White bars radiating from a quarter-circle in the corner across a sliding window.",
+    infill: "Radiating bars from a corner quarter-circle",
+    application: "Window grill",
+    alts: [
+      "White grill fitted over a sliding window on a grey wall, with bars radiating from a quarter-circle at the lower left.",
+    ],
+  },
+  {
+    slug: "corner-window-grills",
+    name: "Corner Window Grills",
+    category: "grills",
+    type: "Window grill",
+    summary: "Red grills with layered diamond patterns on both sides of a house corner.",
+    infill: "Vertical bars with layered diamond patterns",
+    application: "Window grills",
+    alts: [
+      "Corner of a concrete house with two windows fitted with red grills of vertical bars and layered diamond patterns.",
+    ],
+  },
+  {
+    slug: "floral-window-grills",
+    name: "Floral Window Grills",
+    category: "grills",
+    type: "Window grill",
+    summary: "Red grills of vertical bars with curved lines and orange flowers, fitted to a multi-pane window.",
+    infill: "Vertical bars with curved lines and flowers",
+    application: "Window grills",
+    alts: [
+      "Multi-pane window in a rough concrete wall fitted with red grills of vertical bars, curved lines and orange flowers.",
+    ],
+  },
+  {
+    slug: "zigzag-door-grill",
+    name: "Zigzag Door Grill",
+    category: "grills",
+    type: "Door grill",
+    summary: "A white grill door of diagonal zig-zag bars, shown as a double-leaf door and between open timber doors.",
+    infill: "Diagonal zig-zag bars",
+    application: "Door grill",
+    alts: [
+      "White double-leaf door grill with zig-zag diagonal bars, set in front of a timber-toned panel.",
+      "Grill door of white zig-zag bars between two open panelled timber doors, with daylight beyond.",
+      "The same style of zig-zag grill door seen from another angle between open timber doors.",
+    ],
+  },
+  {
+    slug: "single-zigzag-door-grill",
+    name: "Zigzag Grill Door",
+    category: "grills",
+    type: "Door grill",
+    summary: "A white single-leaf door with zig-zag bars in the upper half and a solid panel below.",
+    infill: "Zig-zag bars above a solid panel",
+    application: "Door grill",
+    alts: [
+      "White single-leaf door with zig-zag bars in the upper half and a solid panel below, opened beside a timber door.",
+    ],
+  },
+  {
+    slug: "zigzag-sliding-door-grill",
+    name: "Zigzag Sliding Door Grill",
+    category: "grills",
+    type: "Door grill",
+    summary: "A white grill of angular zig-zag bars fitted beside a sliding glass door.",
+    infill: "Angular zig-zag bars",
+    application: "Door grill",
+    alts: [
+      "White grill of angular zig-zag bars fitted over a sliding glass door in a room with a tiled floor.",
+    ],
+  },
+  {
+    slug: "leaf-scroll-window-screen",
+    name: "Leaf Scroll Window Screen",
+    category: "grills",
+    type: "Window screen",
+    summary: "A large window screen of climbing stems, leaves and spiral circles, photographed with a worker in front.",
+    infill: "Climbing stems, leaves and spiral circles",
+    application: "Window screen",
+    alts: [
+      "Large window screen of black climbing stems, leaves and spiral circles on a white ground, with a worker standing in front of it.",
+    ],
+  },
+  {
+    slug: "diamond-panel-gate",
+    name: "Diamond Panel Gate",
+    category: "gates",
+    type: "Gate panel",
+    summary: "A gate frame in progress, with a diamond at the centre, stepped bars at each side and small scrolls at the base.",
+    infill: "Diamond centre with stepped bars and small scrolls",
+    alts: [
+      "Dark gate frame in a workshop with a diamond-shaped centre, stepped vertical bars at each side, small scrolls at the base and visible weld joints.",
+    ],
+  },
+  {
+    slug: "long-scroll-panel",
+    name: "Long Scroll Panel",
+    category: "custom-fabrication",
+    type: "Long panel",
+    summary: "A long welded panel of vertical bars with a curved top rail and a scroll.",
+    infill: "Vertical bars with a scrolled top rail",
+    alts: [
+      "Long panel lying on a sand floor in a yard, with vertical bars, a curved top rail and a scroll, beside corrugated metal sheets.",
+    ],
+  },
+  {
+    slug: "rod-hung-staircase",
+    name: "Rod-Hung Staircase",
+    category: "staircases",
+    type: "Staircase",
+    summary: "A staircase of timber treads hung from twisted steel rods beside a plastered wall.",
+    infill: "Timber treads hung from twisted rods",
+    alts: [
+      "Timber stair treads hung from twisted steel rods beside a plastered wall, with a dark steel stringer beneath.",
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -578,3 +837,46 @@ export const designWhatsApp = (d: CatalogueEntry, origin: string) =>
 
 /** The official catalogue PDF. Not supplied yet: while null, no download button is shown anywhere. */
 export const CATALOGUE_PDF = null as null | { href: string; sizeLabel?: string };
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Reference ideas
+//
+// Publicly available images, supplied to help customers describe what they want. They are NOT iron’s irony’s work and are
+// always labelled as such. They live in their own section and never appear among the designs.
+
+export interface ReferenceIdea extends CatalogueImage {
+  title: string;
+}
+
+const REFERENCE_TEXT: [string, string][] = [
+  ["Lavender grill with gold leaf ornaments", "Interior grill painted lavender with gold-toned leaf and flower ornaments and a lily-shaped pattern of curved bars."],
+  ["Window grill and its drawing", "House window with an ornamental grill, above a line drawing of a similar scrolled grill."],
+  ["Spiral of leaves and flowers", "Circular spiral of leaves and flowers in black metal on a board."],
+  ["Screen pattern drawing", "Dimensioned drawing of a window screen pattern of spirals and circles, with measurements in millimetres."],
+  ["Staircase with rectangular frames", "Staircase seen from above with a balustrade of rectangular open frames and a railing around the upper landing."],
+  ["Interlocking flower lattice", "Window with a lattice grill of interlocking flower shapes, beside the pattern drawn out."],
+  ["Chevron bar grill panel", "Flat grill panel of chevron-shaped bars lying on a concrete floor."],
+  ["Circular leaf and flower grill", "Silver circular grill of leaves and flowers with two smaller circles beside it, on a blue background."],
+  ["Balconies and a scrolled railing drawing", "Balconies with ornamental railings on a classical building front, above a drawing of a scrolled railing."],
+  ["Porch grill with butterfly roundels", "Porch gate and grill with scrolls, circular roundels containing butterflies and vertical bars."],
+  ["Wavy scrolled grill", "Black wavy scrolled grill with bead details seen through an arched opening."],
+  ["Porch grill with scrolls", "Porch grill with scrolls and gold-toned butterfly roundels beside a painted column."],
+  ["Small porch gate", "Small black porch gate with scrolls and a sunburst top, between white columns."],
+  ["Scrolled window grills", "Pair of window grills with a symmetrical pattern of C-shaped scrolls."],
+  ["Gold leaf spiral in a ring", "Circular grill of golden leaf spirals inside a black ring on a bright blue wall."],
+  ["Garden gate and its drawing", "Garden gate with a white scrolled grill above a line drawing of it."],
+  ["Oval window grill", "Oval decorative window grill in a tiled wall beside its pattern drawn out."],
+  ["Curved Art Nouveau style grill", "Window with a curved plant-like grill beside its pattern drawn out."],
+  ["Floral lattice window grill", "Window grill with a floral lattice beside its pattern drawn in gold."],
+  ["Geometric frame with quarter circles", "Yellow geometric grill frame of quarter circles against a black brick wall."],
+  ["Swan-curve grill with gold leaf", "Lavender grill in the form of a swan-like curve with gold-toned leaf ornaments."],
+  ["Yellow spiral grill", "Yellow grill with a spiral and rectangular grid against a black brick wall."],
+  ["Interior with a slim-railed staircase", "Living room and dining table with a staircase of thin black railings in the background."],
+  ["Spiral screen being painted", "White square screen of spiralling bars being sprayed in a yard."],
+  ["Star and flower lattice", "Window with a lattice grill of stars and flowers beside its pattern drawn in green."],
+];
+
+export const REFERENCES: ReferenceIdea[] = photos(
+  "references",
+  REFERENCE_TEXT.map(([, alt]) => alt)
+).map((img, i) => ({ ...img, title: REFERENCE_TEXT[i][0] }));

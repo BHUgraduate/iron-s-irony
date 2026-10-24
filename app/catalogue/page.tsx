@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Suspense } from "react";
-import { BROWSABLE_CATEGORIES, DESIGNS, MADE_TO_ORDER } from "@/data/catalogue";
+import { BROWSABLE_CATEGORIES, DESIGNS, MADE_TO_ORDER, REFERENCES } from "@/data/catalogue";
 import { SITE_URL, constructPageMetadata, generateBreadcrumbSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Section } from "@/components/ui/Section";
@@ -12,6 +12,7 @@ import { MagneticButton } from "@/components/motion/MagneticButton";
 import { CatalogueBrowser } from "@/components/catalogue/CatalogueBrowser";
 import { ProductGrid } from "@/components/catalogue/ProductGrid";
 import { CustomEnquiry } from "@/components/catalogue/CustomEnquiry";
+import { ReferenceGallery } from "@/components/catalogue/ReferenceGallery";
 import { HowItWorks } from "@/components/catalogue/HowItWorks";
 import { CataloguePdfLink } from "@/components/catalogue/CatalogueCTA";
 
@@ -111,7 +112,7 @@ export default function CataloguePage() {
       </Section>
 
       {MADE_TO_ORDER.length > 0 && (
-        <Section tone="concrete" pad="sm" labelledBy="also-made">
+        <Section tone="light" pad="sm" labelledBy="also-made">
           <div className="grid lg:grid-cols-12 gap-x-16 gap-y-8 items-start">
             <div className="lg:col-span-5">
               <Eyebrow className="mb-4">
@@ -137,6 +138,19 @@ export default function CataloguePage() {
           </div>
         </Section>
       )}
+
+      <Section id="reference-ideas" tone="concrete" pad="md" labelledBy="reference-heading">
+        <div className="grid lg:grid-cols-12 gap-x-16 gap-y-6 mb-12 sm:mb-16">
+          <div className="lg:col-span-6">
+            <Eyebrow className="mb-6">Reference ideas</Eyebrow>
+            <Display id="reference-heading" size="sm" lines={["Ideas to help you", "describe what you want."]} />
+          </div>
+          <p className="lg:col-span-6 lg:pt-12 text-[1.05rem] leading-relaxed text-ink-secondary max-w-xl">
+            These are publicly available images, gathered to help you point at what you like: a pattern, a shape, a kind of grill. They are not iron’s irony’s work. Tap one and ask for something like it.
+          </p>
+        </div>
+        <ReferenceGallery items={REFERENCES} origin={SITE_URL} />
+      </Section>
 
       <Section tone="light" pad="md" labelledBy="how-heading">
         <Eyebrow className="mb-6">How it works</Eyebrow>
