@@ -776,6 +776,77 @@ const ENTRIES: Entry[] = [
       "Lavender grill panel drawn as one swan-like curve, with gold-toned leaf and flower ornaments set at its head and body.",
     ],
   },
+  {
+    slug: "rectangular-frame-railing",
+    name: "Rectangular Frame Railing",
+    category: "railings",
+    type: "Railing",
+    summary: "A bare steel railing of tall rectangular frames between vertical bars, shown during fabrication and in position.",
+    infill: "Tall rectangular frames between vertical bars",
+    alts: [
+      "Two views of a bare steel railing of tall rectangular frames between vertical bars, along a stair opening, with a welder at work and a spirit level and tools on the floor.",
+    ],
+  },
+  {
+    slug: "stepped-frame-stair-railing",
+    name: "Stepped Frame Stair Railing",
+    category: "staircases",
+    type: "Stair railing",
+    summary: "A raw steel stair railing of stepped rectangular frames that follow the flight, photographed on site.",
+    infill: "Stepped rectangular frames following the stair",
+    application: "Interior stair under construction",
+    alts: [
+      "Raw steel stair railing of stepped rectangular frames following the flight of a concrete staircase under construction.",
+    ],
+  },
+  {
+    slug: "greek-key-railing",
+    name: "Greek Key Railing",
+    category: "railings",
+    type: "Railing",
+    summary: "A dark terrace railing with Greek-key pattern bands along the top and bottom, between vertical bars.",
+    infill: "Greek-key pattern bands with vertical bars",
+    application: "Terrace railing",
+    alts: [
+      "Dark railing along a terrace under construction, with Greek-key pattern bands along the top and bottom and vertical bars between.",
+    ],
+  },
+  {
+    slug: "crest-panel-balcony-railing",
+    name: "Crest Panel Balcony Railing",
+    category: "balconies",
+    type: "Balcony railing",
+    summary: "A balcony railing of horizontal rails with three small panels showing a crest-like motif.",
+    infill: "Horizontal rails with crest-motif panels",
+    application: "Balcony railing",
+    alts: [
+      "Brown balcony railing of horizontal rails with three small crest-motif panels, on a plastered balcony edge against the sky.",
+    ],
+  },
+  {
+    slug: "stainless-stair-railing",
+    name: "Stainless Stair Railing",
+    category: "staircases",
+    type: "Stair railing",
+    summary: "A bright metal stair railing of horizontal rails and a square post topped with a ball, photographed on site.",
+    infill: "Horizontal rails with a ball-topped post",
+    application: "Interior stair under construction",
+    alts: [
+      "Bright metal stair railing of horizontal rails and a square post with a ball finial, on a granite-edged staircase under construction, with cement bags beside it.",
+      "Another view of the bright metal stair railing, its ball-topped square post and horizontal rails, beside a rough plastered wall.",
+    ],
+  },
+  {
+    slug: "cut-out-baluster-panels",
+    name: "Cut-out Baluster Panels",
+    category: "railings",
+    type: "Baluster panels",
+    summary: "Three framed baluster panels with a pierced star-lattice pattern and a chevron base, lying on the ground.",
+    infill: "Pierced star-lattice with a chevron base",
+    alts: [
+      "Three framed baluster panels lying on a concrete floor, each with a pierced star-lattice pattern and a chevron at the base, with spigots at both ends.",
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -866,37 +937,75 @@ export const CATALOGUE_PDF = null as null | { href: string; sizeLabel?: string }
 // Publicly available images, supplied to help customers describe what they want. They are NOT iron’s irony’s work and are
 // always labelled as such. They live in their own section and never appear among the designs.
 
+export type ReferenceGroup = "Grills and screens" | "Stairs and railings";
+
 export interface ReferenceIdea extends CatalogueImage {
   title: string;
+  group: ReferenceGroup;
 }
 
-const REFERENCE_TEXT: [string, string][] = [
-  ["Window grill and its drawing", "House window with an ornamental grill, above a line drawing of a similar scrolled grill."],
-  ["Spiral of leaves and flowers", "Circular spiral of leaves and flowers in black metal on a board."],
-  ["Screen pattern drawing", "Dimensioned drawing of a window screen pattern of spirals and circles, with measurements in millimetres."],
-  ["Staircase with rectangular frames", "Staircase seen from above with a balustrade of rectangular open frames and a railing around the upper landing."],
-  ["Interlocking flower lattice", "Window with a lattice grill of interlocking flower shapes, beside the pattern drawn out."],
-  ["Chevron bar grill panel", "Flat grill panel of chevron-shaped bars lying on a concrete floor."],
-  ["Circular leaf and flower grill", "Silver circular grill of leaves and flowers with two smaller circles beside it, on a blue background."],
-  ["Balconies and a scrolled railing drawing", "Balconies with ornamental railings on a classical building front, above a drawing of a scrolled railing."],
-  ["Porch grill with butterfly roundels", "Porch gate and grill with scrolls, circular roundels containing butterflies and vertical bars."],
-  ["Wavy scrolled grill", "Black wavy scrolled grill with bead details seen through an arched opening."],
-  ["Porch grill with scrolls", "Porch grill with scrolls and gold-toned butterfly roundels beside a painted column."],
-  ["Small porch gate", "Small black porch gate with scrolls and a sunburst top, between white columns."],
-  ["Scrolled window grills", "Pair of window grills with a symmetrical pattern of C-shaped scrolls."],
-  ["Gold leaf spiral in a ring", "Circular grill of golden leaf spirals inside a black ring on a bright blue wall."],
-  ["Garden gate and its drawing", "Garden gate with a white scrolled grill above a line drawing of it."],
-  ["Oval window grill", "Oval decorative window grill in a tiled wall beside its pattern drawn out."],
-  ["Curved Art Nouveau style grill", "Window with a curved plant-like grill beside its pattern drawn out."],
-  ["Floral lattice window grill", "Window grill with a floral lattice beside its pattern drawn in gold."],
-  ["Geometric frame with quarter circles", "Yellow geometric grill frame of quarter circles against a black brick wall."],
-  ["Yellow spiral grill", "Yellow grill with a spiral and rectangular grid against a black brick wall."],
-  ["Interior with a slim-railed staircase", "Living room and dining table with a staircase of thin black railings in the background."],
-  ["Spiral screen being painted", "White square screen of spiralling bars being sprayed in a yard."],
-  ["Star and flower lattice", "Window with a lattice grill of stars and flowers beside its pattern drawn in green."],
+const REFERENCE_TEXT: [string, string, ReferenceGroup][] = [
+  ["Window grill and its drawing", "House window with an ornamental grill, above a line drawing of a similar scrolled grill.", "Grills and screens"],
+  ["Spiral of leaves and flowers", "Circular spiral of leaves and flowers in black metal on a board.", "Grills and screens"],
+  ["Screen pattern drawing", "Dimensioned drawing of a window screen pattern of spirals and circles, with measurements in millimetres.", "Grills and screens"],
+  ["Staircase with rectangular frames", "Staircase seen from above with a balustrade of rectangular open frames and a railing around the upper landing.", "Grills and screens"],
+  ["Interlocking flower lattice", "Window with a lattice grill of interlocking flower shapes, beside the pattern drawn out.", "Grills and screens"],
+  ["Chevron bar grill panel", "Flat grill panel of chevron-shaped bars lying on a concrete floor.", "Grills and screens"],
+  ["Circular leaf and flower grill", "Silver circular grill of leaves and flowers with two smaller circles beside it, on a blue background.", "Grills and screens"],
+  ["Balconies and a scrolled railing drawing", "Balconies with ornamental railings on a classical building front, above a drawing of a scrolled railing.", "Grills and screens"],
+  ["Porch grill with butterfly roundels", "Porch gate and grill with scrolls, circular roundels containing butterflies and vertical bars.", "Grills and screens"],
+  ["Wavy scrolled grill", "Black wavy scrolled grill with bead details seen through an arched opening.", "Grills and screens"],
+  ["Porch grill with scrolls", "Porch grill with scrolls and gold-toned butterfly roundels beside a painted column.", "Grills and screens"],
+  ["Small porch gate", "Small black porch gate with scrolls and a sunburst top, between white columns.", "Grills and screens"],
+  ["Scrolled window grills", "Pair of window grills with a symmetrical pattern of C-shaped scrolls.", "Grills and screens"],
+  ["Gold leaf spiral in a ring", "Circular grill of golden leaf spirals inside a black ring on a bright blue wall.", "Grills and screens"],
+  ["Garden gate and its drawing", "Garden gate with a white scrolled grill above a line drawing of it.", "Grills and screens"],
+  ["Oval window grill", "Oval decorative window grill in a tiled wall beside its pattern drawn out.", "Grills and screens"],
+  ["Curved Art Nouveau style grill", "Window with a curved plant-like grill beside its pattern drawn out.", "Grills and screens"],
+  ["Floral lattice window grill", "Window grill with a floral lattice beside its pattern drawn in gold.", "Grills and screens"],
+  ["Geometric frame with quarter circles", "Yellow geometric grill frame of quarter circles against a black brick wall.", "Grills and screens"],
+  ["Yellow spiral grill", "Yellow grill with a spiral and rectangular grid against a black brick wall.", "Grills and screens"],
+  ["Interior with a slim-railed staircase", "Living room and dining table with a staircase of thin black railings in the background.", "Grills and screens"],
+  ["Spiral screen being painted", "White square screen of spiralling bars being sprayed in a yard.", "Grills and screens"],
+  ["Star and flower lattice", "Window with a lattice grill of stars and flowers beside its pattern drawn in green.", "Grills and screens"],
+  ["Horizontal rail stair and mezzanine", "Black horizontal-rail railing along a stair and a mezzanine edge in a living space.", "Stairs and railings"],
+  ["Outdoor steel staircase", "Steel staircase with a thin handrail climbing the side of a house with dark green panels.", "Stairs and railings"],
+  ["Stairwell seen from above", "View down a stairwell with black railings of vertical bars and a flat handrail.", "Stairs and railings"],
+  ["Elongated oval balusters", "Staircase with a wooden handrail and black balusters shaped as elongated ovals.", "Stairs and railings"],
+  ["Rectangular loop balusters", "Black railing with tall rectangular loops between vertical bars at a stair turn.", "Stairs and railings"],
+  ["Landing railing with a window", "Black vertical bar railing around a stair landing with a window beyond.", "Stairs and railings"],
+  ["Arched balustrade with timber handrail", "Staircase in a grand hall with a black arched-pattern balustrade, brass accents and a timber handrail on a stone base.", "Stairs and railings"],
+  ["Square bars looking down a stair", "Close view of square vertical bars of a black stair railing, looking down the stairs.", "Stairs and railings"],
+  ["Looped bar stair railing", "Staircase seen from above with a black railing of vertical bars looped at the bottom.", "Stairs and railings"],
+  ["Glass and steel floating stair", "Floating staircase with timber treads, a black steel frame and glass panels in a tall hall.", "Stairs and railings"],
+  ["Flat bar stair railing", "Staircase with a black flat-bar railing of long vertical bars.", "Stairs and railings"],
+  ["Stair wall of vertical bars", "Long staircase beside a screen of vertical dark bars, opening to a living space, with a curved upper landing.", "Stairs and railings"],
+  ["Porch railing and steps", "House entrance with black railings of vertical bars along steps and porch.", "Stairs and railings"],
+  ["Landing with a bar screen", "Interior landing with a black railing of rectangular loops and a tall panel of vertical bars.", "Stairs and railings"],
+  ["Rectangular loop stair railing", "Staircase with a black railing of rectangular loops and a square post.", "Stairs and railings"],
+  ["Tapered bar stair railing", "View down a stair with a black railing of tapering vertical bars.", "Stairs and railings"],
+  ["Horizontal rail balcony", "Black horizontal-rail railing at the edge of a living room with a timber top rail.", "Stairs and railings"],
+  ["Horizontal railing at a stair opening", "Landing around a stairwell opening, with a black horizontal-rail railing and a chandelier.", "Stairs and railings"],
+  ["Deck railing with horizontal rails", "Timber-clad house entrance with a black horizontal-rail deck railing and steps.", "Stairs and railings"],
+  ["Staircase with upper balcony", "Double-height hall with a staircase and an upper balcony, both with black vertical bar railings.", "Stairs and railings"],
+  ["Dark staircase with loop balusters", "Dark staircase with a black railing of rectangular loops at the turn.", "Stairs and railings"],
+  ["Oval baluster landing railing", "Landing railing with oval-shaped balusters and a timber top rail overlooking a stair.", "Stairs and railings"],
+  ["Staircase with a landing", "Wide staircase with a black railing and a landing balcony in a bright hall.", "Stairs and railings"],
+  ["Curved landing railing", "Curved landing railing of thin vertical bars above a stairwell, with a ring chandelier.", "Stairs and railings"],
+  ["Dark deck steps with rails", "Dark deck steps beside a house with a horizontal-rail railing.", "Stairs and railings"],
+  ["Scroll insert balusters", "Staircase with black balusters and decorative scroll inserts under a timber handrail.", "Stairs and railings"],
+  ["Dark staircase with a turn", "Dark-treaded staircase with a black rail and a looped baluster section at the turn.", "Stairs and railings"],
+  ["White stringer staircase", "Staircase with a black railing, white stringer and dark treads.", "Stairs and railings"],
+  ["Stretched rectangle balusters", "Close view of a black railing with stretched rectangular balusters against a panelled wall.", "Stairs and railings"],
+  ["Stacked rectangle balusters", "Black balusters of stacked rectangles of different sizes under a timber handrail.", "Stairs and railings"],
+  ["Slim bar stair railing", "Staircase wall with a black railing of slim vertical bars.", "Stairs and railings"],
+  ["Stairwell beside a large window", "View over a stairwell with black bar railings and a large window.", "Stairs and railings"],
+  ["Stone porch with railings", "Covered stone porch with black railings and garden planting.", "Stairs and railings"],
+  ["Loop-ended bars close up", "Close view of black loop-ended bars of a stair railing.", "Stairs and railings"],
+  ["Diamond detail balusters", "Black balusters with diamond-shaped details under a timber handrail.", "Stairs and railings"],
 ];
 
 export const REFERENCES: ReferenceIdea[] = photos(
   "references",
   REFERENCE_TEXT.map(([, alt]) => alt)
-).map((img, i) => ({ ...img, title: REFERENCE_TEXT[i][0] }));
+).map((img, i) => ({ ...img, title: REFERENCE_TEXT[i][0], group: REFERENCE_TEXT[i][2] }));

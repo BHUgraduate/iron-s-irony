@@ -42,7 +42,7 @@ Hycyon (the web developer) is a separate business. Its address and details are n
 The previous shop catalogue, testimonials, stock photography and invented specifications were removed.
 
 ## Catalogue (`/catalogue`)
-62 real, photographed designs (38 gates, 21 grills, 2 staircases, 1 custom panel) supplied by the owner, in `data/catalogue.ts`. Photographs live in `public/catalogue/<slug>/`, prepared by `scripts/prepare-catalogue-photos.py` from `scripts/catalogue-photos.json`.
+68 real, photographed designs (38 gates, 21 grills, 4 staircases, 3 railings, 1 balcony, 1 custom panel) supplied by the owner, in `data/catalogue.ts`. Photographs live in `public/catalogue/<slug>/`, prepared by `scripts/prepare-catalogue-photos.py` from `scripts/catalogue-photos.json`.
 
 iron’s irony is a made-to-order workshop, so a design is a starting point, not a fixed product. Nothing in the specification is invented:
 
@@ -60,10 +60,12 @@ iron’s irony is a made-to-order workshop, so a design is a starting point, not
 
 The enquiry reuses the project configurator. The design name, category and link travel in a `catalogueDesign` field to the form, the webhook message and WhatsApp.
 
-Reference ideas: 23 publicly available images (grill and railing patterns, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
+Reference ideas: 58 publicly available images (23 grill and screen patterns, 35 stairs and railings; photographs, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
 
 Brightness: 16 of the designs' own photographs that were clearly dark received a gentle gamma lift (never stronger than 0.78). Reference images are untouched. `data/catalogue-images.json` records which photos were adjusted (`gamma`).
 
 Photos not used (first batch): 38261 (shows a third-party shop sign and phone number), 68325 and 88190 (graphics or renders, not photographs), 2341-duplicate 77513 and 21208-duplicate 40887, 51151 and 756 (close-up details that could not be tied to one design), and 46512, 57165, 87712 (files are corrupt WebP data and could not be opened).
 
 Photos not used (second batch): 64728 and 78617 (carry a worker's phone-brand stamp), 93503 and 94855 (corrupt files).
+
+Third batch: 6 designs added (railings, balcony, staircases); 35 staircase and railing images added as references. 93330 had black letterbox bars cropped off (the picture itself is unchanged). The 3 truncated-file warnings are harmless.

@@ -11,7 +11,10 @@ import { cn } from "@/lib/utils";
  * Publicly available reference images that help a customer point at what they like.
  * Always labelled as not our work. Opens into a viewer with a way to ask for something similar.
  */
-export function ReferenceGallery({ items, origin }: { items: ReferenceIdea[]; origin: string }) {
+export function ReferenceGallery({ items: all, origin }: { items: ReferenceIdea[]; origin: string }) {
+  const groups = Array.from(new Set(all.map((i) => i.group)));
+  const [group, setGroup] = React.useState<string>("All");
+  const items = group === "All" ? all : all.filter((i) => i.group === group);
   const [open, setOpen] = React.useState<number | null>(null);
   const closeBtn = React.useRef<HTMLButtonElement>(null);
   const returnTo = React.useRef<HTMLElement | null>(null);
@@ -48,7 +51,24 @@ export function ReferenceGallery({ items, origin }: { items: ReferenceIdea[]; or
 
   return (
     <>
-      <ul className="columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-5">
+      <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter reference images">
+        {["All", ...groups].map((g2) => (
+          <button
+            key={g2}
+            type="button"
+            aria-pressed={group === g2}
+            onClick={() => setGroup(g2)}
+            className={cn(
+              "min-h-[44px] px-4 micro border transition-colors",
+              group === g2 ? "bg-iron-950 text-canvas-bg border-iron-950" : "border-iron-950/25 hover:border-iron-950"
+            )}
+          >
+            {g2}
+            <span className="ml-2 opacity-60">{g2 === "All" ? all.length : all.filter((i) => i.group === g2).length}</span>
+          </button>
+        ))}
+      </div>
+      <ul key={group} className="fade-up columns-2 md:columns-3 lg:columns-4 gap-4 sm:gap-5">
         {items.map((it, i) => (
           <li key={it.src} className="break-inside-avoid mb-4 sm:mb-5">
             <button
