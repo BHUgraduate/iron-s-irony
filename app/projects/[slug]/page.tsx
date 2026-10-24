@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { WORK, getWork, isRepresentative } from "@/data/projects";
 import { getService } from "@/data/services";
+import { CATEGORIES } from "@/data/catalogue";
 import { constructPageMetadata, generateBreadcrumbSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHero } from "@/components/ui/PageHero";
@@ -113,6 +114,15 @@ export default function WorkPage({ params }: { params: { slug: string } }) {
             </MagneticButton>
           )}
         </div>
+        {CATEGORIES.some((c) => c.slug === w.service && c.count > 0) && (
+          <p className="mt-8 text-[0.95rem] text-ink-secondary">
+            See real photographs of this kind of work in the{" "}
+            <Link href={`/catalogue?category=${w.service}`} className="underline underline-offset-4 hover:text-iron-950">
+              catalogue
+            </Link>
+            .
+          </p>
+        )}
         {service && (
           <p className="mt-8 text-[0.95rem] text-ink-secondary">
             Or{" "}

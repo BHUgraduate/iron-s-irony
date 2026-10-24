@@ -30,6 +30,8 @@ interface Props {
   external?: boolean;
   /** With href="start": pre-selects this project type in the configurator. */
   prefill?: string;
+  /** With href="start": the catalogue design being asked about, carried into the enquiry. */
+  prefillDesign?: string;
 }
 
 /**
@@ -47,6 +49,7 @@ export function MagneticButton({
   disabled,
   external,
   prefill,
+  prefillDesign,
 }: Props) {
   let href = hrefProp;
   const isStart = hrefProp === "start";
@@ -90,7 +93,7 @@ export function MagneticButton({
   const shared = {
     style: { x, y },
     onClick: (e: React.MouseEvent<HTMLElement>) => {
-      if (isStart && prefill && href) announcePrefill({ type: prefill }, href);
+      if (isStart && (prefill || prefillDesign) && href) announcePrefill({ type: prefill, design: prefillDesign }, href);
       onClick?.(e);
     },
     onPointerMove: onMove,

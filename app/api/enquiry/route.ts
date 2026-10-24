@@ -45,6 +45,7 @@ export async function POST(request: Request) {
     `Phone: ${data.phone}`,
     data.email && `Email: ${data.email}`,
     `Prefers: ${data.reach}`,
+    data.catalogueDesign && `Catalogue design: ${data.catalogueDesign}`,
     data.location && `Location: ${data.location}`,
     data.dimensions && `Size: ${data.dimensions}`,
     `Brief: ${data.description}`,

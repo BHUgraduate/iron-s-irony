@@ -35,6 +35,7 @@ interface Form {
   style: string;
   materialPreference: string;
   referenceLinks: string;
+  catalogueDesign: string;
   fullName: string;
   phone: string;
   email: string;
@@ -53,6 +54,7 @@ const EMPTY: Form = {
   style: "",
   materialPreference: "",
   referenceLinks: "",
+  catalogueDesign: "",
   fullName: "",
   phone: "",
   email: "",
@@ -84,6 +86,7 @@ export function ProjectConfigurator({ heading = "have" }: { heading?: "have" | "
         projectType: d.type ?? cur.projectType,
         space: d.space ?? cur.space,
         need: d.need ?? cur.need,
+        catalogueDesign: d.design ?? cur.catalogueDesign,
       }));
       setStep(d.type ? 1 : 0);
       setStatus("idle");
@@ -203,6 +206,22 @@ export function ProjectConfigurator({ heading = "have" }: { heading?: "have" | "
             </div>
           ) : (
             <form onSubmit={submit} noValidate>
+              {f.catalogueDesign && (
+                <div className="mb-8 flex items-start justify-between gap-4 border border-canvas-bg/20 px-4 py-3" role="status">
+                  <p className="text-[0.95rem] text-canvas-bg/85 break-words min-w-0">
+                    <span className="micro text-accent-amber block mb-1">Asking about this catalogue design</span>
+                    {f.catalogueDesign.split(" http")[0]}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => set("catalogueDesign")("")}
+                    className="micro text-canvas-bg/70 hover:text-canvas-bg min-h-[44px] px-2 shrink-0"
+                    aria-label="Remove the catalogue design from this enquiry"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
               <ol className="flex gap-5 sm:gap-6 micro mb-10 flex-wrap" aria-label="Progress">
                 {STEPS.map((s, i) => (
                   <li

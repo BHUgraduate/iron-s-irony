@@ -37,6 +37,8 @@ export const enquirySchema = z
     style: text(300),
     materialPreference: text(300),
     referenceLinks: text(500),
+    /** Set when the enquiry starts from a catalogue design: name, category and link. */
+    catalogueDesign: text(400),
     fullName: z.string().trim().min(2, "Please tell us your name.").max(100, "That name is too long."),
     phone: z
       .string()

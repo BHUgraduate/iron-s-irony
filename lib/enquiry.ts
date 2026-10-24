@@ -8,6 +8,7 @@ export interface BriefFields {
   style?: string;
   materialPreference?: string;
   referenceLinks?: string;
+  catalogueDesign?: string;
   fullName?: string;
 }
 
@@ -17,6 +18,7 @@ export interface BriefFields {
  */
 export function buildWhatsAppMessage(f: BriefFields): string {
   const rows: [string, string | undefined][] = [
+    ["Catalogue design", f.catalogueDesign],
     ["Project", f.projectType],
     ["Space", f.space],
     ["Need", f.need],

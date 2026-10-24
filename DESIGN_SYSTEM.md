@@ -52,3 +52,12 @@ One easing everywhere: `cubic-bezier(0.16, 1, 0.3, 1)`, fast start and long sett
 3. Never present a representative example as a completed project (`Tag`).
 4. Contrast: small text on dark is at least 55% off-white; on light use `ink-secondary`, `ink-muted`, `accent-ink`.
 5. Touch targets at least 44px on mobile.
+
+## Catalogue (`components/catalogue`)
+Photographs are the visual hero; the interface stays quiet around them. Reuses `Section`, `Type`, `MagneticButton` and the dark/light/concrete tones.
+- `ProductGrid`: a masonry wall (CSS columns), every photograph at its own proportions, never cropped.
+- `ProductCard`, `DesignVisual`, `CategoryNavigation` (sticky, swipeable), `CatalogueBrowser`.
+- `ProductGallery`: full-height viewer with `object-contain`, thumbnails, fullscreen, swipe, arrow keys.
+- `ProductSpecifications`: "About this design" (known facts) and "Made to your project" ("Custom / as per project" until a value is added).
+- `HowItWorks`, `CustomEnquiry`, `RelatedProducts`, `CataloguePdfLink`.
+Drawing geometry for line drawings lives in `components/ui/drawings.ts` (server-safe).

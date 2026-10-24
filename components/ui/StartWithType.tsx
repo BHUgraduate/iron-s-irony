@@ -8,10 +8,12 @@ import { announcePrefill } from "@/lib/motion";
 /** A "Start a project" link that carries the visitor's chosen type into the configurator. */
 export function StartWithType({
   type,
+  design,
   children,
   className,
 }: {
   type: string;
+  design?: string;
   children: React.ReactNode;
   className?: string;
 }) {
@@ -20,7 +22,7 @@ export function StartWithType({
     <Link
       href={href}
       className={className}
-      onClick={() => announcePrefill({ type }, href)}
+      onClick={() => announcePrefill({ type, design }, href)}
     >
       {children}
     </Link>

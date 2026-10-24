@@ -13,10 +13,13 @@ export function constructPageMetadata({
   title,
   description,
   path = "",
+  ownImage = false,
 }: {
   title: string;
   description: string;
   path?: string;
+  /** The route supplies its own opengraph-image file, so the site-wide share image is not repeated here. */
+  ownImage?: boolean;
 }): Metadata {
   const url = `${SITE_URL}${path}`;
   // Pages that define their own openGraph replace the parent's, so the share image is repeated here.
@@ -25,8 +28,8 @@ export function constructPageMetadata({
     title,
     description,
     alternates: { canonical: url },
-    openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "en_IN", images: [image] },
-    twitter: { card: "summary_large_image", title, description, images: [image.url] },
+    openGraph: { title, description, url, siteName: SITE_NAME, type: "website", locale: "en_IN", ...(ownImage ? {} : { images: [image] }) },
+    twitter: { card: "summary_large_image", title, description, ...(ownImage ? {} : { images: [image.url] }) },
   };
 }
 
