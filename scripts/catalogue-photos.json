@@ -192,7 +192,6 @@
   "Image-65317.jpg"
  ],
  "references": [
-  "Image-62590.jpg",
   "Image-66718.jpg",
   "Image-67072.jpg",
   "Image-67515.jpg",
@@ -212,10 +211,15 @@
   "Image-87560.jpg",
   "Image-90257.jpg",
   "Image-94607.jpg",
-  "Image-95870.jpg",
   "Image-96592.jpg",
   "Image-98149.jpg",
   "Image-98286.jpg",
   "Image-99776.jpg"
+ ],
+ "lily-curve-grill": [
+  "Image-62590.jpg"
+ ],
+ "swan-curve-grill": [
+  "Image-95870.jpg"
  ]
 }

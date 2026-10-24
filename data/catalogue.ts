@@ -754,6 +754,28 @@ const ENTRIES: Entry[] = [
       "Timber stair treads hung from twisted steel rods beside a plastered wall, with a dark steel stringer beneath.",
     ],
   },
+  {
+    slug: "lily-curve-grill",
+    name: "Lily Curve Grill",
+    category: "grills",
+    type: "Interior grill",
+    summary: "A lavender grill of long curved bars crossing in a lily-like pattern, with gold-toned leaf and flower ornaments.",
+    infill: "Crossing curved bars with gold-toned leaf and flower ornaments",
+    alts: [
+      "Lavender interior grill with long curved bars crossing in a lily-like pattern, gold-toned flower and leaf ornaments and a framed room beyond.",
+    ],
+  },
+  {
+    slug: "swan-curve-grill",
+    name: "Swan Curve Grill",
+    category: "grills",
+    type: "Interior grill",
+    summary: "A lavender grill panel in a single swan-like curve, with gold-toned leaf and flower ornaments.",
+    infill: "A single curved line with gold-toned leaf ornaments",
+    alts: [
+      "Lavender grill panel drawn as one swan-like curve, with gold-toned leaf and flower ornaments set at its head and body.",
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -849,7 +871,6 @@ export interface ReferenceIdea extends CatalogueImage {
 }
 
 const REFERENCE_TEXT: [string, string][] = [
-  ["Lavender grill with gold leaf ornaments", "Interior grill painted lavender with gold-toned leaf and flower ornaments and a lily-shaped pattern of curved bars."],
   ["Window grill and its drawing", "House window with an ornamental grill, above a line drawing of a similar scrolled grill."],
   ["Spiral of leaves and flowers", "Circular spiral of leaves and flowers in black metal on a board."],
   ["Screen pattern drawing", "Dimensioned drawing of a window screen pattern of spirals and circles, with measurements in millimetres."],
@@ -869,7 +890,6 @@ const REFERENCE_TEXT: [string, string][] = [
   ["Curved Art Nouveau style grill", "Window with a curved plant-like grill beside its pattern drawn out."],
   ["Floral lattice window grill", "Window grill with a floral lattice beside its pattern drawn in gold."],
   ["Geometric frame with quarter circles", "Yellow geometric grill frame of quarter circles against a black brick wall."],
-  ["Swan-curve grill with gold leaf", "Lavender grill in the form of a swan-like curve with gold-toned leaf ornaments."],
   ["Yellow spiral grill", "Yellow grill with a spiral and rectangular grid against a black brick wall."],
   ["Interior with a slim-railed staircase", "Living room and dining table with a staircase of thin black railings in the background."],
   ["Spiral screen being painted", "White square screen of spiralling bars being sprayed in a yard."],

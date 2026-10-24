@@ -42,7 +42,7 @@ Hycyon (the web developer) is a separate business. Its address and details are n
 The previous shop catalogue, testimonials, stock photography and invented specifications were removed.
 
 ## Catalogue (`/catalogue`)
-60 real, photographed designs (38 gates, 19 grills, 2 staircases, 1 custom panel) supplied by the owner, in `data/catalogue.ts`. Photographs live in `public/catalogue/<slug>/`, prepared by `scripts/prepare-catalogue-photos.py` from `scripts/catalogue-photos.json`.
+62 real, photographed designs (38 gates, 21 grills, 2 staircases, 1 custom panel) supplied by the owner, in `data/catalogue.ts`. Photographs live in `public/catalogue/<slug>/`, prepared by `scripts/prepare-catalogue-photos.py` from `scripts/catalogue-photos.json`.
 
 iron’s irony is a made-to-order workshop, so a design is a starting point, not a fixed product. Nothing in the specification is invented:
 
@@ -60,7 +60,7 @@ iron’s irony is a made-to-order workshop, so a design is a starting point, not
 
 The enquiry reuses the project configurator. The design name, category and link travel in a `catalogueDesign` field to the form, the webhook message and WhatsApp.
 
-Reference ideas: 25 publicly available images (grill and railing patterns, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
+Reference ideas: 23 publicly available images (grill and railing patterns, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
 
 Brightness: 16 of the designs' own photographs that were clearly dark received a gentle gamma lift (never stronger than 0.78). Reference images are untouched. `data/catalogue-images.json` records which photos were adjusted (`gamma`).
 
