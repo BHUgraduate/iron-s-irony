@@ -847,6 +847,22 @@ const ENTRIES: Entry[] = [
       "Three framed baluster panels lying on a concrete floor, each with a pierced star-lattice pattern and a chevron at the base, with spigots at both ends.",
     ],
   },
+  {
+    slug: "fabricated-drum-frame",
+    name: "Fabricated Drum Frame",
+    category: "custom-fabrication",
+    type: "Fabricated steel frame",
+    summary: "A steel frame carrying a rotating drum fitted with hooked pins, fabricated in a workshop yard and shown in bare steel and in blue paint.",
+    infill: "Rectangular steel frame with a pinned drum and a pulley",
+    alts: [
+      "Blue-painted steel frame carrying a long rotating drum fitted with rows of raised pins, in a workshop yard with steel offcuts on the ground.",
+      "Tall blue steel frame with a large pulley wheel and a star-shaped plate at one end, standing on steel offcuts in a yard.",
+      "Blue frame and drum in the yard with a worker bending over a task beside it and steel offcuts in the foreground.",
+      "Bare steel trough on a frame, with a drum fitted with hooked pins and a hand crank, before painting.",
+      "Large bare steel drum beside a second hooked-pin drum on a rectangular steel frame, before painting.",
+      "Overhead view of the unpainted frame and hooked-pin drum, with a worker beside it.",
+    ],
+  },
 ];
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -937,7 +953,7 @@ export const CATALOGUE_PDF = null as null | { href: string; sizeLabel?: string }
 // Publicly available images, supplied to help customers describe what they want. They are NOT iron’s irony’s work and are
 // always labelled as such. They live in their own section and never appear among the designs.
 
-export type ReferenceGroup = "Grills and screens" | "Stairs and railings";
+export type ReferenceGroup = "Gates and doors" | "Grills and screens" | "Stairs and railings";
 
 export interface ReferenceIdea extends CatalogueImage {
   title: string;
@@ -1003,6 +1019,20 @@ const REFERENCE_TEXT: [string, string, ReferenceGroup][] = [
   ["Stone porch with railings", "Covered stone porch with black railings and garden planting.", "Stairs and railings"],
   ["Loop-ended bars close up", "Close view of black loop-ended bars of a stair railing.", "Stairs and railings"],
   ["Diamond detail balusters", "Black balusters with diamond-shaped details under a timber handrail.", "Stairs and railings"],
+  ["Printed photo of a lattice gate", "Photograph of a worn print showing a gate with lattice top and side panels and four diamond-shaped panels at the centre, on a red background.", "Gates and doors"],
+  ["Printed photo of a medallion gate", "Photograph of a worn print of a dark gate with round medallion details and lattice at the sides, on a red background.", "Gates and doors"],
+  ["Door gate with floral side panels", "Black double-leaf door gate with horizontal bars, tall white floral panels at each side and a bar grille above.", "Gates and doors"],
+  ["Folding lattice gate", "Black folding lattice gate drawn across a wide entrance.", "Gates and doors"],
+  ["Arched estate gates", "Pair of black arched driveway gates with scrolled details and vertical bars, one leaf open, in front of a house.", "Gates and doors"],
+  ["Slatted swing gates", "Black vertical-slat gates in front of a house, one leaf swung open.", "Gates and doors"],
+  ["Lotus pattern gates", "Pair of dark gates with a large lotus-like pattern at the centre, golden handles and vertical bars, between stone piers.", "Gates and doors"],
+  ["Arched sunburst entrance gate", "Arched black entrance gate with sunburst bars set in a carved sandstone doorway surrounded by flowers.", "Gates and doors"],
+  ["Studded navy gate", "Navy blue double-leaf gate with rows of round studs, floral cut-out panels either side and louvre vents, in a lit entrance.", "Gates and doors"],
+  ["Ornate gate leaf in progress", "Ornate gate leaf lying flat with a large sunburst medallion, scroll borders and an arched top panel with lettering, with tools beside it.", "Gates and doors"],
+  ["Low estate gates", "Low black gates with spear tops and scrolled panels across a paved drive.", "Gates and doors"],
+  ["Curved top rail driveway gate", "Black driveway gate with a curved top rail and a diamond lattice lower section beside a brick pier.", "Gates and doors"],
+  ["Wood-tone gate with white floral panels", "Wood-toned double-leaf gate with louvres, white floral cut-out panels and small grille panels, with a bar grille above.", "Gates and doors"],
+  ["Mesh and bar gate", "Dark double-leaf gate of horizontal and vertical bars with mesh panels at top and bottom, set in a sandstone-clad entrance.", "Gates and doors"],
 ];
 
 export const REFERENCES: ReferenceIdea[] = photos(
