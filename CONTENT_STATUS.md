@@ -60,7 +60,7 @@ iron’s irony is a made-to-order workshop, so a design is a starting point, not
 
 The enquiry reuses the project configurator. The design name, category and link travel in a `catalogueDesign` field to the form, the webhook message and WhatsApp.
 
-Reference ideas: 68 publicly available images (10 gates and doors, 23 grill and screen patterns, 35 stairs and railings; photographs, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
+Reference ideas: 87 publicly available images (19 balconies, 10 gates and doors, 23 grill and screen patterns, 35 stairs and railings; photographs, drawings, inspiration) shown in their own section, always labelled "Reference" and "not iron’s irony’s work". They are never listed among the designs. Public availability is not the same as a licence to reuse: keep them only if the owner is comfortable with that.
 
 Brightness: 16 of the designs' own photographs that were clearly dark received a gentle gamma lift (never stronger than 0.78). Reference images are untouched. `data/catalogue-images.json` records which photos were adjusted (`gamma`).
 
@@ -73,3 +73,5 @@ Third batch: 6 designs added (railings, balcony, staircases); 35 staircase and r
 Fourth batch: IMG_0331-0337 (iPhone HEIC, converted; GPS location removed) became the Fabricated Drum Frame design under Custom fabrication. IMG_0334 left out (close-up of a person's face). IMG_0349-0350 (photographs of worn prints) and IMG_0361-0372 (small web images, 400-650px) are references.
 
 Owner confirmed IMG_0361, 0367, 0368 and 0371 are their work: 3 new gate designs, and 0367 added to Studded Louvre Gate. 0349 and 0350 remain references.
+
+Fifth batch: 19 balcony images added as references (they look like web or architectural photographs, not workshop photos). Owner to confirm any that are their own work so they can become designs.

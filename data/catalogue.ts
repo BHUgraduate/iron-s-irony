@@ -991,7 +991,7 @@ export const CATALOGUE_PDF = null as null | { href: string; sizeLabel?: string }
 // Publicly available images, supplied to help customers describe what they want. They are NOT iron’s irony’s work and are
 // always labelled as such. They live in their own section and never appear among the designs.
 
-export type ReferenceGroup = "Gates and doors" | "Grills and screens" | "Stairs and railings";
+export type ReferenceGroup = "Gates and doors" | "Grills and screens" | "Stairs and railings" | "Balconies";
 
 export interface ReferenceIdea extends CatalogueImage {
   title: string;
@@ -1067,6 +1067,25 @@ const REFERENCE_TEXT: [string, string, ReferenceGroup][] = [
   ["Low estate gates", "Low black gates with spear tops and scrolled panels across a paved drive.", "Gates and doors"],
   ["Curved top rail driveway gate", "Black driveway gate with a curved top rail and a diamond lattice lower section beside a brick pier.", "Gates and doors"],
   ["Mesh and bar gate", "Dark double-leaf gate of horizontal and vertical bars with mesh panels at top and bottom, set in a sandstone-clad entrance.", "Gates and doors"],
+  ["Balcony with turned balusters", "Small white-rendered balcony with a black railing of slim balusters with copper-toned ball details, in front of a French window.", "Balconies"],
+  ["Perforated screen balcony", "Balcony enclosed by a terracotta-toned perforated screen with a triangular lattice pattern and a black frame.", "Balconies"],
+  ["Looped bar railing", "Black railing of vertical bars with tall rounded loops, against green plants.", "Balconies"],
+  ["Ball detail balcony railing", "Balcony railing with a black handrail and slim balusters with copper-toned ball details, beside a white window.", "Balconies"],
+  ["Scrolled balcony railing", "Blue-black balcony railing with scroll patterns on a cream house with a classical cornice.", "Balconies"],
+  ["Steel railing with ball posts", "Polished steel railing with ball-topped posts and an open pattern of curved lines and spheres, on a paved terrace.", "Balconies"],
+  ["Balcony with ringed balusters", "White French window balcony with a black railing of balusters with copper-toned rings.", "Balconies"],
+  ["Horizontal slat balcony railing", "Balcony railing of dark horizontal slats within a frame, in front of timber doors.", "Balconies"],
+  ["Bar railing on a white balcony", "Dark balcony railing of vertical bars and rails along a white balcony.", "Balconies"],
+  ["Brown balcony railing", "Brown balcony railing of vertical bars on a two-storey house with a roof terrace railing above.", "Balconies"],
+  ["Geometric line balcony railing", "Dark balcony railing of interlocking geometric lines in front of stone-clad walls.", "Balconies"],
+  ["Small corner balcony", "Small corner balcony with a dark railing of balusters with copper-toned rings, under a tiled roof.", "Balconies"],
+  ["Horizontal rail balcony with a pattern", "Grey balcony railing of horizontal rails with a diagonal pattern on a concrete house.", "Balconies"],
+  ["Night view with a cut-out balcony panel", "Illuminated two-storey house at night, with a balcony panel of a circular cut-out pattern between columns.", "Balconies"],
+  ["Steel railing with medallion panels", "Steel balcony railing with scrolled lines and square panels with flower medallions, against the sky.", "Balconies"],
+  ["Multi-storey balconies", "White apartment building with black bar railings on several balconies and a spiral stair at the side.", "Balconies"],
+  ["Timber screen balcony", "Modern house with a balcony screened by timber-toned perforated panels beside a dark gate, with a person walking a dog.", "Balconies"],
+  ["Roof terrace railing", "Dark bar railing along the edge of a white roof terrace.", "Balconies"],
+  ["Timber panel balcony railing", "Balcony railing of dark frames with timber-toned panels and thin metal inlays, on a modern house.", "Balconies"],
 ];
 
 export const REFERENCES: ReferenceIdea[] = photos(
